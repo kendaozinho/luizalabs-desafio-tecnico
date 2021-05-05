@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:localhost}:${SPRING_DATASOURCE_PORT:5432}/${SPRING_DATASOURCE_DATABASE:customer}
+    username: ${SPRING_DATASOURCE_USERNAME:usr_customer}
+    password: ${SPRING_DATASOURCE_PASSWORD:12345}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+    hikari:
+      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:10}
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+  flyway:
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:localhost}:${SPRING_DATASOURCE_PORT:5432}/${SPRING_DATASOURCE_DATABASE:customer}
+    user: ${SPRING_DATASOURCE_USERNAME:usr_customer}
+    password: ${SPRING_DATASOURCE_PASSWORD:12345}
+    baseline-on-migrate: true

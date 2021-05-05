@@ -1,0 +1,10 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=customer
+      - POSTGRES_USER=usr_customer
+      - POSTGRES_PASSWORD=12345
+    ports:
+      - '5432:5432'
