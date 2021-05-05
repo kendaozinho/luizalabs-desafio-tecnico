@@ -1,7 +1,7 @@
 package com.luizalabs.customer.infraestructure.database.impl;
 
 import com.luizalabs.customer.domain.database.CustomerDatabase;
-import com.luizalabs.customer.domain.database.entity.CustomerEntity;
+import com.luizalabs.customer.domain.database.table.CustomerTable;
 import com.luizalabs.customer.infraestructure.database.repository.CustomerRepository;
 
 import java.util.UUID;
@@ -14,17 +14,17 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
   }
 
   @Override
-  public CustomerEntity read(UUID id) {
+  public CustomerTable read(UUID id) {
     return null;
   }
 
   @Override
-  public CustomerEntity create(CustomerEntity request) {
+  public CustomerTable create(CustomerTable request) {
     return null;
   }
 
   @Override
-  public CustomerEntity update(CustomerEntity request) {
+  public CustomerTable update(CustomerTable request) {
     return null;
   }
 

@@ -1,15 +1,15 @@
 package com.luizalabs.customer.domain.database;
 
-import com.luizalabs.customer.domain.database.entity.CustomerEntity;
+import com.luizalabs.customer.domain.database.table.CustomerTable;
 
 import java.util.UUID;
 
 public interface CustomerDatabase {
-  CustomerEntity read(UUID id);
+  CustomerTable read(UUID id);
 
-  CustomerEntity create(CustomerEntity request);
+  CustomerTable create(CustomerTable request);
 
-  CustomerEntity update(CustomerEntity request);
+  CustomerTable update(CustomerTable request);
 
   void delete(UUID id);
 }
