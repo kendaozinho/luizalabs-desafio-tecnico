@@ -17,3 +17,8 @@ spring:
     user: ${SPRING_DATASOURCE_USERNAME:usr_customer}
     password: ${SPRING_DATASOURCE_PASSWORD:12345}
     baseline-on-migrate: true
+  redis:
+    host: ${SPRING_REDIS_HOST:localhost}
+    port: ${SPRING_REDIS_PORT:6379}
+jwt:
+  secret-key: ${JWT_SECRET_KEY:11111111-2222-3333-4444-555555555555}

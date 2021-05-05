@@ -1,0 +1,76 @@
+package com.luizalabs.customer.configuration.security;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.UUID;
+
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+  @Value("${jwt.secret-key}")
+  private UUID jwtSecretKey;
+
+  @Autowired
+  private ObjectMapper mapper;
+
+  @Override
+  public void configure(HttpSecurity http) throws Exception {
+    http
+        .authorizeRequests()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .csrf()
+        .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .addFilterBefore(
+            new JwtInterceptorConfiguration(this.jwtSecretKey.toString()),
+            UsernamePasswordAuthenticationFilter.class
+        )
+        .exceptionHandling()
+        .authenticationEntryPoint((request, response, e) -> {
+          response.setStatus(HttpStatus.UNAUTHORIZED.value());
+          response.setContentType("application/json");
+          response.getWriter().write("{\"errorMessage\": \"Unauthorized\"}"
+              /* this.mapper.writeValueAsString(
+                  new BaseResponseError("Unauthorized", "Unauthorized", 401)
+              ) */
+          );
+        });
+  }
+
+  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring().antMatchers(
+        "/",
+        "/docs",
+        "/docs/",
+        "/swagger",
+        "/swagger/",
+        "/swagger-ui",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+        "/swagger-resources/**",
+        "/v2/api-docs",
+        "/actuator/**"
+    );
+  }
+
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) {
+    // Disable UserDetailsServiceAutoConfiguration from output
+  }
+}

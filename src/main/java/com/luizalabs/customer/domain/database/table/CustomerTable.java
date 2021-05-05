@@ -1,4 +1,5 @@
 package com.luizalabs.customer.domain.database.table;
+
 import com.luizalabs.customer.domain.dto.CustomerDto;
 
 import javax.persistence.*;

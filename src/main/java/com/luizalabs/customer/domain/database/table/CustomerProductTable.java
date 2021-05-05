@@ -44,6 +44,10 @@ public class CustomerProductTable implements Serializable {
     this.updatedAt = LocalDateTime.now();
   }
 
+  public CustomerProductDto toDto() {
+    return new CustomerProductDto(this.customerId, this.productId);
+  }
+
   public static class CustomerProductTableId implements Serializable {
     private UUID customerId;
     private UUID productId;
@@ -63,9 +67,5 @@ public class CustomerProductTable implements Serializable {
     public int hashCode() {
       return Objects.hash(this.customerId, this.productId);
     }
-  }
-
-  public CustomerProductDto toDto() {
-    return new CustomerProductDto(this.customerId, this.productId);
   }
 }
