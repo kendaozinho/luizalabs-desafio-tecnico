@@ -1,4 +1,4 @@
-package com.luizalabs.customer.infraestructure.service.api.product.client;
+package com.luizalabs.customer.infraestructure.api.product.client;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

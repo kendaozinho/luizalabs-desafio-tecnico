@@ -19,7 +19,7 @@ import java.util.UUID;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-  @Value("${jwt.secret-key}")
+  @Value("${spring.application.jwt.secret-key}")
   private UUID jwtSecretKey;
 
   @Autowired

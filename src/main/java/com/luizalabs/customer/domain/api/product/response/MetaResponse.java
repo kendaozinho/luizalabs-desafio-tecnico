@@ -1,4 +1,4 @@
-package com.luizalabs.customer.domain.service.api.product.response;
+package com.luizalabs.customer.domain.api.product.response;
 
 public class MetaResponse {
   // @JsonProperty("page_number")

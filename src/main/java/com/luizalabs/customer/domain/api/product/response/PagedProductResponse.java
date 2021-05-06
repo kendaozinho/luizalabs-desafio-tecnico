@@ -1,4 +1,4 @@
-package com.luizalabs.customer.domain.service.api.product.response;
+package com.luizalabs.customer.domain.api.product.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

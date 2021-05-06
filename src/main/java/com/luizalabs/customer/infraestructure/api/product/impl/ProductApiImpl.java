@@ -1,11 +1,11 @@
-package com.luizalabs.customer.infraestructure.service.api.product.impl;
+package com.luizalabs.customer.infraestructure.api.product.impl;
 
 import com.luizalabs.customer.domain.exception.InternalServerErrorException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
-import com.luizalabs.customer.domain.service.api.product.ProductApi;
-import com.luizalabs.customer.domain.service.api.product.response.PagedProductResponse;
-import com.luizalabs.customer.domain.service.api.product.response.ProductResponse;
-import com.luizalabs.customer.infraestructure.service.api.product.client.ProductApiClient;
+import com.luizalabs.customer.domain.api.product.ProductApi;
+import com.luizalabs.customer.domain.api.product.response.PagedProductResponse;
+import com.luizalabs.customer.domain.api.product.response.ProductResponse;
+import com.luizalabs.customer.infraestructure.api.product.client.ProductApiClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

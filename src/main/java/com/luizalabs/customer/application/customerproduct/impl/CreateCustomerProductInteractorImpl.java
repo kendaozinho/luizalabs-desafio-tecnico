@@ -7,8 +7,8 @@ import com.luizalabs.customer.domain.database.customer.CustomerDatabase;
 import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 import com.luizalabs.customer.domain.database.customerproduct.CustomerProductDatabase;
 import com.luizalabs.customer.domain.database.customerproduct.table.CustomerProductTable;
-import com.luizalabs.customer.domain.service.api.product.ProductApi;
-import com.luizalabs.customer.domain.service.api.product.response.ProductResponse;
+import com.luizalabs.customer.domain.api.product.ProductApi;
+import com.luizalabs.customer.domain.api.product.response.ProductResponse;
 import org.springframework.stereotype.Service;
 
 @Service
