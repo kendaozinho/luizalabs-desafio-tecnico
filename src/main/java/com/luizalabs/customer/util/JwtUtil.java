@@ -17,7 +17,7 @@ public final class JwtUtil {
               private static final long serialVersionUID = 1L;
 
               {
-                put("abc", "123");
+                put("foo", "bar");
               }
             }).signWith(SignatureAlgorithm.HS256, jwtSecretKey.getBytes())
             .compact();

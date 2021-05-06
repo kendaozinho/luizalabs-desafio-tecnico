@@ -1,35 +1,20 @@
 package com.luizalabs.customer.domain.service.api.product.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductResponse {
   private UUID id;
   private String title;
   private BigDecimal price;
   private String brand;
   private String image;
-
-  public ProductResponse() {
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public String getBrand() {
-    return brand;
-  }
-
-  public String getImage() {
-    return image;
-  }
+  private Integer reviewScore;
 }

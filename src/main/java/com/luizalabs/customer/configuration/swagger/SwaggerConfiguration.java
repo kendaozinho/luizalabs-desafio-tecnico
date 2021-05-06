@@ -1,5 +1,6 @@
 package com.luizalabs.customer.configuration.swagger;
 
+import com.luizalabs.customer.domain.enumerable.Environment;
 import com.luizalabs.customer.util.ApplicationUtil;
 import com.luizalabs.customer.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,8 @@ import java.util.UUID;
 public class SwaggerConfiguration {
   @Value("${jwt.secret-key}")
   private UUID jwtSecretKey;
+  @Value("${spring.application.env}")
+  private Environment env;
 
   @Bean
   public Docket docket() {
@@ -51,7 +54,9 @@ public class SwaggerConfiguration {
   private ApiInfo getApiInfo() {
     return new ApiInfoBuilder()
         .title("Customer API")
-        .description(JwtUtil.getEncodedJwt(this.jwtSecretKey.toString()))
+        .description(
+            this.env.equals(Environment.DEVELOPMENT) ? JwtUtil.getEncodedJwt(this.jwtSecretKey.toString()) : ""
+        )
         .version(ApplicationUtil.getVersion())
         .build();
   }
