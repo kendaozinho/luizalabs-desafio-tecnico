@@ -1,7 +1,5 @@
 package com.luizalabs.customer.domain.database.table;
 
-import com.luizalabs.customer.domain.dto.CustomerDto;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,7 +9,7 @@ import java.util.UUID;
 @Table(name = "customer")
 public class CustomerTable implements Serializable {
   @Id
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false, updatable = false)
   private UUID id;
 
@@ -36,12 +34,33 @@ public class CustomerTable implements Serializable {
     this.email = email;
   }
 
+  public CustomerTable(String name, String email) {
+    this.name = name;
+    this.email = email;
+  }
+
   public UUID getId() {
-    return this.id;
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   @PrePersist
@@ -52,9 +71,5 @@ public class CustomerTable implements Serializable {
   @PreUpdate
   private void setUpdatedAt() {
     this.updatedAt = LocalDateTime.now();
-  }
-
-  public CustomerDto toDto() {
-    return new CustomerDto(this.id, this.name, this.email);
   }
 }

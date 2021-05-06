@@ -1,7 +1,5 @@
 package com.luizalabs.customer.domain.database.table;
 
-import com.luizalabs.customer.domain.dto.CustomerProductDto;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -42,10 +40,6 @@ public class CustomerProductTable implements Serializable {
   @PreUpdate
   private void setUpdatedAt() {
     this.updatedAt = LocalDateTime.now();
-  }
-
-  public CustomerProductDto toDto() {
-    return new CustomerProductDto(this.customerId, this.productId);
   }
 
   public static class CustomerProductTableId implements Serializable {

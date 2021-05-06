@@ -1,11 +1,13 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.impl;
 
+import com.luizalabs.customer.application.customer.*;
+import com.luizalabs.customer.application.customer.request.CreateCustomerInteractorRequest;
+import com.luizalabs.customer.application.customer.request.UpdateCustomerInteractorRequest;
+import com.luizalabs.customer.application.customer.response.CreateCustomerInteractorResponse;
+import com.luizalabs.customer.application.customer.response.GetCustomerByFilterInteractorResponse;
+import com.luizalabs.customer.application.customer.response.GetCustomerByIdInteractorResponse;
+import com.luizalabs.customer.application.customer.response.UpdateCustomerInteractorResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.CustomerEndpoint;
-import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
-import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
-import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomerEndpointResponse;
-import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerEndpointResponse;
-import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -13,12 +15,31 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/customers")
 public class CustomerEndpointImpl implements CustomerEndpoint {
+  private GetCustomerByIdInteractor getCustomerByIdInteractor;
+  private GetCustomerByFilterInteractor getCustomerByFilterInteractor;
+  private CreateCustomerInteractor createCustomerInteractor;
+  private UpdateCustomerInteractor updateCustomerInteractor;
+  private DeleteCustomerInteractor deleteCustomerInteractor;
+
+  public CustomerEndpointImpl(
+      GetCustomerByIdInteractor getCustomerByIdInteractor,
+      GetCustomerByFilterInteractor getCustomerByFilterInteractor,
+      CreateCustomerInteractor createCustomerInteractor,
+      UpdateCustomerInteractor updateCustomerInteractor,
+      DeleteCustomerInteractor deleteCustomerInteractor
+  ) {
+    this.getCustomerByIdInteractor = getCustomerByIdInteractor;
+    this.getCustomerByFilterInteractor = getCustomerByFilterInteractor;
+    this.createCustomerInteractor = createCustomerInteractor;
+    this.updateCustomerInteractor = updateCustomerInteractor;
+    this.deleteCustomerInteractor = deleteCustomerInteractor;
+  }
+
   @Override
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -31,14 +52,14 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public ArrayList<GetCustomerEndpointResponse> getAll(
+  public GetCustomerByFilterInteractorResponse getByFilter(
       @RequestParam(required = false) @ApiParam(name = "id", value = "id") UUID id,
       @RequestParam(required = false) @ApiParam(name = "name", value = "name") String name,
       @RequestParam(required = false) @ApiParam(name = "email", value = "email") String email,
       @RequestParam(required = false) @ApiParam(name = "offset", value = "page number") Integer offset,
       @RequestParam(required = false) @ApiParam(name = "limit", value = "page size") Integer limit
   ) {
-    return null;
+    return this.getCustomerByFilterInteractor.execute(id, name, email);
   }
 
   @Override
@@ -54,8 +75,8 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public GetCustomerEndpointResponse getById(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
-    return null;
+  public GetCustomerByIdInteractorResponse getById(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
+    return this.getCustomerByIdInteractor.execute(id);
   }
 
   @Override
@@ -70,8 +91,8 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public CreateCustomerEndpointResponse post(@RequestBody CreateCustomerEndpointRequest request) {
-    return null;
+  public CreateCustomerInteractorResponse post(@RequestBody CreateCustomerInteractorRequest request) {
+    return this.createCustomerInteractor.execute(request);
   }
 
   @Override
@@ -88,11 +109,11 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public UpdateCustomerEndpointResponse put(
+  public UpdateCustomerInteractorResponse put(
       @PathVariable @ApiParam(name = "id", value = "id") UUID id,
-      @RequestBody UpdateCustomerEndpointRequest request
+      @RequestBody UpdateCustomerInteractorRequest request
   ) {
-    return null;
+    return this.updateCustomerInteractor.execute(id, request);
   }
 
   @Override
@@ -109,6 +130,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       }
   )
   public void delete(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
-
+    this.deleteCustomerInteractor.execute(id);
   }
 }
