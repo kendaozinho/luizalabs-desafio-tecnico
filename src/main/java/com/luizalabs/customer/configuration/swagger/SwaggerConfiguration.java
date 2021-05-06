@@ -36,10 +36,10 @@ public class SwaggerConfiguration {
         .securityContexts(Collections.singletonList(this.getSecurityContext()))
         .securitySchemes(Collections.singletonList(this.getApiKey()))
         .useDefaultResponseMessages(false)
-        .consumes(new HashSet<String>() {{
+        .consumes(new HashSet<>() {{
           add("application/json");
         }})
-        .produces(new HashSet<String>() {{
+        .produces(new HashSet<>() {{
           add("application/json");
         }})
         .select()

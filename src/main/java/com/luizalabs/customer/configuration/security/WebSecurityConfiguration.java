@@ -72,6 +72,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) {
-    // Disable UserDetailsServiceAutoConfiguration from output
+    // Remove UserDetailsServiceAutoConfiguration output log
   }
 }

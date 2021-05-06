@@ -1,6 +1,6 @@
 package com.luizalabs.customer.application.customer.response;
 
-import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

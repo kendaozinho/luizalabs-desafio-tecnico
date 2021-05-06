@@ -8,10 +8,7 @@ import com.luizalabs.customer.application.customer.response.GetCustomerByFilterI
 import com.luizalabs.customer.application.customer.response.GetCustomerByIdInteractorResponse;
 import com.luizalabs.customer.application.customer.response.UpdateCustomerInteractorResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.CustomerEndpoint;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/customers")
+@Api(tags = {"Customer Endpoint"}, description = "/v1/customers")
 public class CustomerEndpointImpl implements CustomerEndpoint {
   private GetCustomerByIdInteractor getCustomerByIdInteractor;
   private GetCustomerByFilterInteractor getCustomerByFilterInteractor;

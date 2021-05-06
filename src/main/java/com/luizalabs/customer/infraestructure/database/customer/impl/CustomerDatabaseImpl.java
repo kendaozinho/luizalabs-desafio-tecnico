@@ -1,10 +1,10 @@
-package com.luizalabs.customer.infraestructure.database.impl;
+package com.luizalabs.customer.infraestructure.database.customer.impl;
 
-import com.luizalabs.customer.domain.database.CustomerDatabase;
-import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.database.customer.CustomerDatabase;
+import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 import com.luizalabs.customer.domain.exception.ConflictException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
-import com.luizalabs.customer.infraestructure.database.repository.CustomerRepository;
+import com.luizalabs.customer.infraestructure.database.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable existingCustomer = this.repository.findOneByEmail(request.getEmail());
 
     if (existingCustomer != null) {
-      throw new ConflictException("Customer already exists");
+      throw new ConflictException("Email already exists");
     }
 
     CustomerTable newCustomer = this.repository.save(
@@ -89,7 +89,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable customerTable = this.repository.findOneByEmail(request.getEmail());
 
     if (customerTable != null && !customerTable.getId().equals(id)) {
-      throw new ConflictException("Customer already exists with this email");
+      throw new ConflictException("Email already exists");
     }
 
     request.setId(id);

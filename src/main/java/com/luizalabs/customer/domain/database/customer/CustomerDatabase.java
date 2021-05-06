@@ -1,6 +1,6 @@
-package com.luizalabs.customer.domain.database;
+package com.luizalabs.customer.domain.database.customer;
 
-import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 
 import java.util.ArrayList;
 import java.util.UUID;

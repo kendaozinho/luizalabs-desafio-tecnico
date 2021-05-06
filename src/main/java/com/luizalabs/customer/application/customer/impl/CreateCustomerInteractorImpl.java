@@ -3,8 +3,8 @@ package com.luizalabs.customer.application.customer.impl;
 import com.luizalabs.customer.application.customer.CreateCustomerInteractor;
 import com.luizalabs.customer.application.customer.request.CreateCustomerInteractorRequest;
 import com.luizalabs.customer.application.customer.response.CreateCustomerInteractorResponse;
-import com.luizalabs.customer.domain.database.CustomerDatabase;
-import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.database.customer.CustomerDatabase;
+import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 import org.springframework.stereotype.Service;
 
 @Service

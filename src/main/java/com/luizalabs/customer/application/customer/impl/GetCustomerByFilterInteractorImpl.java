@@ -2,8 +2,8 @@ package com.luizalabs.customer.application.customer.impl;
 
 import com.luizalabs.customer.application.customer.GetCustomerByFilterInteractor;
 import com.luizalabs.customer.application.customer.response.GetCustomerByFilterInteractorResponse;
-import com.luizalabs.customer.domain.database.CustomerDatabase;
-import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.database.customer.CustomerDatabase;
+import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 import com.luizalabs.customer.domain.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 

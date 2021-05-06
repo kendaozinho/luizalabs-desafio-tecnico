@@ -1,4 +1,4 @@
-package com.luizalabs.customer.domain.database.table;
+package com.luizalabs.customer.domain.database.customer.table;
 
 import javax.persistence.*;
 import java.io.Serializable;

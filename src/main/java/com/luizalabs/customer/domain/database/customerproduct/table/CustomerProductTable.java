@@ -1,4 +1,4 @@
-package com.luizalabs.customer.domain.database.table;
+package com.luizalabs.customer.domain.database.customerproduct.table;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,6 +30,14 @@ public class CustomerProductTable implements Serializable {
   public CustomerProductTable(UUID customerId, UUID productId) {
     this.customerId = customerId;
     this.productId = productId;
+  }
+
+  public UUID getCustomerId() {
+    return this.customerId;
+  }
+
+  public UUID getProductId() {
+    return this.productId;
   }
 
   @PrePersist
