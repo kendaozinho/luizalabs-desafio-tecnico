@@ -13,5 +13,5 @@ public interface CustomerRepository extends JpaRepository<CustomerTable, UUID> {
 
   CustomerTable findOneByEmail(String email);
 
-  ArrayList<CustomerTable> findAllByName(String name);
+  ArrayList<CustomerTable> findAllByNameContainingIgnoreCase(String name);
 }

@@ -1,6 +1,7 @@
 package com.luizalabs.customer.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luizalabs.customer.domain.exception.dto.BaseResponseError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -44,10 +45,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authenticationEntryPoint((request, response, e) -> {
           response.setStatus(HttpStatus.UNAUTHORIZED.value());
           response.setContentType("application/json");
-          response.getWriter().write("{\"errorMessage\": \"Unauthorized\"}"
-              /* this.mapper.writeValueAsString(
-                  new BaseResponseError("Unauthorized", "Unauthorized", 401)
-              ) */
+          response.getWriter().write(
+              this.mapper.writeValueAsString(
+                  new BaseResponseError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase(), "Authorization is empty or invalid")
+              )
           );
         });
   }

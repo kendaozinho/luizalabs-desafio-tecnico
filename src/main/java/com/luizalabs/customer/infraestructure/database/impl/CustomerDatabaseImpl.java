@@ -2,6 +2,8 @@ package com.luizalabs.customer.infraestructure.database.impl;
 
 import com.luizalabs.customer.domain.database.CustomerDatabase;
 import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.exception.ConflictException;
+import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.infraestructure.database.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
-      throw new RuntimeException("Customer not found");
+      throw new NotFoundException("Customer not found");
     }
 
     return customer;
@@ -33,7 +35,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable customer = this.repository.findOneByEmail(email);
 
     if (customer == null) {
-      throw new RuntimeException("Customer not found");
+      throw new NotFoundException("Customer not found");
     }
 
     return customer;
@@ -41,10 +43,10 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
 
   @Override
   public ArrayList<CustomerTable> findAllByName(String name) {
-    ArrayList<CustomerTable> customers = this.repository.findAllByName(name);
+    ArrayList<CustomerTable> customers = this.repository.findAllByNameContainingIgnoreCase(name);
 
     if (customers.isEmpty()) {
-      throw new RuntimeException("Customers not found");
+      throw new NotFoundException("Customers not found");
     }
 
     return customers;
@@ -55,7 +57,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     List<CustomerTable> customers = this.repository.findAll();
 
     if (customers.isEmpty()) {
-      throw new RuntimeException("Customers not found");
+      throw new NotFoundException("Customers not found");
     }
 
     return new ArrayList<>(customers);
@@ -66,7 +68,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable existingCustomer = this.repository.findOneByEmail(request.getEmail());
 
     if (existingCustomer != null) {
-      throw new RuntimeException("Customer already exists");
+      throw new ConflictException("Customer already exists");
     }
 
     CustomerTable newCustomer = this.repository.save(
@@ -81,13 +83,13 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
-      throw new RuntimeException("Customer not found");
+      throw new NotFoundException("Customer not found");
     }
 
     CustomerTable customerTable = this.repository.findOneByEmail(request.getEmail());
 
     if (customerTable != null && !customerTable.getId().equals(id)) {
-      throw new RuntimeException("Customer already exists with this email");
+      throw new ConflictException("Customer already exists with this email");
     }
 
     request.setId(id);
@@ -99,7 +101,7 @@ public class CustomerDatabaseImpl implements CustomerDatabase {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
-      throw new RuntimeException("Customer not found");
+      throw new NotFoundException("Customer not found");
     }
 
     this.repository.delete(customer);

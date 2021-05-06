@@ -9,6 +9,8 @@ CREATE TABLE customer
    updated_at TIMESTAMP
 );
 
+CREATE INDEX customer_name ON customer (name);
+
 CREATE TABLE customer_product
 (
    customer_id UUID NOT NULL REFERENCES customer (id),
@@ -17,5 +19,3 @@ CREATE TABLE customer_product
    updated_at TIMESTAMP,
    PRIMARY KEY (customer_id, product_id)
 );
-
--- There was no need to create indexes

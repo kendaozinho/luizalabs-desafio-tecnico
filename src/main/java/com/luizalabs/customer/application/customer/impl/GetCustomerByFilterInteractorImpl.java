@@ -4,6 +4,7 @@ import com.luizalabs.customer.application.customer.GetCustomerByFilterInteractor
 import com.luizalabs.customer.application.customer.response.GetCustomerByFilterInteractorResponse;
 import com.luizalabs.customer.domain.database.CustomerDatabase;
 import com.luizalabs.customer.domain.database.table.CustomerTable;
+import com.luizalabs.customer.domain.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class GetCustomerByFilterInteractorImpl implements GetCustomerByFilterInt
     }
 
     if (customers.isEmpty()) {
-      throw new RuntimeException("Customers not found");
+      throw new NotFoundException("Customers not found");
     }
 
     return new GetCustomerByFilterInteractorResponse(customers);
