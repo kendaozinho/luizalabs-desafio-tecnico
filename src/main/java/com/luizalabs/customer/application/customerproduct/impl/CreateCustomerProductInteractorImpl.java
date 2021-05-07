@@ -28,12 +28,7 @@ public class CreateCustomerProductInteractorImpl implements CreateCustomerProduc
   @Override
   public CustomerProduct execute(CustomerProduct request) {
     Customer customer = this.getCustomerByIdGateway.getOneById(request.getCustomerId()); // Validate if customer exists
-
-    // TODO: Validate if product exists on Redis
-
-    Product product = this.getProductByIdGateway.getOneById(request.getProductId());
-
-    // TODO: Save product on Redis
+    Product product = this.getProductByIdGateway.getOneById(request.getProductId()); // Validate if product exists
 
     return this.createCustomerProductGateway.create(
         new CustomerProduct(customer.getId(), product.getId())

@@ -20,6 +20,8 @@ spring:
   redis:
     host: ${SPRING_REDIS_HOST:localhost}
     port: ${SPRING_REDIS_PORT:6379}
+    product:
+      timeout: ${SPRING_REDIS_PRODUCT_TIMEOUT:1800000}
   application:
     env: ${SPRING_APPLICATION_ENV:DEVELOPMENT}
     client:

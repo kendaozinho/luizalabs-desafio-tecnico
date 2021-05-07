@@ -102,9 +102,9 @@ public class CustomerDatabaseImpl implements
       throw new CustomerNotFoundException();
     }
 
-    CustomerTable customerTable = this.repository.findOneByEmail(request.getEmail());
+    CustomerTable customerFilteredByEmail = this.repository.findOneByEmail(request.getEmail());
 
-    if (customerTable != null && !customerTable.getId().equals(id)) {
+    if (customerFilteredByEmail != null && !customerFilteredByEmail.getId().equals(id)) {
       throw new CustomerEmailAlreadyExistsException();
     }
 

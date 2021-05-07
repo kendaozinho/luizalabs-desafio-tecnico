@@ -23,11 +23,6 @@ public class UpdateCustomerInteractorImpl implements UpdateCustomerInteractor {
 
   @Override
   public Customer execute(UUID id, Customer request) {
-    Customer customer = this.getCustomerByIdGateway.getOneById(id);
-
-    customer.setName(request.getName());
-    customer.setEmail(request.getEmail());
-
-    return this.updateCustomerGateway.update(id, customer);
+    return this.updateCustomerGateway.update(id, request);
   }
 }
