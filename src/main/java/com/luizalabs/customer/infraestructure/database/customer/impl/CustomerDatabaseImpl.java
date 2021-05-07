@@ -1,5 +1,6 @@
 package com.luizalabs.customer.infraestructure.database.customer.impl;
 
+import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.exception.ConflictException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.*;
@@ -27,51 +28,59 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public CustomerTable findOneById(UUID id) {
+  public Customer getOneById(UUID id) {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
       throw new NotFoundException("Customer not found");
     }
 
-    return customer;
+    return customer.toEntity();
   }
 
   @Override
-  public CustomerTable findOneByEmail(String email) {
+  public Customer getOneByEmail(String email) {
     CustomerTable customer = this.repository.findOneByEmail(email);
 
     if (customer == null) {
       throw new NotFoundException("Customer not found");
     }
 
-    return customer;
+    return customer.toEntity();
   }
 
   @Override
-  public ArrayList<CustomerTable> findAllByName(String name) {
-    ArrayList<CustomerTable> customers = this.repository.findAllByNameContainingIgnoreCase(name);
+  public ArrayList<Customer> getAllByName(String name) {
+    ArrayList<CustomerTable> tableCustomers = this.repository.findAllByNameContainingIgnoreCase(name);
 
-    if (customers.isEmpty()) {
+    if (tableCustomers.isEmpty()) {
       throw new NotFoundException("Customers not found");
     }
+
+    ArrayList<Customer> customers = new ArrayList<>();
+
+    tableCustomers.forEach(tableCustomer -> customers.add(tableCustomer.toEntity()));
 
     return customers;
   }
 
   @Override
-  public ArrayList<CustomerTable> findAll() {
-    List<CustomerTable> customers = this.repository.findAll();
+  public ArrayList<Customer> getAll() {
+    List<CustomerTable> tableCustomers = this.repository.findAll();
 
-    if (customers.isEmpty()) {
+    if (tableCustomers.isEmpty()) {
       throw new NotFoundException("Customers not found");
     }
 
-    return new ArrayList<>(customers);
+    ArrayList<Customer> customers = new ArrayList<>();
+
+    tableCustomers.forEach(tableCustomer -> customers.add(tableCustomer.toEntity()));
+
+    return customers;
   }
 
   @Override
-  public CustomerTable create(CustomerTable request) {
+  public Customer create(Customer request) {
     CustomerTable existingCustomer = this.repository.findOneByEmail(request.getEmail());
 
     if (existingCustomer != null) {
@@ -82,11 +91,11 @@ public class CustomerDatabaseImpl implements
         new CustomerTable(request.getName(), request.getEmail())
     );
 
-    return newCustomer;
+    return newCustomer.toEntity();
   }
 
   @Override
-  public CustomerTable update(UUID id, CustomerTable request) {
+  public Customer update(UUID id, Customer request) {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
@@ -99,8 +108,10 @@ public class CustomerDatabaseImpl implements
       throw new ConflictException("Email already exists");
     }
 
-    request.setId(id);
-    return this.repository.save(request);
+    customer.setName(request.getName());
+    customer.setEmail(request.getEmail());
+
+    return this.repository.save(customer).toEntity();
   }
 
   @Override

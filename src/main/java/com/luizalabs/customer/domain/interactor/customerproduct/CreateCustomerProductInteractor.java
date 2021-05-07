@@ -1,8 +1,7 @@
 package com.luizalabs.customer.domain.interactor.customerproduct;
 
-import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
-import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
+import com.luizalabs.customer.domain.entity.CustomerProduct;
 
 public interface CreateCustomerProductInteractor {
-  CreateCustomerProductEndpointResponse execute(CreateCustomerProductEndpointRequest request);
+  CustomerProduct execute(CustomerProduct request);
 }

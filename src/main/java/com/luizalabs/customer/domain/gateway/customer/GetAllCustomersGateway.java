@@ -1,9 +1,9 @@
 package com.luizalabs.customer.domain.gateway.customer;
 
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import com.luizalabs.customer.domain.entity.Customer;
 
 import java.util.ArrayList;
 
 public interface GetAllCustomersGateway {
-  ArrayList<CustomerTable> findAll();
+  ArrayList<Customer> getAll();
 }

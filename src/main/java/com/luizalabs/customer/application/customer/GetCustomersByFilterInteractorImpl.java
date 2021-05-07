@@ -1,26 +1,25 @@
-package com.luizalabs.customer.domain.interactor.customer.impl;
+package com.luizalabs.customer.application.customer;
 
+import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.GetAllCustomersGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomersByNameGateway;
-import com.luizalabs.customer.domain.interactor.customer.GetCustomerByFilterInteractor;
-import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByFilterEndpointResponse;
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import com.luizalabs.customer.domain.interactor.customer.GetCustomersByFilterInteractor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class GetCustomerByFilterInteractorImpl implements GetCustomerByFilterInteractor {
+public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterInteractor {
   private GetCustomerByIdGateway getCustomerByIdGateway;
   private GetCustomerByEmailGateway getCustomerByEmailGateway;
   private GetCustomersByNameGateway getCustomersByNameGateway;
   private GetAllCustomersGateway getAllCustomersGateway;
 
-  public GetCustomerByFilterInteractorImpl(
+  public GetCustomersByFilterInteractorImpl(
       GetCustomerByIdGateway getCustomerByIdGateway,
       GetCustomerByEmailGateway getCustomerByEmailGateway,
       GetCustomersByNameGateway getCustomersByNameGateway,
@@ -33,23 +32,23 @@ public class GetCustomerByFilterInteractorImpl implements GetCustomerByFilterInt
   }
 
   @Override
-  public GetCustomerByFilterEndpointResponse execute(UUID id, String name, String email) {
-    ArrayList<CustomerTable> customers = new ArrayList<>();
+  public ArrayList<Customer> execute(UUID id, String name, String email) {
+    ArrayList<Customer> customers = new ArrayList<>();
 
     if (id != null) {
-      customers.add(this.getCustomerByIdGateway.findOneById(id));
+      customers.add(this.getCustomerByIdGateway.getOneById(id));
     } else if (email != null) {
-      customers.add(this.getCustomerByEmailGateway.findOneByEmail(email));
+      customers.add(this.getCustomerByEmailGateway.getOneByEmail(email));
     } else if (name != null) {
-      customers.addAll(this.getCustomersByNameGateway.findAllByName(name));
+      customers.addAll(this.getCustomersByNameGateway.getAllByName(name));
     } else {
-      customers.addAll(this.getAllCustomersGateway.findAll());
+      customers.addAll(this.getAllCustomersGateway.getAll());
     }
 
     if (customers.isEmpty()) {
       throw new NotFoundException("Customers not found");
     }
 
-    return new GetCustomerByFilterEndpointResponse(customers);
+    return customers;
   }
 }

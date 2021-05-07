@@ -1,5 +1,6 @@
 package com.luizalabs.customer.entrypoint.api.v1.customerproduct.impl;
 
+import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.interactor.customerproduct.CreateCustomerProductInteractor;
 import com.luizalabs.customer.domain.interactor.customerproduct.DeleteCustomerProductInteractor;
 import com.luizalabs.customer.domain.interactor.customerproduct.GetCustomerProductInteractor;
@@ -47,7 +48,8 @@ public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
       @PathVariable @ApiParam(name = "customerId", value = "customer id") UUID customerId,
       @PathVariable @ApiParam(name = "productId", value = "product id") UUID productId
   ) {
-    return this.getCustomerProductInteractor.execute(customerId, productId);
+    CustomerProduct customerProduct = this.getCustomerProductInteractor.execute(customerId, productId);
+    return new GetCustomerProductEndpointResponse(customerProduct.getCustomerId(), customerProduct.getProductId());
   }
 
   @PostMapping("/products")
@@ -63,7 +65,8 @@ public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
       }
   )
   public CreateCustomerProductEndpointResponse post(@RequestBody CreateCustomerProductEndpointRequest request) {
-    return this.createCustomerProductInteractor.execute(request);
+    CustomerProduct customerProduct = this.createCustomerProductInteractor.execute(request.toEntity());
+    return new CreateCustomerProductEndpointResponse(customerProduct.getCustomerId(), customerProduct.getProductId());
   }
 
   @DeleteMapping("/{customerId}/products/{productId}")

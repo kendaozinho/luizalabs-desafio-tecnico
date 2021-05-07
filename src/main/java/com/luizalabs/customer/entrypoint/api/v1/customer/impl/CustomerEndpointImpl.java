@@ -1,5 +1,6 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.impl;
 
+import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.interactor.customer.*;
 import com.luizalabs.customer.entrypoint.api.v1.customer.CustomerEndpoint;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
@@ -19,20 +20,20 @@ import java.util.UUID;
 @Api(tags = {"Customer Endpoint"}, description = "/v1/customers")
 public class CustomerEndpointImpl implements CustomerEndpoint {
   private GetCustomerByIdInteractor getCustomerByIdInteractor;
-  private GetCustomerByFilterInteractor getCustomerByFilterInteractor;
+  private GetCustomersByFilterInteractor getCustomersByFilterInteractor;
   private CreateCustomerInteractor createCustomerInteractor;
   private UpdateCustomerInteractor updateCustomerInteractor;
   private DeleteCustomerInteractor deleteCustomerInteractor;
 
   public CustomerEndpointImpl(
       GetCustomerByIdInteractor getCustomerByIdInteractor,
-      GetCustomerByFilterInteractor getCustomerByFilterInteractor,
+      GetCustomersByFilterInteractor getCustomersByFilterInteractor,
       CreateCustomerInteractor createCustomerInteractor,
       UpdateCustomerInteractor updateCustomerInteractor,
       DeleteCustomerInteractor deleteCustomerInteractor
   ) {
     this.getCustomerByIdInteractor = getCustomerByIdInteractor;
-    this.getCustomerByFilterInteractor = getCustomerByFilterInteractor;
+    this.getCustomersByFilterInteractor = getCustomersByFilterInteractor;
     this.createCustomerInteractor = createCustomerInteractor;
     this.updateCustomerInteractor = updateCustomerInteractor;
     this.deleteCustomerInteractor = deleteCustomerInteractor;
@@ -57,7 +58,9 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       @RequestParam(required = false) @ApiParam(name = "offset", value = "page number") Integer offset,
       @RequestParam(required = false) @ApiParam(name = "limit", value = "page size") Integer limit
   ) {
-    return this.getCustomerByFilterInteractor.execute(id, name, email);
+    return new GetCustomerByFilterEndpointResponse(
+        this.getCustomersByFilterInteractor.execute(id, name, email)
+    );
   }
 
   @Override
@@ -74,7 +77,8 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       }
   )
   public GetCustomerByIdEndpointResponse getById(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
-    return this.getCustomerByIdInteractor.execute(id);
+    Customer customer = this.getCustomerByIdInteractor.execute(id);
+    return new GetCustomerByIdEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
   }
 
   @Override
@@ -90,7 +94,8 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       }
   )
   public CreateCustomerEndpointResponse post(@RequestBody CreateCustomerEndpointRequest request) {
-    return this.createCustomerInteractor.execute(request);
+    Customer customer = this.createCustomerInteractor.execute(request.toEntity());
+    return new CreateCustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
   }
 
   @Override
@@ -111,7 +116,8 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       @PathVariable @ApiParam(name = "id", value = "id") UUID id,
       @RequestBody UpdateCustomerEndpointRequest request
   ) {
-    return this.updateCustomerInteractor.execute(id, request);
+    Customer customer = this.updateCustomerInteractor.execute(id, request.toEntity());
+    return new UpdateCustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
   }
 
   @Override

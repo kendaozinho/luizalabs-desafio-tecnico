@@ -1,6 +1,6 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.response;
 
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import com.luizalabs.customer.domain.entity.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ public class GetCustomerByFilterEndpointResponse {
   private MetaResponse meta;
   private ArrayList<CustomerResponse> customers;
 
-  public GetCustomerByFilterEndpointResponse(ArrayList<CustomerTable> customers) {
+  public GetCustomerByFilterEndpointResponse(ArrayList<Customer> customers) {
     this.meta = new MetaResponse(0, 100, customers.size());
     this.customers = new ArrayList<>();
     customers.forEach(customer ->

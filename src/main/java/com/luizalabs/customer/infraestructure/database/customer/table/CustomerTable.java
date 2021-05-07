@@ -1,5 +1,7 @@
 package com.luizalabs.customer.infraestructure.database.customer.table;
 
+import com.luizalabs.customer.domain.entity.Customer;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -71,5 +73,9 @@ public class CustomerTable implements Serializable {
   @PreUpdate
   private void setUpdatedAt() {
     this.updatedAt = LocalDateTime.now();
+  }
+
+  public Customer toEntity() {
+    return Customer.builder().id(this.id).name(this.name).email(this.email).build();
   }
 }

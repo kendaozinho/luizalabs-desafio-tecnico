@@ -1,7 +1,7 @@
 package com.luizalabs.customer.domain.gateway.customer;
 
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import com.luizalabs.customer.domain.entity.Customer;
 
 public interface CreateCustomerGateway {
-  CustomerTable create(CustomerTable request);
+  Customer create(Customer request);
 }

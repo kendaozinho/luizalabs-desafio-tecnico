@@ -1,14 +1,12 @@
-package com.luizalabs.customer.domain.interactor.customerproduct.impl;
+package com.luizalabs.customer.application.customerproduct;
 
+import com.luizalabs.customer.domain.entity.Customer;
+import com.luizalabs.customer.domain.entity.CustomerProduct;
+import com.luizalabs.customer.domain.entity.Product;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
 import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
 import com.luizalabs.customer.domain.interactor.customerproduct.CreateCustomerProductInteractor;
-import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
-import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
-import com.luizalabs.customer.infraestructure.api.product.response.ProductResponse;
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
-import com.luizalabs.customer.infraestructure.database.customerproduct.table.CustomerProductTable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,19 +26,17 @@ public class CreateCustomerProductInteractorImpl implements CreateCustomerProduc
   }
 
   @Override
-  public CreateCustomerProductEndpointResponse execute(CreateCustomerProductEndpointRequest request) {
-    CustomerTable customer = this.getCustomerByIdGateway.findOneById(request.getCustomerId()); // Validate if customer exists
+  public CustomerProduct execute(CustomerProduct request) {
+    Customer customer = this.getCustomerByIdGateway.getOneById(request.getCustomerId()); // Validate if customer exists
 
     // TODO: Validate if product exists on Redis
 
-    ProductResponse product = this.getProductByIdGateway.getProduct(request.getProductId());
+    Product product = this.getProductByIdGateway.getOneById(request.getProductId());
 
     // TODO: Save product on Redis
 
-    CustomerProductTable customerProduct = this.createCustomerProductGateway.create(
-        new CustomerProductTable(customer.getId(), product.getId())
+    return this.createCustomerProductGateway.create(
+        new CustomerProduct(customer.getId(), product.getId())
     );
-
-    return new CreateCustomerProductEndpointResponse(customerProduct.getCustomerId(), customerProduct.getProductId());
   }
 }

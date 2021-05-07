@@ -1,5 +1,7 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.table;
 
+import com.luizalabs.customer.domain.entity.CustomerProduct;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -48,6 +50,10 @@ public class CustomerProductTable implements Serializable {
   @PreUpdate
   private void setUpdatedAt() {
     this.updatedAt = LocalDateTime.now();
+  }
+
+  public CustomerProduct toEntity() {
+    return new CustomerProduct(this.customerId, this.productId);
   }
 
   public static class CustomerProductTableId implements Serializable {

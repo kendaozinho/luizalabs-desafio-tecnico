@@ -1,4 +1,4 @@
-package com.luizalabs.customer.domain.interactor.customer.impl;
+package com.luizalabs.customer.application.customer;
 
 import com.luizalabs.customer.domain.gateway.customer.DeleteCustomerGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
@@ -28,7 +28,7 @@ public class DeleteCustomerInteractorImpl implements DeleteCustomerInteractor {
   @Override
   @Transactional
   public void execute(UUID id) {
-    this.getCustomerProductsByCustomerIdGateway.findAllByCustomerId(id).forEach(
+    this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(id).forEach(
         customerProduct -> this.deleteCustomerProductGateway.delete(customerProduct.getCustomerId(), customerProduct.getProductId())
     );
 

@@ -1,9 +1,9 @@
 package com.luizalabs.customer.domain.gateway.customer;
 
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import com.luizalabs.customer.domain.entity.Customer;
 
 import java.util.UUID;
 
 public interface GetCustomerByIdGateway {
-  CustomerTable findOneById(UUID id);
+  Customer getOneById(UUID id);
 }

@@ -1,20 +1,18 @@
 package com.luizalabs.customer.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
   private UUID id;
   private String title;
-  private String image;
   private BigDecimal price;
+  private String image;
 }

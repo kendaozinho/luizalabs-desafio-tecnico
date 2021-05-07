@@ -1,9 +1,8 @@
-package com.luizalabs.customer.domain.interactor.customer.impl;
+package com.luizalabs.customer.application.customer;
 
+import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
 import com.luizalabs.customer.domain.interactor.customer.GetCustomerByIdInteractor;
-import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByIdEndpointResponse;
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -17,9 +16,7 @@ public class GetCustomerByIdInteractorImpl implements GetCustomerByIdInteractor 
   }
 
   @Override
-  public GetCustomerByIdEndpointResponse execute(UUID id) {
-    CustomerTable customer = this.getCustomerByIdGateway.findOneById(id);
-
-    return new GetCustomerByIdEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
+  public Customer execute(UUID id) {
+    return this.getCustomerByIdGateway.getOneById(id);
   }
 }

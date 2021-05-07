@@ -1,5 +1,6 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.impl;
 
+import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.exception.ConflictException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
@@ -26,29 +27,33 @@ public class CustomerProductDatabaseImpl implements
   }
 
   @Override
-  public CustomerProductTable findOne(UUID customerId, UUID productId) {
+  public CustomerProduct getOneById(UUID customerId, UUID productId) {
     CustomerProductTable customerProduct = this.repository.findOneByCustomerIdAndProductId(customerId, productId);
 
     if (customerProduct == null) {
       throw new NotFoundException("Customer Product not found");
     }
 
-    return customerProduct;
+    return customerProduct.toEntity();
   }
 
   @Override
-  public ArrayList<CustomerProductTable> findAllByCustomerId(UUID customerId) {
-    ArrayList<CustomerProductTable> customerProducts = this.repository.findAllByCustomerId(customerId);
+  public ArrayList<CustomerProduct> getAllByCustomerId(UUID customerId) {
+    ArrayList<CustomerProductTable> customerProductsOfTable = this.repository.findAllByCustomerId(customerId);
 
-    if (customerProducts == null) {
+    if (customerProductsOfTable == null) {
       throw new NotFoundException("Customer Products not found");
     }
+
+    ArrayList<CustomerProduct> customerProducts = new ArrayList<>();
+
+    customerProductsOfTable.forEach(tableCustomer -> customerProducts.add(tableCustomer.toEntity()));
 
     return customerProducts;
   }
 
   @Override
-  public CustomerProductTable create(CustomerProductTable request) {
+  public CustomerProduct create(CustomerProduct request) {
     CustomerProductTable customerProduct =
         this.repository.findOneByCustomerIdAndProductId(request.getCustomerId(), request.getProductId());
 
@@ -56,7 +61,9 @@ public class CustomerProductDatabaseImpl implements
       throw new ConflictException("Customer Product already exists");
     }
 
-    return this.repository.save(request);
+    return this.repository.save(
+        new CustomerProductTable(request.getCustomerId(), request.getProductId())
+    ).toEntity();
   }
 
   @Override

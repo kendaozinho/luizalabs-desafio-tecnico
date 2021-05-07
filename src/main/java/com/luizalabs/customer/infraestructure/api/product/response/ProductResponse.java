@@ -1,5 +1,6 @@
 package com.luizalabs.customer.infraestructure.api.product.response;
 
+import com.luizalabs.customer.domain.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,11 @@ public class ProductResponse {
   private UUID id;
   private String title;
   private BigDecimal price;
-  private String brand;
   private String image;
+  private String brand;
   private Integer reviewScore;
+
+  public Product toEntity() {
+    return Product.builder().id(this.id).title(this.title).price(this.price).image(this.image).build();
+  }
 }

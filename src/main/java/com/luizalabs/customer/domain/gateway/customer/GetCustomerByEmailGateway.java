@@ -1,7 +1,7 @@
 package com.luizalabs.customer.domain.gateway.customer;
 
-import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import com.luizalabs.customer.domain.entity.Customer;
 
 public interface GetCustomerByEmailGateway {
-  CustomerTable findOneByEmail(String email);
+  Customer getOneByEmail(String email);
 }
