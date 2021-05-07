@@ -76,9 +76,13 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public GetCustomerByIdEndpointResponse getById(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
-    Customer customer = this.getCustomerByIdInteractor.execute(id);
-    return new GetCustomerByIdEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
+  public GetCustomerByIdEndpointResponse getById(
+      @PathVariable @ApiParam(name = "id", value = "id") UUID id,
+      @RequestParam(required = false, defaultValue = "false") @ApiParam(name = "expand", value = "show products") Boolean expand
+  ) {
+    return new GetCustomerByIdEndpointResponse(
+        this.getCustomerByIdInteractor.execute(id, expand)
+    );
   }
 
   @Override

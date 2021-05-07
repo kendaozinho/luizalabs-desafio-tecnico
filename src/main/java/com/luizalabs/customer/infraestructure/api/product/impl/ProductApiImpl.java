@@ -55,8 +55,6 @@ public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageN
           redisKey, this.mapper.writeValueAsString(product), Duration.ofMillis(this.redisProductTimeout)
       );
 
-      System.out.println("[PRODUCT REDIS] Product " + id + " was saved with success!");
-
       return product;
     } catch (HttpStatusCodeException e) {
       System.err.println(

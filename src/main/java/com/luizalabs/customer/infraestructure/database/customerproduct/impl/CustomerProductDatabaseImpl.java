@@ -41,7 +41,7 @@ public class CustomerProductDatabaseImpl implements
   public ArrayList<CustomerProduct> getAllByCustomerId(UUID customerId) {
     ArrayList<CustomerProductTable> customerProductsOfTable = this.repository.findAllByCustomerId(customerId);
 
-    if (customerProductsOfTable == null) {
+    if (customerProductsOfTable.isEmpty()) {
       throw new CustomerProductNotFoundException();
     }
 

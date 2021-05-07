@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface CustomerEndpoint {
   GetCustomerByFilterEndpointResponse getByFilter(UUID id, String name, String email, Integer offset, Integer limit);
 
-  GetCustomerByIdEndpointResponse getById(UUID id);
+  GetCustomerByIdEndpointResponse getById(UUID id, Boolean expand);
 
   CreateCustomerEndpointResponse post(CreateCustomerEndpointRequest request);
 
