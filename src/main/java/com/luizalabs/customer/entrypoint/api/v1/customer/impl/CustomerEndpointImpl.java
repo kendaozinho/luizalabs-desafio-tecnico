@@ -23,20 +23,20 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
   private GetCustomersByFilterInteractor getCustomersByFilterInteractor;
   private CreateCustomerInteractor createCustomerInteractor;
   private UpdateCustomerInteractor updateCustomerInteractor;
-  private DeleteCustomerInteractor deleteCustomerInteractor;
+  private DeleteCustomerByIdInteractor deleteCustomerByIdInteractor;
 
   public CustomerEndpointImpl(
       GetCustomerByIdInteractor getCustomerByIdInteractor,
       GetCustomersByFilterInteractor getCustomersByFilterInteractor,
       CreateCustomerInteractor createCustomerInteractor,
       UpdateCustomerInteractor updateCustomerInteractor,
-      DeleteCustomerInteractor deleteCustomerInteractor
+      DeleteCustomerByIdInteractor deleteCustomerByIdInteractor
   ) {
     this.getCustomerByIdInteractor = getCustomerByIdInteractor;
     this.getCustomersByFilterInteractor = getCustomersByFilterInteractor;
     this.createCustomerInteractor = createCustomerInteractor;
     this.updateCustomerInteractor = updateCustomerInteractor;
-    this.deleteCustomerInteractor = deleteCustomerInteractor;
+    this.deleteCustomerByIdInteractor = deleteCustomerByIdInteractor;
   }
 
   @Override
@@ -138,6 +138,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       }
   )
   public void delete(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
-    this.deleteCustomerInteractor.execute(id);
+    this.deleteCustomerByIdInteractor.execute(id);
   }
 }

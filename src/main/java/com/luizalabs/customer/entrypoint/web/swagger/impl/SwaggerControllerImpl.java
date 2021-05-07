@@ -1,6 +1,6 @@
-package com.luizalabs.customer.entrypoint.web.impl;
+package com.luizalabs.customer.entrypoint.web.swagger.impl;
 
-import com.luizalabs.customer.entrypoint.web.SwaggerController;
+import com.luizalabs.customer.entrypoint.web.swagger.SwaggerController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
