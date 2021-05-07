@@ -78,7 +78,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
   )
   public GetCustomerByIdEndpointResponse getById(
       @PathVariable @ApiParam(name = "id", value = "id") UUID id,
-      @RequestParam(required = false, defaultValue = "false") @ApiParam(name = "expand", value = "show products") Boolean expand
+      @RequestParam(required = false, defaultValue = "true") @ApiParam(name = "expand", value = "show products") Boolean expand
   ) {
     return new GetCustomerByIdEndpointResponse(
         this.getCustomerByIdInteractor.execute(id, expand)

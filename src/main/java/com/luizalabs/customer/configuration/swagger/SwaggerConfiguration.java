@@ -17,6 +17,9 @@ import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.DocExpansion;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,6 +31,14 @@ public class SwaggerConfiguration {
   private UUID jwtSecretKey;
   @Value("${spring.application.env}")
   private Environment env;
+
+  @Bean
+  public UiConfiguration uiConfiguration() {
+    return UiConfigurationBuilder.builder()
+        .docExpansion(DocExpansion.LIST)
+        .defaultModelsExpandDepth(-1) // hide models
+        .build();
+  }
 
   @Bean
   public Docket docket() {
