@@ -1,9 +1,9 @@
 package com.luizalabs.customer.infraestructure.database.customer.impl;
 
 import com.luizalabs.customer.domain.entity.Customer;
-import com.luizalabs.customer.domain.exception.ConflictException;
-import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.*;
+import com.luizalabs.customer.infraestructure.database.customer.exception.CustomerEmailAlreadyExistsException;
+import com.luizalabs.customer.infraestructure.database.customer.exception.CustomerNotFoundException;
 import com.luizalabs.customer.infraestructure.database.customer.repository.CustomerRepository;
 import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class CustomerDatabaseImpl implements
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
-      throw new NotFoundException("Customer not found");
+      throw new CustomerNotFoundException();
     }
 
     return customer.toEntity();
@@ -43,7 +43,7 @@ public class CustomerDatabaseImpl implements
     CustomerTable customer = this.repository.findOneByEmail(email);
 
     if (customer == null) {
-      throw new NotFoundException("Customer not found");
+      throw new CustomerNotFoundException();
     }
 
     return customer.toEntity();
@@ -54,7 +54,7 @@ public class CustomerDatabaseImpl implements
     ArrayList<CustomerTable> tableCustomers = this.repository.findAllByNameContainingIgnoreCase(name);
 
     if (tableCustomers.isEmpty()) {
-      throw new NotFoundException("Customers not found");
+      throw new CustomerNotFoundException();
     }
 
     ArrayList<Customer> customers = new ArrayList<>();
@@ -69,7 +69,7 @@ public class CustomerDatabaseImpl implements
     List<CustomerTable> tableCustomers = this.repository.findAll();
 
     if (tableCustomers.isEmpty()) {
-      throw new NotFoundException("Customers not found");
+      throw new CustomerNotFoundException();
     }
 
     ArrayList<Customer> customers = new ArrayList<>();
@@ -84,7 +84,7 @@ public class CustomerDatabaseImpl implements
     CustomerTable existingCustomer = this.repository.findOneByEmail(request.getEmail());
 
     if (existingCustomer != null) {
-      throw new ConflictException("Email already exists");
+      throw new CustomerEmailAlreadyExistsException();
     }
 
     CustomerTable newCustomer = this.repository.save(
@@ -99,13 +99,13 @@ public class CustomerDatabaseImpl implements
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
-      throw new NotFoundException("Customer not found");
+      throw new CustomerNotFoundException();
     }
 
     CustomerTable customerTable = this.repository.findOneByEmail(request.getEmail());
 
     if (customerTable != null && !customerTable.getId().equals(id)) {
-      throw new ConflictException("Email already exists");
+      throw new CustomerEmailAlreadyExistsException();
     }
 
     customer.setName(request.getName());
@@ -119,7 +119,7 @@ public class CustomerDatabaseImpl implements
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
-      throw new NotFoundException("Customer not found");
+      throw new CustomerNotFoundException();
     }
 
     this.repository.delete(customer);

@@ -1,4 +1,4 @@
-package com.luizalabs.customer.application.customer;
+package com.luizalabs.customer.application.customer.impl;
 
 import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;

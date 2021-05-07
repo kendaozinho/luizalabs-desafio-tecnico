@@ -1,7 +1,7 @@
-package com.luizalabs.customer.application.customer;
+package com.luizalabs.customer.application.customer.impl;
 
+import com.luizalabs.customer.application.customer.exception.CustomerListIsEmptyException;
 import com.luizalabs.customer.domain.entity.Customer;
-import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.GetAllCustomersGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
@@ -46,7 +46,7 @@ public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterI
     }
 
     if (customers.isEmpty()) {
-      throw new NotFoundException("Customers not found");
+      throw new CustomerListIsEmptyException();
     }
 
     return customers;

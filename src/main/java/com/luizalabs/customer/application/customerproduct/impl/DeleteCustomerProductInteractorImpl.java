@@ -1,4 +1,4 @@
-package com.luizalabs.customer.application.customerproduct;
+package com.luizalabs.customer.application.customerproduct.impl;
 
 import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
 import com.luizalabs.customer.domain.interactor.customerproduct.DeleteCustomerProductInteractor;

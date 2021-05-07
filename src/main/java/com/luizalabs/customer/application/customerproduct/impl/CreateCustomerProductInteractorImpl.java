@@ -1,4 +1,4 @@
-package com.luizalabs.customer.application.customerproduct;
+package com.luizalabs.customer.application.customerproduct.impl;
 
 import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.entity.CustomerProduct;

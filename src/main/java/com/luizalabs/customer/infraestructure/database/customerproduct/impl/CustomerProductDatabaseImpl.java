@@ -1,12 +1,12 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.impl;
 
 import com.luizalabs.customer.domain.entity.CustomerProduct;
-import com.luizalabs.customer.domain.exception.ConflictException;
-import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductByIdGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
+import com.luizalabs.customer.infraestructure.database.customerproduct.exception.CustomerProductAlreadyExistsException;
+import com.luizalabs.customer.infraestructure.database.customerproduct.exception.CustomerProductNotFoundException;
 import com.luizalabs.customer.infraestructure.database.customerproduct.repository.CustomerProductRepository;
 import com.luizalabs.customer.infraestructure.database.customerproduct.table.CustomerProductTable;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class CustomerProductDatabaseImpl implements
     CustomerProductTable customerProduct = this.repository.findOneByCustomerIdAndProductId(customerId, productId);
 
     if (customerProduct == null) {
-      throw new NotFoundException("Customer Product not found");
+      throw new CustomerProductNotFoundException();
     }
 
     return customerProduct.toEntity();
@@ -42,7 +42,7 @@ public class CustomerProductDatabaseImpl implements
     ArrayList<CustomerProductTable> customerProductsOfTable = this.repository.findAllByCustomerId(customerId);
 
     if (customerProductsOfTable == null) {
-      throw new NotFoundException("Customer Products not found");
+      throw new CustomerProductNotFoundException();
     }
 
     ArrayList<CustomerProduct> customerProducts = new ArrayList<>();
@@ -58,7 +58,7 @@ public class CustomerProductDatabaseImpl implements
         this.repository.findOneByCustomerIdAndProductId(request.getCustomerId(), request.getProductId());
 
     if (customerProduct != null) {
-      throw new ConflictException("Customer Product already exists");
+      throw new CustomerProductAlreadyExistsException();
     }
 
     return this.repository.save(
@@ -71,7 +71,7 @@ public class CustomerProductDatabaseImpl implements
     CustomerProductTable customerProduct = this.repository.findOneByCustomerIdAndProductId(customerId, productId);
 
     if (customerProduct == null) {
-      throw new NotFoundException("Customer Product not found");
+      throw new CustomerProductNotFoundException();
     }
 
     this.repository.delete(customerProduct);

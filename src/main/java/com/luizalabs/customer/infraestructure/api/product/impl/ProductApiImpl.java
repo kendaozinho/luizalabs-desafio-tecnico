@@ -1,11 +1,10 @@
 package com.luizalabs.customer.infraestructure.api.product.impl;
 
 import com.luizalabs.customer.domain.entity.Product;
-import com.luizalabs.customer.domain.exception.InternalServerErrorException;
-import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
 import com.luizalabs.customer.domain.gateway.product.GetProductsByPageNumberGateway;
 import com.luizalabs.customer.infraestructure.api.product.client.ProductApiClient;
+import com.luizalabs.customer.infraestructure.api.product.exception.*;
 import com.luizalabs.customer.infraestructure.api.product.response.PagedProductResponse;
 import com.luizalabs.customer.infraestructure.api.product.response.ProductResponse;
 import org.springframework.http.HttpEntity;
@@ -39,13 +38,13 @@ public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageN
       );
 
       if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-        throw new NotFoundException("Product " + id + " not found");
+        throw new ProductNotFoundException(id);
       }
 
-      throw new InternalServerErrorException("Unable to get product " + id);
+      throw new UnableToGetProductException(id);
     } catch (Throwable t) {
-      System.err.println("[PRODUCT API] Unable to get product " + id + ".\nTHROWABLE: " + t.toString());
-      throw new InternalServerErrorException(t.toString());
+      System.err.println("[PRODUCT API] Unable to get product " + id + ".\nTHROWABLE: " + t);
+      throw new UnexpectedErrorToGetProductException(id, t);
     }
   }
 
@@ -64,13 +63,13 @@ public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageN
       );
 
       if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-        throw new NotFoundException("Products not found on page " + pageNumber);
+        throw new ProductsNotFoundOnPageException(pageNumber);
       }
 
-      throw new InternalServerErrorException("Unable to get products on page " + pageNumber);
+      throw new UnableToGetProductsOnPageException(pageNumber);
     } catch (Throwable t) {
-      System.err.println("[PRODUCT API] Unable to get products on page " + pageNumber + ".\nTHROWABLE: " + t.toString());
-      throw new InternalServerErrorException(t.toString());
+      System.err.println("[PRODUCT API] Unable to get products on page " + pageNumber + ".\nTHROWABLE: " + t);
+      throw new UnexpectedErrorToGetProductsOnPageException(pageNumber, t);
     }
   }
 }
