@@ -1,22 +1,22 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer;
 
-import com.luizalabs.customer.application.customer.request.CreateCustomerInteractorRequest;
-import com.luizalabs.customer.application.customer.request.UpdateCustomerInteractorRequest;
-import com.luizalabs.customer.application.customer.response.CreateCustomerInteractorResponse;
-import com.luizalabs.customer.application.customer.response.GetCustomerByFilterInteractorResponse;
-import com.luizalabs.customer.application.customer.response.GetCustomerByIdInteractorResponse;
-import com.luizalabs.customer.application.customer.response.UpdateCustomerInteractorResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomerEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByFilterEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByIdEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
 
 import java.util.UUID;
 
 public interface CustomerEndpoint {
-  GetCustomerByFilterInteractorResponse getByFilter(UUID id, String name, String email, Integer offset, Integer limit);
+  GetCustomerByFilterEndpointResponse getByFilter(UUID id, String name, String email, Integer offset, Integer limit);
 
-  GetCustomerByIdInteractorResponse getById(UUID id);
+  GetCustomerByIdEndpointResponse getById(UUID id);
 
-  CreateCustomerInteractorResponse post(CreateCustomerInteractorRequest request);
+  CreateCustomerEndpointResponse post(CreateCustomerEndpointRequest request);
 
-  UpdateCustomerInteractorResponse put(UUID id, UpdateCustomerInteractorRequest request);
+  UpdateCustomerEndpointResponse put(UUID id, UpdateCustomerEndpointRequest request);
 
   void delete(UUID id);
 }

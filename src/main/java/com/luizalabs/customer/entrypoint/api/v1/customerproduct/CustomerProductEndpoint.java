@@ -1,15 +1,15 @@
 package com.luizalabs.customer.entrypoint.api.v1.customerproduct;
 
-import com.luizalabs.customer.application.customerproduct.request.CreateCustomerProductInteractorRequest;
-import com.luizalabs.customer.application.customerproduct.response.CreateCustomerProductInteractorResponse;
-import com.luizalabs.customer.application.customerproduct.response.GetCustomerProductInteractorResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.GetCustomerProductEndpointResponse;
 
 import java.util.UUID;
 
 public interface CustomerProductEndpoint {
-  GetCustomerProductInteractorResponse get(UUID customerId, UUID productId);
+  GetCustomerProductEndpointResponse get(UUID customerId, UUID productId);
 
-  CreateCustomerProductInteractorResponse post(CreateCustomerProductInteractorRequest request);
+  CreateCustomerProductEndpointResponse post(CreateCustomerProductEndpointRequest request);
 
   void delete(UUID customerId, UUID productId);
 }

@@ -1,6 +1,6 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.repository;
 
-import com.luizalabs.customer.domain.database.customerproduct.table.CustomerProductTable;
+import com.luizalabs.customer.infraestructure.database.customerproduct.table.CustomerProductTable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

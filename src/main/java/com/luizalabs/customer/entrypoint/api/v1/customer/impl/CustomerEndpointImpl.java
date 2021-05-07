@@ -1,13 +1,13 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.impl;
 
-import com.luizalabs.customer.application.customer.*;
-import com.luizalabs.customer.application.customer.request.CreateCustomerInteractorRequest;
-import com.luizalabs.customer.application.customer.request.UpdateCustomerInteractorRequest;
-import com.luizalabs.customer.application.customer.response.CreateCustomerInteractorResponse;
-import com.luizalabs.customer.application.customer.response.GetCustomerByFilterInteractorResponse;
-import com.luizalabs.customer.application.customer.response.GetCustomerByIdInteractorResponse;
-import com.luizalabs.customer.application.customer.response.UpdateCustomerInteractorResponse;
+import com.luizalabs.customer.domain.interactor.customer.*;
 import com.luizalabs.customer.entrypoint.api.v1.customer.CustomerEndpoint;
+import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomerEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByFilterEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByIdEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +50,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public GetCustomerByFilterInteractorResponse getByFilter(
+  public GetCustomerByFilterEndpointResponse getByFilter(
       @RequestParam(required = false) @ApiParam(name = "id", value = "id") UUID id,
       @RequestParam(required = false) @ApiParam(name = "name", value = "name") String name,
       @RequestParam(required = false) @ApiParam(name = "email", value = "email") String email,
@@ -73,7 +73,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public GetCustomerByIdInteractorResponse getById(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
+  public GetCustomerByIdEndpointResponse getById(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
     return this.getCustomerByIdInteractor.execute(id);
   }
 
@@ -89,7 +89,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public CreateCustomerInteractorResponse post(@RequestBody CreateCustomerInteractorRequest request) {
+  public CreateCustomerEndpointResponse post(@RequestBody CreateCustomerEndpointRequest request) {
     return this.createCustomerInteractor.execute(request);
   }
 
@@ -107,9 +107,9 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public UpdateCustomerInteractorResponse put(
+  public UpdateCustomerEndpointResponse put(
       @PathVariable @ApiParam(name = "id", value = "id") UUID id,
-      @RequestBody UpdateCustomerInteractorRequest request
+      @RequestBody UpdateCustomerEndpointRequest request
   ) {
     return this.updateCustomerInteractor.execute(id, request);
   }

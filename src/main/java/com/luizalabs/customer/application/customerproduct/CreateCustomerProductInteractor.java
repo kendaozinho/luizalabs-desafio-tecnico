@@ -1,8 +1,0 @@
-package com.luizalabs.customer.application.customerproduct;
-
-import com.luizalabs.customer.application.customerproduct.request.CreateCustomerProductInteractorRequest;
-import com.luizalabs.customer.application.customerproduct.response.CreateCustomerProductInteractorResponse;
-
-public interface CreateCustomerProductInteractor {
-  CreateCustomerProductInteractorResponse execute(CreateCustomerProductInteractorRequest request);
-}

@@ -1,12 +1,12 @@
 package com.luizalabs.customer.entrypoint.api.v1.customerproduct.impl;
 
-import com.luizalabs.customer.application.customerproduct.CreateCustomerProductInteractor;
-import com.luizalabs.customer.application.customerproduct.DeleteCustomerProductInteractor;
-import com.luizalabs.customer.application.customerproduct.GetCustomerProductInteractor;
-import com.luizalabs.customer.application.customerproduct.request.CreateCustomerProductInteractorRequest;
-import com.luizalabs.customer.application.customerproduct.response.CreateCustomerProductInteractorResponse;
-import com.luizalabs.customer.application.customerproduct.response.GetCustomerProductInteractorResponse;
+import com.luizalabs.customer.domain.interactor.customerproduct.CreateCustomerProductInteractor;
+import com.luizalabs.customer.domain.interactor.customerproduct.DeleteCustomerProductInteractor;
+import com.luizalabs.customer.domain.interactor.customerproduct.GetCustomerProductInteractor;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.CustomerProductEndpoint;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.GetCustomerProductEndpointResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public GetCustomerProductInteractorResponse get(
+  public GetCustomerProductEndpointResponse get(
       @PathVariable @ApiParam(name = "customerId", value = "customer id") UUID customerId,
       @PathVariable @ApiParam(name = "productId", value = "product id") UUID productId
   ) {
@@ -62,7 +62,7 @@ public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public CreateCustomerProductInteractorResponse post(@RequestBody CreateCustomerProductInteractorRequest request) {
+  public CreateCustomerProductEndpointResponse post(@RequestBody CreateCustomerProductEndpointRequest request) {
     return this.createCustomerProductInteractor.execute(request);
   }
 

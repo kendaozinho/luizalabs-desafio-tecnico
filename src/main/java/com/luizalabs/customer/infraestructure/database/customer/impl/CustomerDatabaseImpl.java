@@ -1,10 +1,10 @@
 package com.luizalabs.customer.infraestructure.database.customer.impl;
 
-import com.luizalabs.customer.domain.database.customer.CustomerDatabase;
-import com.luizalabs.customer.domain.database.customer.table.CustomerTable;
 import com.luizalabs.customer.domain.exception.ConflictException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
+import com.luizalabs.customer.domain.gateway.customer.*;
 import com.luizalabs.customer.infraestructure.database.customer.repository.CustomerRepository;
+import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,7 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CustomerDatabaseImpl implements CustomerDatabase {
+public class CustomerDatabaseImpl implements
+    GetCustomerByIdGateway,
+    GetCustomerByEmailGateway,
+    GetCustomersByNameGateway,
+    GetAllCustomersGateway,
+    CreateCustomerGateway,
+    UpdateCustomerGateway,
+    DeleteCustomerGateway {
   private CustomerRepository repository;
 
   public CustomerDatabaseImpl(CustomerRepository repository) {

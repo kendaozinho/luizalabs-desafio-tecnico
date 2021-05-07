@@ -1,17 +1,24 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.impl;
 
-import com.luizalabs.customer.domain.database.customerproduct.CustomerProductDatabase;
-import com.luizalabs.customer.domain.database.customerproduct.table.CustomerProductTable;
 import com.luizalabs.customer.domain.exception.ConflictException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
+import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductByIdGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
 import com.luizalabs.customer.infraestructure.database.customerproduct.repository.CustomerProductRepository;
+import com.luizalabs.customer.infraestructure.database.customerproduct.table.CustomerProductTable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class CustomerProductDatabaseImpl implements CustomerProductDatabase {
+public class CustomerProductDatabaseImpl implements
+    GetCustomerProductByIdGateway,
+    GetCustomerProductsByCustomerIdGateway,
+    CreateCustomerProductGateway,
+    DeleteCustomerProductGateway {
   private CustomerProductRepository repository;
 
   public CustomerProductDatabaseImpl(CustomerProductRepository repository) {

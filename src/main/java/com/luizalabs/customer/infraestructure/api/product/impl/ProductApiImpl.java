@@ -2,10 +2,11 @@ package com.luizalabs.customer.infraestructure.api.product.impl;
 
 import com.luizalabs.customer.domain.exception.InternalServerErrorException;
 import com.luizalabs.customer.domain.exception.NotFoundException;
-import com.luizalabs.customer.domain.api.product.ProductApi;
-import com.luizalabs.customer.domain.api.product.response.PagedProductResponse;
-import com.luizalabs.customer.domain.api.product.response.ProductResponse;
+import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
+import com.luizalabs.customer.domain.gateway.product.GetProductsByPageNumberGateway;
 import com.luizalabs.customer.infraestructure.api.product.client.ProductApiClient;
+import com.luizalabs.customer.infraestructure.api.product.response.PagedProductResponse;
+import com.luizalabs.customer.infraestructure.api.product.response.ProductResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import java.util.UUID;
 
 @Service
-public class ProductApiImpl implements ProductApi {
+public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageNumberGateway {
   private ProductApiClient client;
 
   public ProductApiImpl(ProductApiClient client) {
