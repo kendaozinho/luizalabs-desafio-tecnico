@@ -3,10 +3,10 @@ package com.luizalabs.customer.infraestructure.api.product.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luizalabs.customer.domain.entity.Product;
 import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
-import com.luizalabs.customer.domain.gateway.product.GetProductsByPageNumberGateway;
 import com.luizalabs.customer.infraestructure.api.product.client.ProductApiClient;
-import com.luizalabs.customer.infraestructure.api.product.exception.*;
-import com.luizalabs.customer.infraestructure.api.product.response.PagedProductApiResponse;
+import com.luizalabs.customer.infraestructure.api.product.exception.ProductNotFoundException;
+import com.luizalabs.customer.infraestructure.api.product.exception.UnableToGetProductException;
+import com.luizalabs.customer.infraestructure.api.product.exception.UnexpectedErrorToGetProductException;
 import com.luizalabs.customer.infraestructure.api.product.response.ProductApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,11 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageNumberGateway {
+public class ProductApiImpl implements GetProductByIdGateway {
   @Value("${spring.redis.product.timeout}")
   private Integer redisProductTimeout;
 
@@ -70,31 +69,6 @@ public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageN
     } catch (Throwable t) {
       System.err.println("[PRODUCT API] Unable to get product " + id + ".\nTHROWABLE: " + t);
       throw new UnexpectedErrorToGetProductException(id, t);
-    }
-  }
-
-  @Override
-  public ArrayList<Product> getAllByPageNumber(Integer pageNumber) {
-    try {
-      HttpEntity<PagedProductApiResponse> response = this.client.getRestTemplate().getForEntity("/?page=" + pageNumber, PagedProductApiResponse.class);
-
-      System.out.println("[PRODUCT API] Products obtained with success on page " + pageNumber + "!");
-
-      return response.getBody().toArrayListOfEntity();
-    } catch (HttpStatusCodeException e) {
-      System.err.println(
-          "[PRODUCT API] Unable to get products on page " + pageNumber + "\n" +
-              "STATUS: " + e.getStatusCode().value() + " & BODY: " + e.getResponseBodyAsString()
-      );
-
-      if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-        throw new ProductsNotFoundOnPageException(pageNumber);
-      }
-
-      throw new UnableToGetProductsOnPageException(pageNumber);
-    } catch (Throwable t) {
-      System.err.println("[PRODUCT API] Unable to get products on page " + pageNumber + ".\nTHROWABLE: " + t);
-      throw new UnexpectedErrorToGetProductsOnPageException(pageNumber, t);
     }
   }
 }

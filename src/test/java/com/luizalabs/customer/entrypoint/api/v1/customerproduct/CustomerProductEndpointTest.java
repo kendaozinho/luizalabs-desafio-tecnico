@@ -9,6 +9,7 @@ import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInter
 import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.GetCustomerProductEndpointResponse;
 import com.luizalabs.customer.infraestructure.api.product.response.ProductApiResponse;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -217,14 +218,19 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(8)
-  public void deleteIsNoContent() throws Throwable {
+  public void getByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
     ArrayList<CustomerProduct> customerProducts =
         this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(customer.getId());
 
-    super.deleteIsNoContent(
-        this.path.replace("{customerId}", customer.getId().toString()).replace("{productId}", customerProducts.get(0).getProductId().toString())
+    GetCustomerProductEndpointResponse response = super.getIsOk(
+        this.path.replace("{customerId}", customer.getId().toString()).replace("{productId}", customerProducts.get(0).getProductId().toString()),
+        GetCustomerProductEndpointResponse.class
     );
+
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals(response.getCustomerId(), customer.getId());
+    Assertions.assertEquals(response.getProductId(), customerProducts.get(0).getProductId());
   }
 
   @Test
@@ -233,6 +239,18 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
     super.deleteIsNotFound(
         this.path.replace("{customerId}", UUID.randomUUID().toString()).replace("{productId}", UUID.randomUUID().toString()),
         "Customer Product(s) not found"
+    );
+  }
+
+  @Test
+  @Order(10)
+  public void deleteIsNoContent() throws Throwable {
+    Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
+    ArrayList<CustomerProduct> customerProducts =
+        this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(customer.getId());
+
+    super.deleteIsNoContent(
+        this.path.replace("{customerId}", customer.getId().toString()).replace("{productId}", customerProducts.get(0).getProductId().toString())
     );
   }
 }
