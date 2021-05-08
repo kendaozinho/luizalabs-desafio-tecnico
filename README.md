@@ -38,6 +38,14 @@ Será criado um banco de dados limpo na sua máquina local que será populado ap
 mvn spring-boot:run
 ```
 
+## Documentação
+
+O Swagger da API se encontra na seguinte URL:
+
+```sh
+http://localhost:8080/swagger-ui/
+```
+
 ## Sobre
 
 Aplicação desenvolvida por Kenneth Gottschalk de Azevedo.

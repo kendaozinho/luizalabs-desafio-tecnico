@@ -7,6 +7,9 @@ import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInter
 import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomerEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByFilterEndpointResponse;
+import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByIdEndpointResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
