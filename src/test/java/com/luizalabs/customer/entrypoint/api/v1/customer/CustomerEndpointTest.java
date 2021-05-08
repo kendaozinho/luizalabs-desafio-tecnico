@@ -5,6 +5,7 @@ import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.gateway.customer.CreateCustomerGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
 import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInteractor;
 import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
@@ -21,19 +22,27 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CustomerEndpointTest extends BaseEndpointTest {
   private String path = "/v1/customers";
-  @Autowired private GetCustomerByEmailGateway getCustomerByEmailGateway;
-  @Autowired private CreateCustomerGateway createCustomerGateway;
-  @Autowired private CreateCustomerProductGateway createCustomerProductGateway;
-  @Autowired private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
+  @Autowired
+  private GetCustomerByEmailGateway getCustomerByEmailGateway;
+  @Autowired
+  private CreateCustomerGateway createCustomerGateway;
+  @Autowired
+  private CreateCustomerProductGateway createCustomerProductGateway;
+  @Autowired
+  private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
+  @Autowired
+  private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
 
   @BeforeAll
   @AfterAll
@@ -175,7 +184,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(14)
-  public void getOneByIdIsOkWithoutExpand() throws Throwable {
+  public void getOneByIdIsOkWhenExpandIsFalse() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
     GetCustomerByIdEndpointResponse response =
@@ -271,6 +280,67 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(17)
+  public void getOneByIdIsInternalServerError() throws Throwable {
+    Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
+
+    UUID productId = UUID.randomUUID();
+
+    RestTemplate restTemplate = this.restTemplateBuilder.build();
+
+    Mockito.doReturn(
+        new ResponseEntity<>(
+            ProductApiResponse.builder()
+                .id(productId)
+                .title("Samsung Galaxy S20")
+                .price(new BigDecimal("3100.00"))
+                .image("http://www.images.com.br/" + productId + ".jpg")
+                .brand("Samsung")
+                .build(),
+            HttpStatus.OK
+        )
+    ).when(restTemplate).getForEntity("/" + productId + "/", ProductApiResponse.class);
+
+    this.createCustomerProductGateway.create(new CustomerProduct(customer.getId(), productId));
+
+    Mockito.doThrow(
+        new HttpServerErrorException(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "Internal Server Error",
+            ("{\"error\": \"Unable to get product " + productId + "\"}").getBytes(),
+            Charset.defaultCharset()
+        )
+    ).when(restTemplate).getForEntity("/" + productId + "/", ProductApiResponse.class);
+
+    // Redis returns OK for other products
+
+    super.getIsInternalServerError(
+        this.path + "/" + customer.getId(), "Unable to get product " + productId
+    );
+  }
+
+  @Test
+  @Order(18)
+  public void getOneByIdIsBadGateway() throws Throwable {
+    Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
+
+    ArrayList<CustomerProduct> customerProducts = this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(customer.getId());
+
+    RestTemplate restTemplate = this.restTemplateBuilder.build();
+
+    Mockito.doThrow(
+        new RuntimeException("Unable to connect to server")
+    ).when(restTemplate).getForEntity("/" + customerProducts.get(customerProducts.size() - 1).getProductId() + "/", ProductApiResponse.class);
+
+    // Redis returns OK for other products
+
+    super.getIsBadGateway(
+        this.path + "/" + customer.getId(),
+        "Unexpected error to get product " + customerProducts.get(customerProducts.size() - 1).getProductId() + ": java.lang.RuntimeException: Unable to connect to server"
+    );
+  }
+
+  @Test
+  @Order(19)
   public void getAllIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path, GetCustomerByFilterEndpointResponse.class);
@@ -286,7 +356,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(18)
+  @Order(20)
   public void getAllByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -304,7 +374,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(19)
+  @Order(21)
   public void getAllByEmailIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?email=kendao@luizalabs.com", GetCustomerByFilterEndpointResponse.class);
@@ -320,7 +390,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(20)
+  @Order(22)
   public void getAllByNameIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?name=ken", GetCustomerByFilterEndpointResponse.class);

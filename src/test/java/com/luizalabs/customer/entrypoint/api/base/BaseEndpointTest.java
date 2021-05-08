@@ -37,6 +37,22 @@ public class BaseEndpointTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
   }
 
+  protected void getIsInternalServerError(String path, String details) throws Throwable {
+    super.mock.perform(MockMvcRequestBuilders.get(path).accept(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.value())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
+  }
+
+  protected void getIsBadGateway(String path, String details) throws Throwable {
+    super.mock.perform(MockMvcRequestBuilders.get(path).accept(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isBadGateway())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.is(HttpStatus.BAD_GATEWAY.value())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is(HttpStatus.BAD_GATEWAY.getReasonPhrase())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
+  }
+
   protected <T> T postIsCreated(String path, Object request, Class<T> responseType) throws Throwable {
     String response = super.mock.perform(MockMvcRequestBuilders.post(path).accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(request)))

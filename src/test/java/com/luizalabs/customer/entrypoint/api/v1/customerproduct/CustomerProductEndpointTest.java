@@ -18,6 +18,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -28,10 +29,14 @@ import java.util.UUID;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CustomerProductEndpointTest extends BaseEndpointTest {
   private String path = "/v1/customers/{customerId}/products/{productId}";
-  @Autowired private GetCustomerByEmailGateway getCustomerByEmailGateway;
-  @Autowired private CreateCustomerGateway createCustomerGateway;
-  @Autowired private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
-  @Autowired private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
+  @Autowired
+  private GetCustomerByEmailGateway getCustomerByEmailGateway;
+  @Autowired
+  private CreateCustomerGateway createCustomerGateway;
+  @Autowired
+  private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
+  @Autowired
+  private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
 
   @BeforeAll
   @AfterAll
@@ -103,7 +108,7 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
 
     RestTemplate restTemplate = this.restTemplateBuilder.build();
     Mockito.doThrow(
-        new HttpClientErrorException(
+        new HttpServerErrorException(
             HttpStatus.INTERNAL_SERVER_ERROR,
             "Internal Server Error",
             ("{\"error\": \"Unable to get product " + request.getProductId() + "\"}").getBytes(),
