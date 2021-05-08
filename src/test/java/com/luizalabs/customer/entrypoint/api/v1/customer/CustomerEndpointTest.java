@@ -1,8 +1,10 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer;
 
 import com.luizalabs.customer.domain.entity.Customer;
+import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.gateway.customer.CreateCustomerGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
 import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInteractor;
 import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
@@ -11,25 +13,27 @@ import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomer
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByFilterEndpointResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByIdEndpointResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
+import com.luizalabs.customer.infraestructure.api.product.response.ProductApiResponse;
 import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CustomerEndpointTest extends BaseEndpointTest {
   private String path = "/v1/customers";
-  private GetCustomerByEmailGateway getCustomerByEmailGateway;
-  private CreateCustomerGateway createCustomerGateway;
-
-  @Autowired
-  public CustomerEndpointTest(
-      GetCustomerByEmailGateway getCustomerByEmailGateway,
-      CreateCustomerGateway createCustomerGateway
-  ) {
-    this.getCustomerByEmailGateway = getCustomerByEmailGateway;
-    this.createCustomerGateway = createCustomerGateway;
-  }
+  @Autowired private GetCustomerByEmailGateway getCustomerByEmailGateway;
+  @Autowired private CreateCustomerGateway createCustomerGateway;
+  @Autowired private CreateCustomerProductGateway createCustomerProductGateway;
+  @Autowired private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
 
   @BeforeAll
   @AfterAll
@@ -171,7 +175,22 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(14)
-  public void getOneByIdIsOk() throws Throwable {
+  public void getOneByIdIsOkWithoutExpand() throws Throwable {
+    Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
+
+    GetCustomerByIdEndpointResponse response =
+        super.getIsOk(this.path + "/" + customer.getId() + "?expand=false", GetCustomerByIdEndpointResponse.class);
+
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals(response.getId(), customer.getId());
+    Assertions.assertEquals(response.getName(), customer.getName());
+    Assertions.assertEquals(response.getEmail(), customer.getEmail());
+    Assertions.assertNull(response.getProducts());
+  }
+
+  @Test
+  @Order(15)
+  public void getOneByIdIsOkWithoutProducts() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
     GetCustomerByIdEndpointResponse response =
@@ -181,10 +200,77 @@ public class CustomerEndpointTest extends BaseEndpointTest {
     Assertions.assertEquals(response.getId(), customer.getId());
     Assertions.assertEquals(response.getName(), customer.getName());
     Assertions.assertEquals(response.getEmail(), customer.getEmail());
+    Assertions.assertNotNull(response.getProducts());
+    Assertions.assertTrue(response.getProducts().isEmpty());
   }
 
   @Test
-  @Order(15)
+  @Order(16)
+  public void getOneByIdIsOkWithProducts() throws Throwable {
+    Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
+
+    UUID firstProductId = UUID.randomUUID();
+    UUID secondProductId = UUID.randomUUID();
+
+    RestTemplate restTemplate = this.restTemplateBuilder.build();
+
+    Mockito.doReturn(
+        new ResponseEntity<>(
+            ProductApiResponse.builder()
+                .id(firstProductId)
+                .title("Notebook")
+                .price(new BigDecimal("3199.99"))
+                .image("http://www.images.com.br/" + firstProductId + ".jpg")
+                .brand("Dell")
+                .build(),
+            HttpStatus.OK
+        )
+    ).when(restTemplate).getForEntity("/" + firstProductId + "/", ProductApiResponse.class);
+
+    this.createCustomerProductGateway.create(new CustomerProduct(customer.getId(), firstProductId));
+
+    Mockito.doReturn(
+        new ResponseEntity<>(
+            ProductApiResponse.builder()
+                .id(secondProductId)
+                .title("Samsung Galaxy S10")
+                .price(new BigDecimal("2350.00"))
+                .image("http://www.images.com.br/" + secondProductId + ".jpg")
+                .brand("Samsung")
+                .build(),
+            HttpStatus.OK
+        )
+    ).when(restTemplate).getForEntity("/" + secondProductId + "/", ProductApiResponse.class);
+
+    this.createCustomerProductGateway.create(new CustomerProduct(customer.getId(), secondProductId));
+
+    // This product is no longer available
+    Mockito.doThrow(
+        new HttpClientErrorException(
+            HttpStatus.NOT_FOUND,
+            "Not Found",
+            ("{\"error\": \"Product " + secondProductId + " not found\"}").getBytes(),
+            Charset.defaultCharset()
+        )
+    ).when(restTemplate).getForEntity("/" + secondProductId + "/", ProductApiResponse.class);
+
+    GetCustomerByIdEndpointResponse response =
+        super.getIsOk(this.path + "/" + customer.getId(), GetCustomerByIdEndpointResponse.class);
+
+    Assertions.assertNotNull(response);
+    Assertions.assertEquals(response.getId(), customer.getId());
+    Assertions.assertEquals(response.getName(), customer.getName());
+    Assertions.assertEquals(response.getEmail(), customer.getEmail());
+    Assertions.assertNotNull(response.getProducts());
+    Assertions.assertEquals(response.getProducts().size(), 1);
+    Assertions.assertEquals(response.getProducts().get(0).getId(), firstProductId);
+    Assertions.assertEquals(response.getProducts().get(0).getTitle(), "Notebook");
+    Assertions.assertEquals(response.getProducts().get(0).getPrice(), new BigDecimal("3199.99"));
+    Assertions.assertEquals(response.getProducts().get(0).getImage(), "http://www.images.com.br/" + firstProductId + ".jpg");
+  }
+
+  @Test
+  @Order(17)
   public void getAllIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path, GetCustomerByFilterEndpointResponse.class);
@@ -200,7 +286,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(16)
+  @Order(18)
   public void getAllByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -218,7 +304,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(17)
+  @Order(19)
   public void getAllByEmailIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?email=kendao@luizalabs.com", GetCustomerByFilterEndpointResponse.class);
@@ -234,7 +320,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(18)
+  @Order(20)
   public void getAllByNameIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?name=ken", GetCustomerByFilterEndpointResponse.class);

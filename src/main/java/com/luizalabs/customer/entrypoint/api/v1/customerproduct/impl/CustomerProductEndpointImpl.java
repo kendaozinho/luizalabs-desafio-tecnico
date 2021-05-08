@@ -61,7 +61,8 @@ public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
           @ApiResponse(code = 401, message = "Unauthorized"),
           @ApiResponse(code = 404, message = "Customer not found | Product not found"),
           @ApiResponse(code = 409, message = "Customer Product already exists"),
-          @ApiResponse(code = 500, message = "Internal Server Error")
+          @ApiResponse(code = 500, message = "Internal Server Error"),
+          @ApiResponse(code = 502, message = "Bad Gateway")
       }
   )
   public CreateCustomerProductEndpointResponse post(@RequestBody CreateCustomerProductEndpointRequest request) {

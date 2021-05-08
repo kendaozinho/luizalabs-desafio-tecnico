@@ -28,23 +28,10 @@ import java.util.UUID;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CustomerProductEndpointTest extends BaseEndpointTest {
   private String path = "/v1/customers/{customerId}/products/{productId}";
-  private GetCustomerByEmailGateway getCustomerByEmailGateway;
-  private CreateCustomerGateway createCustomerGateway;
-  private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
-  private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
-
-  @Autowired
-  public CustomerProductEndpointTest(
-      GetCustomerByEmailGateway getCustomerByEmailGateway,
-      CreateCustomerGateway createCustomerGateway,
-      GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway,
-      RestTemplateBuilder restTemplateBuilder
-  ) {
-    this.getCustomerByEmailGateway = getCustomerByEmailGateway;
-    this.createCustomerGateway = createCustomerGateway;
-    this.getCustomerProductsByCustomerIdGateway = getCustomerProductsByCustomerIdGateway;
-    this.restTemplateBuilder = restTemplateBuilder;
-  }
+  @Autowired private GetCustomerByEmailGateway getCustomerByEmailGateway;
+  @Autowired private CreateCustomerGateway createCustomerGateway;
+  @Autowired private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
+  @Autowired private RestTemplateBuilder restTemplateBuilder; // build method returns a mock
 
   @BeforeAll
   @AfterAll
@@ -166,9 +153,9 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
             ProductApiResponse.builder()
                 .id(request.getProductId())
                 .title("Notebook")
-                .price(new BigDecimal("2550.50"))
+                .price(new BigDecimal("3199.99"))
                 .image("http://www.images.com.br/" + request.getProductId() + ".jpg")
-                .brand("Samsung")
+                .brand("Dell")
                 .build(),
             HttpStatus.OK
         )

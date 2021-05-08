@@ -73,7 +73,8 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 400, message = "Invalid id"),
           @ApiResponse(code = 401, message = "Unauthorized"),
           @ApiResponse(code = 404, message = "Customer not found"),
-          @ApiResponse(code = 500, message = "Internal Server Error")
+          @ApiResponse(code = 500, message = "Internal Server Error"),
+          @ApiResponse(code = 502, message = "Bad Gateway")
       }
   )
   public GetCustomerByIdEndpointResponse getById(
