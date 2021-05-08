@@ -1,9 +1,6 @@
 package com.luizalabs.customer.entrypoint.api.advice;
 
-import com.luizalabs.customer.domain.exception.BadRequestException;
-import com.luizalabs.customer.domain.exception.ConflictException;
-import com.luizalabs.customer.domain.exception.InternalServerErrorException;
-import com.luizalabs.customer.domain.exception.NotFoundException;
+import com.luizalabs.customer.domain.exception.*;
 import com.luizalabs.customer.domain.exception.dto.BaseResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,5 +31,11 @@ public class CustomRestControllerAdvice {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public BaseResponseError catchInternalServerErrorException(Throwable t) {
     return new BaseResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), t.getMessage());
+  }
+
+  @ExceptionHandler(BadGatewayException.class)
+  @ResponseStatus(HttpStatus.BAD_GATEWAY)
+  public BaseResponseError catchBadGatewayException(Throwable t) {
+    return new BaseResponseError(HttpStatus.BAD_GATEWAY.value(), HttpStatus.BAD_GATEWAY.getReasonPhrase(), t.getMessage());
   }
 }

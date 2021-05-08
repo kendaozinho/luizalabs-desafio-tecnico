@@ -2,6 +2,7 @@ package com.luizalabs.customer.infraestructure.api.product.response;
 
 import com.luizalabs.customer.domain.entity.Product;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,10 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponse {
+public class ProductApiResponse {
   private UUID id;
   private String title;
   private BigDecimal price;

@@ -6,8 +6,8 @@ import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
 import com.luizalabs.customer.domain.gateway.product.GetProductsByPageNumberGateway;
 import com.luizalabs.customer.infraestructure.api.product.client.ProductApiClient;
 import com.luizalabs.customer.infraestructure.api.product.exception.*;
-import com.luizalabs.customer.infraestructure.api.product.response.PagedProductResponse;
-import com.luizalabs.customer.infraestructure.api.product.response.ProductResponse;
+import com.luizalabs.customer.infraestructure.api.product.response.PagedProductApiResponse;
+import com.luizalabs.customer.infraestructure.api.product.response.ProductApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -45,7 +45,7 @@ public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageN
         return product;
       }
 
-      HttpEntity<ProductResponse> response = this.client.getClient().getForEntity("/" + id + "/", ProductResponse.class);
+      HttpEntity<ProductApiResponse> response = this.client.getRestTemplate().getForEntity("/" + id + "/", ProductApiResponse.class);
 
       System.out.println("[PRODUCT API] Product " + id + " was obtained with success!");
 
@@ -76,7 +76,7 @@ public class ProductApiImpl implements GetProductByIdGateway, GetProductsByPageN
   @Override
   public ArrayList<Product> getAllByPageNumber(Integer pageNumber) {
     try {
-      HttpEntity<PagedProductResponse> response = this.client.getClient().getForEntity("/?page=" + pageNumber, PagedProductResponse.class);
+      HttpEntity<PagedProductApiResponse> response = this.client.getRestTemplate().getForEntity("/?page=" + pageNumber, PagedProductApiResponse.class);
 
       System.out.println("[PRODUCT API] Products obtained with success on page " + pageNumber + "!");
 

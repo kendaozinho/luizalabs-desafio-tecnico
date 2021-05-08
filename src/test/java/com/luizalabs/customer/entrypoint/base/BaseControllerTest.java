@@ -1,4 +1,4 @@
-package com.luizalabs.customer.entrypoint.controller.base;
+package com.luizalabs.customer.entrypoint.base;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,10 @@ import org.springframework.web.context.WebApplicationContext;
 public class BaseControllerTest {
   @LocalServerPort
   protected Integer port = 0;
+  protected MockMvc mock;
 
   @Autowired
   private WebApplicationContext context;
-
-  protected MockMvc mock;
 
   @BeforeEach
   private void before() {

@@ -4,7 +4,7 @@ import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.gateway.customer.CreateCustomerGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInteractor;
-import com.luizalabs.customer.entrypoint.api.base.BaseApiTest;
+import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomerEndpointResponse;
@@ -17,29 +17,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CustomerEndpointTest extends BaseApiTest {
+public class CustomerEndpointTest extends BaseEndpointTest {
   private String path = "/v1/customers";
-  private DeleteAllCustomersInteractor deleteAllCustomersInteractor;
   private GetCustomerByEmailGateway getCustomerByEmailGateway;
   private CreateCustomerGateway createCustomerGateway;
 
   @Autowired
   public CustomerEndpointTest(
-      DeleteAllCustomersInteractor deleteAllCustomersInteractor,
       GetCustomerByEmailGateway getCustomerByEmailGateway,
       CreateCustomerGateway createCustomerGateway
   ) {
-    this.deleteAllCustomersInteractor = deleteAllCustomersInteractor;
     this.getCustomerByEmailGateway = getCustomerByEmailGateway;
     this.createCustomerGateway = createCustomerGateway;
+  }
+
+  @BeforeAll
+  @AfterAll
+  public static void deleteAllCustomers(
+      @Autowired DeleteAllCustomersInteractor deleteAllCustomersInteractor
+  ) {
+    deleteAllCustomersInteractor.execute();
   }
 
   @Test
   @Order(1)
   public void getOneByIdIsNotFound() throws Throwable {
-    // Delete all customers before tests
-    this.deleteAllCustomersInteractor.execute();
-
     super.getIsNotFound(this.path + "/" + UUID.randomUUID(), "Customer(s) not found");
   }
 
@@ -105,7 +107,7 @@ public class CustomerEndpointTest extends BaseApiTest {
 
   @Test
   @Order(9)
-  public void putIsOkWithChanges() throws Throwable {
+  public void putWithChangesIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kenneth@luizalabs.com");
 
     UpdateCustomerEndpointRequest request = new UpdateCustomerEndpointRequest(
@@ -123,7 +125,7 @@ public class CustomerEndpointTest extends BaseApiTest {
 
   @Test
   @Order(10)
-  public void putIsOkWithoutChanges() throws Throwable {
+  public void putWithoutChangesIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
     UpdateCustomerEndpointRequest request = new UpdateCustomerEndpointRequest(
@@ -185,7 +187,7 @@ public class CustomerEndpointTest extends BaseApiTest {
   @Order(15)
   public void getAllIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
-        super.getIsOk(this.path + "?expand=false", GetCustomerByFilterEndpointResponse.class);
+        super.getIsOk(this.path, GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
@@ -199,11 +201,11 @@ public class CustomerEndpointTest extends BaseApiTest {
 
   @Test
   @Order(16)
-  public void getAllById() throws Throwable {
+  public void getAllByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
     GetCustomerByFilterEndpointResponse response =
-        super.getIsOk(this.path + "?expand=false&id=" + customer.getId(), GetCustomerByFilterEndpointResponse.class);
+        super.getIsOk(this.path + "?id=" + customer.getId(), GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
@@ -217,9 +219,9 @@ public class CustomerEndpointTest extends BaseApiTest {
 
   @Test
   @Order(17)
-  public void getAllByEmail() throws Throwable {
+  public void getAllByEmailIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
-        super.getIsOk(this.path + "?expand=false&email=kendao@luizalabs.com", GetCustomerByFilterEndpointResponse.class);
+        super.getIsOk(this.path + "?email=kendao@luizalabs.com", GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
@@ -233,9 +235,9 @@ public class CustomerEndpointTest extends BaseApiTest {
 
   @Test
   @Order(18)
-  public void getAllByName() throws Throwable {
+  public void getAllByNameIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
-        super.getIsOk(this.path + "?expand=false&name=ken", GetCustomerByFilterEndpointResponse.class);
+        super.getIsOk(this.path + "?name=ken", GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());

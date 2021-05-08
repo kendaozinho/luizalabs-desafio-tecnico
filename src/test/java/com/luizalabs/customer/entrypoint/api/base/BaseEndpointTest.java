@@ -1,14 +1,14 @@
 package com.luizalabs.customer.entrypoint.api.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.luizalabs.customer.entrypoint.controller.base.BaseControllerTest;
+import com.luizalabs.customer.entrypoint.base.BaseControllerTest;
 import org.hamcrest.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-public class BaseApiTest extends BaseControllerTest {
+public class BaseEndpointTest extends BaseControllerTest {
   @Autowired
   private ObjectMapper mapper;
 
@@ -78,6 +78,24 @@ public class BaseApiTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.status().isNotFound())
         .andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.is(404)))
         .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("Not Found")))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
+  }
+
+  protected void postIsInternalServerError(String path, Object request, String details) throws Throwable {
+    super.mock.perform(MockMvcRequestBuilders.post(path).accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(request)))
+        .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.is(500)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("Internal Server Error")))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
+  }
+
+  protected void postIsBadGateway(String path, Object request, String details) throws Throwable {
+    super.mock.perform(MockMvcRequestBuilders.post(path).accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(request)))
+        .andExpect(MockMvcResultMatchers.status().isBadGateway())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.is(502)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("Bad Gateway")))
         .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
   }
 

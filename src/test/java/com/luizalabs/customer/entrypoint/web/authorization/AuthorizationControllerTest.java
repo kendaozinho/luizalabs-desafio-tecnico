@@ -2,13 +2,16 @@ package com.luizalabs.customer.entrypoint.web.authorization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luizalabs.customer.domain.exception.dto.BaseResponseError;
-import com.luizalabs.customer.entrypoint.controller.base.BaseControllerTest;
+import com.luizalabs.customer.entrypoint.base.BaseControllerTest;
 import com.luizalabs.customer.util.JwtUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
