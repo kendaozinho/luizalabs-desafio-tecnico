@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CustomerDatabaseImpl implements
+public class CustomerDatabaseGatewayImpl implements
     GetCustomerByIdGateway,
     GetCustomerByEmailGateway,
     GetCustomersByNameGateway,
@@ -23,7 +23,7 @@ public class CustomerDatabaseImpl implements
     DeleteCustomerGateway {
   private CustomerRepository repository;
 
-  public CustomerDatabaseImpl(CustomerRepository repository) {
+  public CustomerDatabaseGatewayImpl(CustomerRepository repository) {
     this.repository = repository;
   }
 

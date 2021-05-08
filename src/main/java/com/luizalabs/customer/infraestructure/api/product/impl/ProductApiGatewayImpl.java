@@ -6,7 +6,7 @@ import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
 import com.luizalabs.customer.infraestructure.api.product.client.ProductApiClient;
 import com.luizalabs.customer.infraestructure.api.product.exception.ProductNotFoundException;
 import com.luizalabs.customer.infraestructure.api.product.exception.UnableToGetProductException;
-import com.luizalabs.customer.infraestructure.api.product.exception.UnexpectedErrorToGetProductException;
+import com.luizalabs.customer.infraestructure.api.product.exception.UnexpectedErrorOnGetProductException;
 import com.luizalabs.customer.infraestructure.api.product.response.ProductApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,7 +19,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 @Service
-public class ProductApiImpl implements GetProductByIdGateway {
+public class ProductApiGatewayImpl implements GetProductByIdGateway {
   @Value("${spring.redis.product.timeout}")
   private Integer redisProductTimeout;
 
@@ -27,14 +27,14 @@ public class ProductApiImpl implements GetProductByIdGateway {
   private RedisTemplate<String, String> redisTemplate;
   private ObjectMapper mapper;
 
-  public ProductApiImpl(ProductApiClient client, RedisTemplate<String, String> redisTemplate, ObjectMapper mapper) {
+  public ProductApiGatewayImpl(ProductApiClient client, RedisTemplate<String, String> redisTemplate, ObjectMapper mapper) {
     this.client = client;
     this.redisTemplate = redisTemplate;
     this.mapper = mapper;
   }
 
   @Override
-  public Product getOneById(UUID id) throws ProductNotFoundException, UnableToGetProductException, UnexpectedErrorToGetProductException {
+  public Product getOneById(UUID id) throws ProductNotFoundException, UnableToGetProductException, UnexpectedErrorOnGetProductException {
     try {
       String redisKey = "product-" + id;
 
@@ -68,7 +68,7 @@ public class ProductApiImpl implements GetProductByIdGateway {
       throw new UnableToGetProductException(id);
     } catch (Throwable t) {
       System.err.println("[PRODUCT API] Unable to get product " + id + ".\nTHROWABLE: " + t);
-      throw new UnexpectedErrorToGetProductException(id, t);
+      throw new UnexpectedErrorOnGetProductException(id, t);
     }
   }
 }

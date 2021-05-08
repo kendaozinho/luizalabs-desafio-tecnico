@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class CustomerProductDatabaseImpl implements
+public class CustomerProductDatabaseGatewayImpl implements
     GetCustomerProductByIdGateway,
     GetCustomerProductsByCustomerIdGateway,
     CreateCustomerProductGateway,
     DeleteCustomerProductGateway {
   private CustomerProductRepository repository;
 
-  public CustomerProductDatabaseImpl(CustomerProductRepository repository) {
+  public CustomerProductDatabaseGatewayImpl(CustomerProductRepository repository) {
     this.repository = repository;
   }
 

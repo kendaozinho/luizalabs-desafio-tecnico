@@ -335,7 +335,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
     super.getIsBadGateway(
         this.path + "/" + customer.getId(),
-        "Unexpected error to get product " + customerProducts.get(customerProducts.size() - 1).getProductId() + ": java.lang.RuntimeException: Unable to connect to server"
+        "Unexpected error on get product " + customerProducts.get(customerProducts.size() - 1).getProductId() + ": java.lang.RuntimeException: Unable to connect to server"
     );
   }
 
