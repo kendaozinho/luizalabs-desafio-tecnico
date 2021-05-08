@@ -28,7 +28,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public Customer getOneById(UUID id) {
+  public Customer getOneById(UUID id) throws CustomerNotFoundException {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
@@ -39,7 +39,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public Customer getOneByEmail(String email) {
+  public Customer getOneByEmail(String email) throws CustomerNotFoundException {
     CustomerTable customer = this.repository.findOneByEmail(email);
 
     if (customer == null) {
@@ -50,7 +50,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public ArrayList<Customer> getAllByName(String name) {
+  public ArrayList<Customer> getAllByName(String name) throws CustomerNotFoundException {
     ArrayList<CustomerTable> tableCustomers = this.repository.findAllByNameContainingIgnoreCase(name);
 
     if (tableCustomers.isEmpty()) {
@@ -65,7 +65,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public ArrayList<Customer> getAll() {
+  public ArrayList<Customer> getAll() throws CustomerNotFoundException {
     List<CustomerTable> tableCustomers = this.repository.findAll();
 
     if (tableCustomers.isEmpty()) {
@@ -80,7 +80,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public Customer create(Customer request) {
+  public Customer create(Customer request) throws CustomerEmailAlreadyExistsException {
     CustomerTable existingCustomer = this.repository.findOneByEmail(request.getEmail());
 
     if (existingCustomer != null) {
@@ -95,7 +95,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public Customer update(UUID id, Customer request) {
+  public Customer update(UUID id, Customer request) throws CustomerNotFoundException, CustomerEmailAlreadyExistsException {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
@@ -115,7 +115,7 @@ public class CustomerDatabaseImpl implements
   }
 
   @Override
-  public void delete(UUID id) {
+  public void delete(UUID id) throws CustomerNotFoundException {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {

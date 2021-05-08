@@ -27,7 +27,7 @@ public class CustomerProductDatabaseImpl implements
   }
 
   @Override
-  public CustomerProduct getOneById(UUID customerId, UUID productId) {
+  public CustomerProduct getOneById(UUID customerId, UUID productId) throws CustomerProductNotFoundException {
     CustomerProductTable customerProduct = this.repository.findOneByCustomerIdAndProductId(customerId, productId);
 
     if (customerProduct == null) {
@@ -38,7 +38,7 @@ public class CustomerProductDatabaseImpl implements
   }
 
   @Override
-  public ArrayList<CustomerProduct> getAllByCustomerId(UUID customerId) {
+  public ArrayList<CustomerProduct> getAllByCustomerId(UUID customerId) throws CustomerProductNotFoundException {
     ArrayList<CustomerProductTable> customerProductsOfTable = this.repository.findAllByCustomerId(customerId);
 
     if (customerProductsOfTable.isEmpty()) {
@@ -53,7 +53,7 @@ public class CustomerProductDatabaseImpl implements
   }
 
   @Override
-  public CustomerProduct create(CustomerProduct request) {
+  public CustomerProduct create(CustomerProduct request) throws CustomerProductAlreadyExistsException {
     CustomerProductTable customerProduct =
         this.repository.findOneByCustomerIdAndProductId(request.getCustomerId(), request.getProductId());
 
@@ -67,7 +67,7 @@ public class CustomerProductDatabaseImpl implements
   }
 
   @Override
-  public void delete(UUID customerId, UUID productId) {
+  public void delete(UUID customerId, UUID productId) throws CustomerProductNotFoundException {
     CustomerProductTable customerProduct = this.repository.findOneByCustomerIdAndProductId(customerId, productId);
 
     if (customerProduct == null) {

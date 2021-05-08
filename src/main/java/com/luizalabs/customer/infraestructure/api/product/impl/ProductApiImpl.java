@@ -34,7 +34,7 @@ public class ProductApiImpl implements GetProductByIdGateway {
   }
 
   @Override
-  public Product getOneById(UUID id) {
+  public Product getOneById(UUID id) throws ProductNotFoundException, UnableToGetProductException, UnexpectedErrorToGetProductException {
     try {
       String redisKey = "product-" + id;
 

@@ -33,7 +33,7 @@ public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterI
   }
 
   @Override
-  public ArrayList<Customer> execute(UUID id, String name, String email) {
+  public ArrayList<Customer> execute(UUID id, String name, String email) throws CustomerListIsEmptyException {
     ArrayList<Customer> customers = new ArrayList<>();
 
     try {
