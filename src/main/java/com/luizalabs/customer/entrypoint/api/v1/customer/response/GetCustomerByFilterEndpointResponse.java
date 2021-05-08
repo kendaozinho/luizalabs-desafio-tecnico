@@ -28,7 +28,7 @@ public class GetCustomerByFilterEndpointResponse {
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
-  public class MetaResponse {
+  public static class MetaResponse {
     private Integer offset;
     private Integer limit;
     private Integer size;
@@ -37,7 +37,7 @@ public class GetCustomerByFilterEndpointResponse {
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
-  public class CustomerResponse {
+  public static class CustomerResponse {
     private UUID id;
     private String name;
     private String email;

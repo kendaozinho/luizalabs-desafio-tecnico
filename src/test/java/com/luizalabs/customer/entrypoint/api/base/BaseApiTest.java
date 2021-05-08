@@ -12,9 +12,12 @@ public class BaseApiTest extends BaseControllerTest {
   @Autowired
   private ObjectMapper mapper;
 
-  protected void getIsOk(String path) throws Throwable {
-    super.mock.perform(MockMvcRequestBuilders.get(path).accept(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().isOk());
+  protected <T> T getIsOk(String path, Class<T> responseType) throws Throwable {
+    String response = super.mock.perform(MockMvcRequestBuilders.get(path).accept(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    return this.mapper.readValue(response, responseType);
   }
 
   protected void getIsNotFound(String path, String details) throws Throwable {
@@ -33,10 +36,13 @@ public class BaseApiTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
   }
 
-  protected void postIsCreated(String path, Object request) throws Throwable {
-    super.mock.perform(MockMvcRequestBuilders.post(path).accept(MediaType.APPLICATION_JSON)
+  protected <T> T postIsCreated(String path, Object request, Class<T> responseType) throws Throwable {
+    String response = super.mock.perform(MockMvcRequestBuilders.post(path).accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(request)))
-        .andExpect(MockMvcResultMatchers.status().isCreated());
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andReturn().getResponse().getContentAsString();
+
+    return this.mapper.readValue(response, responseType);
   }
 
   protected void postIsUnprocessableEntity(String path, Object request, String details) throws Throwable {
@@ -75,10 +81,13 @@ public class BaseApiTest extends BaseControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.details", Matchers.is(details)));
   }
 
-  protected void putIsOk(String path, Object request) throws Throwable {
-    super.mock.perform(MockMvcRequestBuilders.put(path).accept(MediaType.APPLICATION_JSON)
+  protected <T> T putIsOk(String path, Object request, Class<T> responseType) throws Throwable {
+    String response = super.mock.perform(MockMvcRequestBuilders.put(path).accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(request)))
-        .andExpect(MockMvcResultMatchers.status().isOk());
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn().getResponse().getContentAsString();
+
+    return this.mapper.readValue(response, responseType);
   }
 
   protected void putIsUnprocessableEntity(String path, Object request, String details) throws Throwable {

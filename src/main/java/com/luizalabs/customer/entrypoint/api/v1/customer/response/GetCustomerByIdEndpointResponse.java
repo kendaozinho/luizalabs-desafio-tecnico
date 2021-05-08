@@ -41,7 +41,7 @@ public class GetCustomerByIdEndpointResponse {
   @Setter
   @NoArgsConstructor
   @AllArgsConstructor
-  private class Product {
+  public static class Product {
     private UUID id;
     private String title;
     private BigDecimal price;

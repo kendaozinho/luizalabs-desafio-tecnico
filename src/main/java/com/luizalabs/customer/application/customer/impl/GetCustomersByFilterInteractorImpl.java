@@ -2,6 +2,7 @@ package com.luizalabs.customer.application.customer.impl;
 
 import com.luizalabs.customer.application.customer.exception.CustomerListIsEmptyException;
 import com.luizalabs.customer.domain.entity.Customer;
+import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.GetAllCustomersGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
@@ -35,14 +36,18 @@ public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterI
   public ArrayList<Customer> execute(UUID id, String name, String email) {
     ArrayList<Customer> customers = new ArrayList<>();
 
-    if (id != null) {
-      customers.add(this.getCustomerByIdGateway.getOneById(id));
-    } else if (email != null) {
-      customers.add(this.getCustomerByEmailGateway.getOneByEmail(email));
-    } else if (name != null) {
-      customers.addAll(this.getCustomersByNameGateway.getAllByName(name));
-    } else {
-      customers.addAll(this.getAllCustomersGateway.getAll());
+    try {
+      if (id != null) {
+        customers.add(this.getCustomerByIdGateway.getOneById(id));
+      } else if (email != null) {
+        customers.add(this.getCustomerByEmailGateway.getOneByEmail(email));
+      } else if (name != null) {
+        customers.addAll(this.getCustomersByNameGateway.getAllByName(name));
+      } else {
+        customers.addAll(this.getAllCustomersGateway.getAll());
+      }
+    } catch (NotFoundException exception) {
+      // Ignore this exception
     }
 
     if (customers.isEmpty()) {
