@@ -47,7 +47,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
           response.setContentType("application/json");
           response.getWriter().write(
               this.mapper.writeValueAsString(
-                  new BaseResponseError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase(), "Authorization is empty or invalid")
+                  new BaseResponseError(
+                      HttpStatus.UNAUTHORIZED.value(),
+                      HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                      "Authorization is empty or invalid"
+                  )
               )
           );
         });

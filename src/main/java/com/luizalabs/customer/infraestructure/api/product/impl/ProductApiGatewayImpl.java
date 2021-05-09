@@ -8,6 +8,8 @@ import com.luizalabs.customer.infraestructure.api.product.exception.ProductNotFo
 import com.luizalabs.customer.infraestructure.api.product.exception.UnableToGetProductException;
 import com.luizalabs.customer.infraestructure.api.product.exception.UnexpectedErrorOnGetProductException;
 import com.luizalabs.customer.infraestructure.api.product.response.ProductApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -20,12 +22,13 @@ import java.util.UUID;
 
 @Service
 public class ProductApiGatewayImpl implements GetProductByIdGateway {
-  @Value("${spring.redis.product.timeout}")
-  private Integer redisProductTimeout;
-
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
   private ProductApiClient client;
   private RedisTemplate<String, String> redisTemplate;
   private ObjectMapper mapper;
+
+  @Value("${spring.redis.product.timeout}")
+  private Integer redisProductTimeout;
 
   public ProductApiGatewayImpl(ProductApiClient client, RedisTemplate<String, String> redisTemplate, ObjectMapper mapper) {
     this.client = client;
@@ -40,13 +43,13 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
 
       if (this.redisTemplate.hasKey(redisKey)) {
         Product product = this.mapper.readValue(this.redisTemplate.opsForValue().get(redisKey), Product.class);
-        System.out.println("[PRODUCT REDIS] Product " + id + " was obtained with success!");
+        this.logger.info("[PRODUCT REDIS] Product " + id + " was obtained with success!");
         return product;
       }
 
       HttpEntity<ProductApiResponse> response = this.client.getRestTemplate().getForEntity("/" + id + "/", ProductApiResponse.class);
 
-      System.out.println("[PRODUCT API] Product " + id + " was obtained with success!");
+      this.logger.info("[PRODUCT API] Product " + id + " was obtained with success!");
 
       Product product = response.getBody().toEntity();
 
@@ -56,7 +59,7 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
 
       return product;
     } catch (HttpStatusCodeException e) {
-      System.err.println(
+      this.logger.warn(
           "[PRODUCT API] Unable to get product " + id + "\n" +
               "STATUS: " + e.getStatusCode().value() + " & BODY: " + e.getResponseBodyAsString()
       );
@@ -67,7 +70,7 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
 
       throw new UnableToGetProductException(id);
     } catch (Throwable t) {
-      System.err.println("[PRODUCT API] Unable to get product " + id + ".\nTHROWABLE: " + t);
+      this.logger.error("[PRODUCT API] Unable to get product " + id + ".\nTHROWABLE: " + t);
       throw new UnexpectedErrorOnGetProductException(id, t);
     }
   }

@@ -15,7 +15,6 @@ public class BaseControllerTest {
   @LocalServerPort
   protected Integer port = 0;
   protected MockMvc mock;
-
   @Autowired
   private WebApplicationContext context;
 
