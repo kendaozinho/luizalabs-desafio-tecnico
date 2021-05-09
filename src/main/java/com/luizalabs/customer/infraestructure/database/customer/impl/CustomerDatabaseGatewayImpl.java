@@ -87,7 +87,7 @@ public class CustomerDatabaseGatewayImpl implements
       throw new CustomerEmailAlreadyExistsException();
     }
 
-    CustomerTable newCustomer = this.repository.save(
+    CustomerTable newCustomer = this.repository.saveAndFlush(
         new CustomerTable(request.getName(), request.getEmail())
     );
 
@@ -111,7 +111,7 @@ public class CustomerDatabaseGatewayImpl implements
     customer.setName(request.getName());
     customer.setEmail(request.getEmail());
 
-    return this.repository.save(customer).toEntity();
+    return this.repository.saveAndFlush(customer).toEntity();
   }
 
   @Override

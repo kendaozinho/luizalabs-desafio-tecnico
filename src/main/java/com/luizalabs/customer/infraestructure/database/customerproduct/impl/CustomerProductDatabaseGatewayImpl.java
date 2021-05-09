@@ -61,7 +61,7 @@ public class CustomerProductDatabaseGatewayImpl implements
       throw new CustomerProductAlreadyExistsException();
     }
 
-    return this.repository.save(
+    return this.repository.saveAndFlush(
         new CustomerProductTable(request.getCustomerId(), request.getProductId())
     ).toEntity();
   }
