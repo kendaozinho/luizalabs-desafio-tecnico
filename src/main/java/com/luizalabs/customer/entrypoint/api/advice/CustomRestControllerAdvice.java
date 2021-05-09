@@ -16,7 +16,6 @@ import javax.validation.ValidationException;
 @RestControllerAdvice
 public class CustomRestControllerAdvice {
   @ExceptionHandler({
-      BadRequestException.class,
       HttpMessageNotReadableException.class,
       MethodArgumentTypeMismatchException.class,
       MethodArgumentNotValidException.class,

@@ -57,36 +57,42 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(1)
+  public void getOneByIdIsBadRequest() throws Throwable {
+    super.getIsBadRequest(this.path + "/abc", "Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: abc");
+  }
+
+  @Test
+  @Order(2)
   public void getOneByIdIsNotFound() throws Throwable {
     super.getIsNotFound(this.path + "/" + UUID.randomUUID(), "Customer(s) not found");
   }
 
   @Test
-  @Order(2)
+  @Order(3)
   public void getAllIsNotFound() throws Throwable {
     super.getIsNotFound(this.path, "Customer list is empty");
   }
 
   @Test
-  @Order(3)
+  @Order(4)
   public void getAllByIdIsNotFound() throws Throwable {
     super.getIsNotFound(this.path + "?id=" + UUID.randomUUID(), "Customer list is empty");
   }
 
   @Test
-  @Order(4)
+  @Order(5)
   public void getAllByEmailIsNotFound() throws Throwable {
     super.getIsNotFound(this.path + "?email=abc@luizalabs.com", "Customer list is empty");
   }
 
   @Test
-  @Order(5)
+  @Order(6)
   public void getAllByNameIsNotFound() throws Throwable {
     super.getIsNotFound(this.path + "?name=abc", "Customer list is empty");
   }
 
   @Test
-  @Order(6)
+  @Order(7)
   public void postIsCreated() throws Throwable {
     CreateCustomerEndpointRequest request = new CreateCustomerEndpointRequest(
         "Kenneth Gottschalk de Azevedo", "kenneth@luizalabs.com"
@@ -102,7 +108,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(7)
+  @Order(8)
   public void postIsConflict() throws Throwable {
     CreateCustomerEndpointRequest request = new CreateCustomerEndpointRequest(
         "Kenneth Gottschalk de Azevedo 2", "kenneth@luizalabs.com"
@@ -112,7 +118,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(8)
+  @Order(9)
   public void putIsNotFound() throws Throwable {
     UpdateCustomerEndpointRequest request = new UpdateCustomerEndpointRequest(
         "kendao", "kendao@luizalabs.com"
@@ -122,7 +128,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(9)
+  @Order(10)
   public void putWithChangesIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kenneth@luizalabs.com");
 
@@ -140,7 +146,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(10)
+  @Order(11)
   public void putWithoutChangesIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -158,7 +164,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(11)
+  @Order(12)
   public void putIsConflict() throws Throwable {
     Customer customer = this.createCustomerGateway.create(
         new Customer(null, "Yuri Gottschalk de Azevedo", "yuri@luizalabs.com")
@@ -172,13 +178,13 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(12)
+  @Order(13)
   public void deleteIsNotFound() throws Throwable {
     super.deleteIsNotFound(this.path + "/" + UUID.randomUUID(), "Customer(s) not found");
   }
 
   @Test
-  @Order(13)
+  @Order(14)
   public void deleteIsNoContentWithoutProducts() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("yuri@luizalabs.com");
 
@@ -186,7 +192,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(14)
+  @Order(15)
   public void getOneByIdIsOkWhenExpandIsFalse() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -201,7 +207,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(15)
+  @Order(16)
   public void getOneByIdIsOkWithoutProducts() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -217,7 +223,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(16)
+  @Order(17)
   public void getOneByIdIsOkWithProducts() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -284,7 +290,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(17)
+  @Order(18)
   public void getOneByIdIsInternalServerError() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -325,7 +331,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(18)
+  @Order(19)
   public void getOneByIdIsBadGateway() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -346,7 +352,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(19)
+  @Order(20)
   public void getAllIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?offset=1&limit=1", GetCustomerByFilterEndpointResponse.class);
@@ -363,13 +369,13 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(20)
+  @Order(21)
   public void getAllIsNotFoundPageable() throws Throwable {
     super.getIsNotFound(this.path + "?offset=2&limit=1", "Customer list is empty");
   }
 
   @Test
-  @Order(21)
+  @Order(22)
   public void getAllByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -388,7 +394,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(22)
+  @Order(23)
   public void getAllByEmailIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?email=kendao@luizalabs.com", GetCustomerByFilterEndpointResponse.class);
@@ -405,7 +411,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(23)
+  @Order(24)
   public void getAllByNameIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?name=ken", GetCustomerByFilterEndpointResponse.class);
@@ -422,7 +428,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(24)
+  @Order(25)
   public void deleteIsNoContentWithProducts() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 

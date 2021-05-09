@@ -215,6 +215,16 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(8)
+  public void patchIsMethodNotAllowed() throws Throwable {
+    super.patchIsMethodNotAllowed(
+        this.path.replace("{customerId}", UUID.randomUUID().toString()).replace("{productId}", UUID.randomUUID().toString()),
+        new CustomerProduct(UUID.randomUUID(), UUID.randomUUID()),
+        "Request method 'PATCH' not supported"
+    );
+  }
+
+  @Test
+  @Order(9)
   public void getByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
     ArrayList<CustomerProduct> customerProducts =
@@ -231,7 +241,7 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(9)
+  @Order(10)
   public void deleteIsNotFound() throws Throwable {
     super.deleteIsNotFound(
         this.path.replace("{customerId}", UUID.randomUUID().toString()).replace("{productId}", UUID.randomUUID().toString()),
@@ -240,7 +250,7 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(10)
+  @Order(11)
   public void deleteIsNoContent() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
     ArrayList<CustomerProduct> customerProducts =
