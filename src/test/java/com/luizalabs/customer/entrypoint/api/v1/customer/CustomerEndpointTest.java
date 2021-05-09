@@ -161,7 +161,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   @Order(11)
   public void putIsConflict() throws Throwable {
     Customer customer = this.createCustomerGateway.create(
-        Customer.builder().name("Yuri Gottschalk de Azevedo").email("yuri@luizalabs.com").build()
+        new Customer(null, "Yuri Gottschalk de Azevedo", "yuri@luizalabs.com")
     );
 
     UpdateCustomerEndpointRequest request = new UpdateCustomerEndpointRequest(
@@ -228,13 +228,14 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
     Mockito.doReturn(
         new ResponseEntity<>(
-            ProductApiResponse.builder()
-                .id(firstProductId)
-                .title("Notebook")
-                .price(new BigDecimal("3199.99"))
-                .image("http://www.images.com.br/" + firstProductId + ".jpg")
-                .brand("Dell")
-                .build(),
+            new ProductApiResponse(
+                firstProductId,
+                "Notebook",
+                new BigDecimal("3199.99"),
+                "http://www.images.com.br/" + firstProductId + ".jpg",
+                "Dell",
+                5
+            ),
             HttpStatus.OK
         )
     ).when(restTemplate).getForEntity("/" + firstProductId + "/", ProductApiResponse.class);
@@ -243,13 +244,14 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
     Mockito.doReturn(
         new ResponseEntity<>(
-            ProductApiResponse.builder()
-                .id(secondProductId)
-                .title("Samsung Galaxy S10")
-                .price(new BigDecimal("2350.00"))
-                .image("http://www.images.com.br/" + secondProductId + ".jpg")
-                .brand("Samsung")
-                .build(),
+            new ProductApiResponse(
+                secondProductId,
+                "Samsung Galaxy S10",
+                new BigDecimal("2350.00"),
+                "http://www.images.com.br/" + secondProductId + ".jpg",
+                "Samsung",
+                null
+            ),
             HttpStatus.OK
         )
     ).when(restTemplate).getForEntity("/" + secondProductId + "/", ProductApiResponse.class);
@@ -292,13 +294,14 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
     Mockito.doReturn(
         new ResponseEntity<>(
-            ProductApiResponse.builder()
-                .id(productId)
-                .title("Samsung Galaxy S20")
-                .price(new BigDecimal("3100.00"))
-                .image("http://www.images.com.br/" + productId + ".jpg")
-                .brand("Samsung")
-                .build(),
+            new ProductApiResponse(
+                productId,
+                "Samsung Galaxy S20",
+                new BigDecimal("3100.00"),
+                "http://www.images.com.br/" + productId + ".jpg",
+                "Samsung",
+                null
+            ),
             HttpStatus.OK
         )
     ).when(restTemplate).getForEntity("/" + productId + "/", ProductApiResponse.class);

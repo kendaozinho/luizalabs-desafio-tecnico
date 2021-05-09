@@ -30,12 +30,6 @@ public class CustomerTable implements Serializable {
   public CustomerTable() {
   }
 
-  public CustomerTable(UUID id, String name, String email) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
-
   public CustomerTable(String name, String email) {
     this.name = name;
     this.email = email;
@@ -43,10 +37,6 @@ public class CustomerTable implements Serializable {
 
   public UUID getId() {
     return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
   }
 
   public String getName() {
@@ -76,6 +66,6 @@ public class CustomerTable implements Serializable {
   }
 
   public Customer toEntity() {
-    return Customer.builder().id(this.id).name(this.name).email(this.email).build();
+    return new Customer(this.id, this.name, this.email);
   }
 }

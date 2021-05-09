@@ -1,6 +1,5 @@
 package com.luizalabs.customer.domain.exception.dto;
 
-// Lombok is removed from this class
 public class BaseResponseError {
   private Integer code;
   private String message;

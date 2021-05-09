@@ -15,8 +15,6 @@ public class CreateCustomerInteractorImpl implements CreateCustomerInteractor {
 
   @Override
   public Customer execute(Customer request) {
-    return this.createCustomerGateway.create(
-        Customer.builder().name(request.getName()).email(request.getEmail()).build()
-    );
+    return this.createCustomerGateway.create(request);
   }
 }

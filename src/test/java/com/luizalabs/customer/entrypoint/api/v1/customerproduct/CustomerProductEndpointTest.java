@@ -76,7 +76,7 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
   @Order(3)
   public void postIsProductNotFound() throws Throwable {
     Customer customer = this.createCustomerGateway.create(
-        Customer.builder().name("kendao").email("kendao@luizalabs.com").build()
+        new Customer(null, "kendao", "kendao@luizalabs.com")
     );
 
     CreateCustomerProductEndpointRequest request = new CreateCustomerProductEndpointRequest(
@@ -158,13 +158,14 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
     RestTemplate restTemplate = this.restTemplateBuilder.build();
     Mockito.doReturn(
         new ResponseEntity<>(
-            ProductApiResponse.builder()
-                .id(request.getProductId())
-                .title("Notebook")
-                .price(new BigDecimal("3199.99"))
-                .image("http://www.images.com.br/" + request.getProductId() + ".jpg")
-                .brand("Dell")
-                .build(),
+            new ProductApiResponse(
+                request.getProductId(),
+                "Notebook",
+                new BigDecimal("3199.99"),
+                "http://www.images.com.br/" + request.getProductId() + ".jpg",
+                "Dell",
+                null
+            ),
             HttpStatus.OK
         )
     ).when(restTemplate).getForEntity("/" + request.getProductId() + "/", ProductApiResponse.class);
@@ -193,13 +194,14 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
     RestTemplate restTemplate = this.restTemplateBuilder.build();
     Mockito.doReturn(
         new ResponseEntity<>(
-            ProductApiResponse.builder()
-                .id(request.getProductId())
-                .title("Notebook")
-                .price(new BigDecimal("2550.50"))
-                .image("http://www.images.com.br/" + request.getProductId() + ".jpg")
-                .brand("Samsung")
-                .build(),
+            new ProductApiResponse(
+                request.getProductId(),
+                "Notebook",
+                new BigDecimal("2550.50"),
+                "http://www.images.com.br/" + request.getProductId() + ".jpg",
+                "Samsung",
+                null
+            ),
             HttpStatus.OK
         )
     ).when(restTemplate).getForEntity("/" + request.getProductId() + "/", ProductApiResponse.class);

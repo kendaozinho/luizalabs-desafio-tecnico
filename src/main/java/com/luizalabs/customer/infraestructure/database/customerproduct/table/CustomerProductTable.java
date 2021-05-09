@@ -1,14 +1,11 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.table;
 
 import com.luizalabs.customer.domain.entity.CustomerProduct;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -59,12 +56,37 @@ public class CustomerProductTable implements Serializable {
     return new CustomerProduct(this.customerId, this.productId);
   }
 
-  @Getter
-  @NoArgsConstructor
-  @AllArgsConstructor
-  @EqualsAndHashCode
   public static class CustomerProductTableId implements Serializable {
     private UUID customerId;
     private UUID productId;
+
+    public CustomerProductTableId() {
+    }
+
+    public CustomerProductTableId(UUID customerId, UUID productId) {
+      this.customerId = customerId;
+      this.productId = productId;
+    }
+
+    public UUID getCustomerId() {
+      return this.customerId;
+    }
+
+    public UUID getProductId() {
+      return this.productId;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+      if (this == object) return true;
+      if (object == null || getClass() != object.getClass()) return false;
+      CustomerProductTable customer = (CustomerProductTable) object;
+      return (this.customerId.equals(customer.customerId) && this.productId.equals(customer.productId));
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(this.customerId, this.productId);
+    }
   }
 }

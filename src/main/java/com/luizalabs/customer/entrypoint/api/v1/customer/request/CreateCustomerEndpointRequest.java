@@ -1,19 +1,32 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.request;
 
 import com.luizalabs.customer.domain.entity.Customer;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class CreateCustomerEndpointRequest {
   private String name;
   private String email;
 
+  public CreateCustomerEndpointRequest() {
+  }
+
+  public CreateCustomerEndpointRequest(String name, String email) {
+    this.name = name;
+    this.email = email;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public String getEmail() {
+    return this.email;
+  }
+
   public Customer toEntity() {
-    return Customer.builder().name(this.name).email(this.email).build();
+    Customer customer = new Customer();
+    customer.setName(this.name);
+    customer.setEmail(this.email);
+    return customer;
   }
 }
 
