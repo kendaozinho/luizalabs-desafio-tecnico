@@ -3,13 +3,22 @@ package com.luizalabs.customer.entrypoint.api.advice;
 import com.luizalabs.customer.domain.exception.*;
 import com.luizalabs.customer.domain.exception.dto.BaseResponseError;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class CustomRestControllerAdvice {
-  @ExceptionHandler(BadRequestException.class)
+  @ExceptionHandler({
+      BadRequestException.class,
+      HttpMessageNotReadableException.class,
+      MethodArgumentTypeMismatchException.class,
+      MethodArgumentNotValidException.class
+  })
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public BaseResponseError catchBadRequestException(Throwable t) {
     return new BaseResponseError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), t.getMessage());
@@ -19,6 +28,12 @@ public class CustomRestControllerAdvice {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public BaseResponseError catchNotFoundException(Throwable t) {
     return new BaseResponseError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase(), t.getMessage());
+  }
+
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+  public BaseResponseError catchMethodNotAllowedException(Throwable t) {
+    return new BaseResponseError(HttpStatus.METHOD_NOT_ALLOWED.value(), HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(), t.getMessage());
   }
 
   @ExceptionHandler(ConflictException.class)

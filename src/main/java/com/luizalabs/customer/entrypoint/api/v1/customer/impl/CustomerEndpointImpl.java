@@ -13,6 +13,10 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @RestController
@@ -52,11 +56,11 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       }
   )
   public GetCustomerByFilterEndpointResponse getByFilter(
-      @RequestParam(required = false) @ApiParam(name = "id", value = "id") UUID id,
-      @RequestParam(required = false) @ApiParam(name = "name", value = "name") String name,
-      @RequestParam(required = false) @ApiParam(name = "email", value = "email") String email,
-      @RequestParam(required = false, defaultValue = "1") @ApiParam(name = "offset", value = "page number") Integer offset,
-      @RequestParam(required = false, defaultValue = "10") @ApiParam(name = "limit", value = "page size") Integer limit
+      @RequestParam(required = false) @ApiParam(name = "id", value = "id") @NotNull UUID id,
+      @RequestParam(required = false) @ApiParam(name = "name", value = "name") @NotNull @NotBlank String name,
+      @RequestParam(required = false) @ApiParam(name = "email", value = "email") @NotNull @NotBlank String email,
+      @RequestParam(required = false, defaultValue = "1") @ApiParam(name = "offset", value = "page number") @Min(1) Integer offset,
+      @RequestParam(required = false, defaultValue = "10") @ApiParam(name = "limit", value = "page size") @Min(1) Integer limit
   ) {
     return new GetCustomerByFilterEndpointResponse(
         this.getCustomersByFilterInteractor.execute(id, name, email, offset, limit),
@@ -99,7 +103,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
-  public CreateCustomerEndpointResponse post(@RequestBody CreateCustomerEndpointRequest request) {
+  public CreateCustomerEndpointResponse post(@RequestBody @Valid CreateCustomerEndpointRequest request) {
     Customer customer = this.createCustomerInteractor.execute(request.toEntity());
     return new CreateCustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
   }
@@ -120,7 +124,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
   )
   public UpdateCustomerEndpointResponse put(
       @PathVariable @ApiParam(name = "id", value = "id") UUID id,
-      @RequestBody UpdateCustomerEndpointRequest request
+      @RequestBody @Valid UpdateCustomerEndpointRequest request
   ) {
     Customer customer = this.updateCustomerInteractor.execute(id, request.toEntity());
     return new UpdateCustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());

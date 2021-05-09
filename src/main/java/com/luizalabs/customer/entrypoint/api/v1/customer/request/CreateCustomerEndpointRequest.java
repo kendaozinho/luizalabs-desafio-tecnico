@@ -1,9 +1,22 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.request;
 
 import com.luizalabs.customer.domain.entity.Customer;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@ApiModel
 public class CreateCustomerEndpointRequest {
+  @NotNull
+  @NotBlank
+  @ApiModelProperty(required = true, value = "Name", example = "Kenneth Gottschalk de Azevedo")
   private String name;
+
+  @NotNull
+  @NotBlank
+  @ApiModelProperty(required = true, value = "Email", example = "kendao@luizalabs.com")
   private String email;
 
   public CreateCustomerEndpointRequest() {

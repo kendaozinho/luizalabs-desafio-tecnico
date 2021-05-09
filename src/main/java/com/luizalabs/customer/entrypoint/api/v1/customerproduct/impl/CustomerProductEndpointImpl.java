@@ -12,6 +12,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -65,7 +66,7 @@ public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
           @ApiResponse(code = 502, message = "Bad Gateway")
       }
   )
-  public CreateCustomerProductEndpointResponse post(@RequestBody CreateCustomerProductEndpointRequest request) {
+  public CreateCustomerProductEndpointResponse post(@RequestBody @Valid CreateCustomerProductEndpointRequest request) {
     CustomerProduct customerProduct = this.createCustomerProductInteractor.execute(request.toEntity());
     return new CreateCustomerProductEndpointResponse(customerProduct.getCustomerId(), customerProduct.getProductId());
   }
