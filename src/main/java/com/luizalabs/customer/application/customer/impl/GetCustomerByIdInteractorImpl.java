@@ -10,6 +10,7 @@ import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
 import com.luizalabs.customer.domain.interactor.customer.GetCustomerByIdInteractor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class GetCustomerByIdInteractorImpl implements GetCustomerByIdInteractor 
   }
 
   @Override
+  @Transactional
   public Customer execute(UUID id, Boolean showProducts) {
     Customer customer = this.getCustomerByIdGateway.getOneById(id);
 
