@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.validation.ValidationException;
+
 @RestControllerAdvice
 public class CustomRestControllerAdvice {
   @ExceptionHandler({
       BadRequestException.class,
       HttpMessageNotReadableException.class,
       MethodArgumentTypeMismatchException.class,
-      MethodArgumentNotValidException.class
+      MethodArgumentNotValidException.class,
+      ValidationException.class
   })
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public BaseResponseError catchBadRequestException(Throwable t) {

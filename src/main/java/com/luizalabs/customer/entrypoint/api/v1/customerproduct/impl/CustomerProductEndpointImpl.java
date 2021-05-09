@@ -4,21 +4,22 @@ import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.interactor.customerproduct.CreateCustomerProductInteractor;
 import com.luizalabs.customer.domain.interactor.customerproduct.DeleteCustomerProductInteractor;
 import com.luizalabs.customer.domain.interactor.customerproduct.GetCustomerProductInteractor;
-import com.luizalabs.customer.entrypoint.api.v1.customerproduct.CustomerProductEndpoint;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.GetCustomerProductEndpointResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequestMapping("/v1/customers")
 @Api(tags = {"Customer Product Endpoint"}, description = "/v1/customers/products")
-public class CustomerProductEndpointImpl implements CustomerProductEndpoint {
+public class CustomerProductEndpointImpl {
   private GetCustomerProductInteractor getCustomerProductInteractor;
   private CreateCustomerProductInteractor createCustomerProductInteractor;
   private DeleteCustomerProductInteractor deleteCustomerProductInteractor;

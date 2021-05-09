@@ -2,7 +2,6 @@ package com.luizalabs.customer.entrypoint.api.v1.customer.impl;
 
 import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.interactor.customer.*;
-import com.luizalabs.customer.entrypoint.api.v1.customer.CustomerEndpoint;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomerEndpointResponse;
@@ -11,18 +10,18 @@ import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByI
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequestMapping("/v1/customers")
 @Api(tags = {"Customer Endpoint"}, description = "/v1/customers")
-public class CustomerEndpointImpl implements CustomerEndpoint {
+public class CustomerEndpointImpl {
   private GetCustomerByIdInteractor getCustomerByIdInteractor;
   private GetCustomersByFilterInteractor getCustomersByFilterInteractor;
   private CreateCustomerInteractor createCustomerInteractor;
@@ -43,7 +42,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
     this.deleteCustomerByIdInteractor = deleteCustomerByIdInteractor;
   }
 
-  @Override
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get Customer(s)")
@@ -56,9 +54,9 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       }
   )
   public GetCustomerByFilterEndpointResponse getByFilter(
-      @RequestParam(required = false) @ApiParam(name = "id", value = "id") @NotNull UUID id,
-      @RequestParam(required = false) @ApiParam(name = "name", value = "name") @NotNull @NotBlank String name,
-      @RequestParam(required = false) @ApiParam(name = "email", value = "email") @NotNull @NotBlank String email,
+      @RequestParam(required = false) @ApiParam(name = "id", value = "id") UUID id,
+      @RequestParam(required = false) @ApiParam(name = "name", value = "name") String name,
+      @RequestParam(required = false) @ApiParam(name = "email", value = "email") String email,
       @RequestParam(required = false, defaultValue = "1") @ApiParam(name = "offset", value = "page number") @Min(1) Integer offset,
       @RequestParam(required = false, defaultValue = "10") @ApiParam(name = "limit", value = "page size") @Min(1) Integer limit
   ) {
@@ -68,7 +66,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
     );
   }
 
-  @Override
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Get Customer")
@@ -91,7 +88,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
     );
   }
 
-  @Override
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(value = "Create Customer")
@@ -108,7 +104,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
     return new CreateCustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
   }
 
-  @Override
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Update Customer")
@@ -130,7 +125,6 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
     return new UpdateCustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail());
   }
 
-  @Override
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @ApiOperation(value = "Delete Customer")
