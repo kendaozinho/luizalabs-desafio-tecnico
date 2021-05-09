@@ -3,9 +3,10 @@ package com.luizalabs.customer.entrypoint.api.v1.customerproduct;
 import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.gateway.customer.CreateCustomerGateway;
+import com.luizalabs.customer.domain.gateway.customer.DeleteAllCustomersGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.DeleteAllCustomerProductsGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
-import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInteractor;
 import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.request.CreateCustomerProductEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customerproduct.response.CreateCustomerProductEndpointResponse;
@@ -40,10 +41,12 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
 
   @BeforeAll
   @AfterAll
-  public static void deleteAllCustomersAndProducts(
-      @Autowired DeleteAllCustomersInteractor deleteAllCustomersInteractor
+  public static void deleteAllCustomers(
+      @Autowired DeleteAllCustomerProductsGateway deleteAllCustomerProductsGateway,
+      @Autowired DeleteAllCustomersGateway deleteAllCustomersGateway
   ) {
-    deleteAllCustomersInteractor.execute();
+    deleteAllCustomerProductsGateway.deleteAll();
+    deleteAllCustomersGateway.deleteAll();
   }
 
   @Test

@@ -15,8 +15,8 @@ public class GetCustomerByFilterEndpointResponse {
   private MetaResponse meta;
   private ArrayList<CustomerResponse> customers;
 
-  public GetCustomerByFilterEndpointResponse(ArrayList<Customer> customers) {
-    this.meta = new MetaResponse(0, 100, customers.size());
+  public GetCustomerByFilterEndpointResponse(ArrayList<Customer> customers, Integer pageNumber, Integer pageSize) {
+    this.meta = new MetaResponse(pageNumber, pageSize);
     this.customers = new ArrayList<>();
     customers.forEach(customer ->
         this.customers.add(
@@ -31,7 +31,6 @@ public class GetCustomerByFilterEndpointResponse {
   public static class MetaResponse {
     private Integer offset;
     private Integer limit;
-    private Integer size;
   }
 
   @Getter

@@ -33,7 +33,8 @@ public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterI
   }
 
   @Override
-  public ArrayList<Customer> execute(UUID id, String name, String email) throws CustomerListIsEmptyException {
+  public ArrayList<Customer> execute(UUID id, String name, String email, Integer pageNumber, Integer pageSize)
+      throws CustomerListIsEmptyException {
     ArrayList<Customer> customers = new ArrayList<>();
 
     try {
@@ -42,9 +43,9 @@ public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterI
       } else if (email != null) {
         customers.add(this.getCustomerByEmailGateway.getOneByEmail(email));
       } else if (name != null) {
-        customers.addAll(this.getCustomersByNameGateway.getAllByName(name));
+        customers.addAll(this.getCustomersByNameGateway.getAllByName(name, pageNumber, pageSize));
       } else {
-        customers.addAll(this.getAllCustomersGateway.getAll());
+        customers.addAll(this.getAllCustomersGateway.getAll(pageNumber, pageSize));
       }
     } catch (NotFoundException exception) {
       // Ignore this exception

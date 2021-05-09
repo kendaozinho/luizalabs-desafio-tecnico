@@ -3,10 +3,11 @@ package com.luizalabs.customer.entrypoint.api.v1.customer;
 import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.gateway.customer.CreateCustomerGateway;
+import com.luizalabs.customer.domain.gateway.customer.DeleteAllCustomersGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.DeleteAllCustomerProductsGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
-import com.luizalabs.customer.domain.interactor.customer.DeleteAllCustomersInteractor;
 import com.luizalabs.customer.entrypoint.api.base.BaseEndpointTest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.CreateCustomerEndpointRequest;
 import com.luizalabs.customer.entrypoint.api.v1.customer.request.UpdateCustomerEndpointRequest;
@@ -47,9 +48,11 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   @BeforeAll
   @AfterAll
   public static void deleteAllCustomers(
-      @Autowired DeleteAllCustomersInteractor deleteAllCustomersInteractor
+      @Autowired DeleteAllCustomerProductsGateway deleteAllCustomerProductsGateway,
+      @Autowired DeleteAllCustomersGateway deleteAllCustomersGateway
   ) {
-    deleteAllCustomersInteractor.execute();
+    deleteAllCustomerProductsGateway.deleteAll();
+    deleteAllCustomersGateway.deleteAll();
   }
 
   @Test
@@ -343,11 +346,12 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   @Order(19)
   public void getAllIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
-        super.getIsOk(this.path, GetCustomerByFilterEndpointResponse.class);
+        super.getIsOk(this.path + "?offset=1&limit=1", GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
-    Assertions.assertEquals(response.getMeta().getSize(), 1);
+    Assertions.assertEquals(response.getMeta().getOffset(), 1);
+    Assertions.assertEquals(response.getMeta().getLimit(), 1);
     Assertions.assertNotNull(response.getCustomers());
     Assertions.assertEquals(response.getCustomers().size(), 1);
     Assertions.assertNotNull(response.getCustomers().get(0).getId());
@@ -357,6 +361,12 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(20)
+  public void getAllIsNotFoundPageable() throws Throwable {
+    super.getIsNotFound(this.path + "?offset=2&limit=1", "Customer list is empty");
+  }
+
+  @Test
+  @Order(21)
   public void getAllByIdIsOk() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
 
@@ -365,7 +375,8 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
-    Assertions.assertEquals(response.getMeta().getSize(), 1);
+    Assertions.assertEquals(response.getMeta().getOffset(), 1);
+    Assertions.assertEquals(response.getMeta().getLimit(), 10);
     Assertions.assertNotNull(response.getCustomers());
     Assertions.assertEquals(response.getCustomers().size(), 1);
     Assertions.assertEquals(response.getCustomers().get(0).getId(), customer.getId());
@@ -374,14 +385,15 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(21)
+  @Order(22)
   public void getAllByEmailIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?email=kendao@luizalabs.com", GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
-    Assertions.assertEquals(response.getMeta().getSize(), 1);
+    Assertions.assertEquals(response.getMeta().getOffset(), 1);
+    Assertions.assertEquals(response.getMeta().getLimit(), 10);
     Assertions.assertNotNull(response.getCustomers());
     Assertions.assertEquals(response.getCustomers().size(), 1);
     Assertions.assertNotNull(response.getCustomers().get(0).getId());
@@ -390,14 +402,15 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   }
 
   @Test
-  @Order(22)
+  @Order(23)
   public void getAllByNameIsOk() throws Throwable {
     GetCustomerByFilterEndpointResponse response =
         super.getIsOk(this.path + "?name=ken", GetCustomerByFilterEndpointResponse.class);
 
     Assertions.assertNotNull(response);
     Assertions.assertNotNull(response.getMeta());
-    Assertions.assertEquals(response.getMeta().getSize(), 1);
+    Assertions.assertEquals(response.getMeta().getOffset(), 1);
+    Assertions.assertEquals(response.getMeta().getLimit(), 10);
     Assertions.assertNotNull(response.getCustomers());
     Assertions.assertEquals(response.getCustomers().size(), 1);
     Assertions.assertNotNull(response.getCustomers().get(0).getId());

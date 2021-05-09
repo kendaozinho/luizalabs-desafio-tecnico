@@ -4,7 +4,7 @@ import com.luizalabs.customer.domain.entity.Customer;
 import com.luizalabs.customer.domain.entity.CustomerProduct;
 import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
-import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductByIdGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
 import com.luizalabs.customer.domain.gateway.product.GetProductByIdGateway;
 import com.luizalabs.customer.domain.interactor.customer.GetCustomerByIdInteractor;
@@ -19,18 +19,18 @@ public class GetCustomerByIdInteractorImpl implements GetCustomerByIdInteractor 
   private GetCustomerByIdGateway getCustomerByIdGateway;
   private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
   private GetProductByIdGateway getProductByIdGateway;
-  private DeleteCustomerProductGateway deleteCustomerProductGateway;
+  private DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
 
   public GetCustomerByIdInteractorImpl(
       GetCustomerByIdGateway getCustomerByIdGateway,
       GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway,
       GetProductByIdGateway getProductByIdGateway,
-      DeleteCustomerProductGateway deleteCustomerProductGateway
+      DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway
   ) {
     this.getCustomerByIdGateway = getCustomerByIdGateway;
     this.getCustomerProductsByCustomerIdGateway = getCustomerProductsByCustomerIdGateway;
     this.getProductByIdGateway = getProductByIdGateway;
-    this.deleteCustomerProductGateway = deleteCustomerProductGateway;
+    this.deleteCustomerProductByIdGateway = deleteCustomerProductByIdGateway;
   }
 
   @Override
@@ -55,7 +55,7 @@ public class GetCustomerByIdInteractorImpl implements GetCustomerByIdInteractor 
           );
         } catch (NotFoundException exception) {
           // This product is no longer available
-          this.deleteCustomerProductGateway.delete(customerProduct.getCustomerId(), customerProduct.getProductId());
+          this.deleteCustomerProductByIdGateway.deleteOneById(customerProduct.getCustomerId(), customerProduct.getProductId());
         }
       });
     }

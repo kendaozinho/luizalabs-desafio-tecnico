@@ -47,7 +47,7 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       value = {
           @ApiResponse(code = 200, message = "OK"),
           @ApiResponse(code = 401, message = "Unauthorized"),
-          @ApiResponse(code = 404, message = "Customer not found | Data not found"),
+          @ApiResponse(code = 404, message = "Customer(s) not found"),
           @ApiResponse(code = 500, message = "Internal Server Error")
       }
   )
@@ -55,11 +55,12 @@ public class CustomerEndpointImpl implements CustomerEndpoint {
       @RequestParam(required = false) @ApiParam(name = "id", value = "id") UUID id,
       @RequestParam(required = false) @ApiParam(name = "name", value = "name") String name,
       @RequestParam(required = false) @ApiParam(name = "email", value = "email") String email,
-      @RequestParam(required = false) @ApiParam(name = "offset", value = "page number") Integer offset,
-      @RequestParam(required = false) @ApiParam(name = "limit", value = "page size") Integer limit
+      @RequestParam(required = false, defaultValue = "1") @ApiParam(name = "offset", value = "page number") Integer offset,
+      @RequestParam(required = false, defaultValue = "10") @ApiParam(name = "limit", value = "page size") Integer limit
   ) {
     return new GetCustomerByFilterEndpointResponse(
-        this.getCustomersByFilterInteractor.execute(id, name, email)
+        this.getCustomersByFilterInteractor.execute(id, name, email, offset, limit),
+        offset, limit
     );
   }
 

@@ -5,6 +5,6 @@ import com.luizalabs.customer.domain.exception.NotFoundException;
 
 import java.util.UUID;
 
-public interface DeleteCustomerProductGateway {
-  void delete(UUID customerId, UUID productId) throws NotFoundException, InternalServerErrorException;
+public interface DeleteCustomerProductByIdGateway {
+  void deleteOneById(UUID customerId, UUID productId) throws NotFoundException, InternalServerErrorException;
 }

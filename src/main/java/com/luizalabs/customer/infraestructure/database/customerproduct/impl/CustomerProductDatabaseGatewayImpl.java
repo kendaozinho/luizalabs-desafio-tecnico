@@ -1,10 +1,7 @@
 package com.luizalabs.customer.infraestructure.database.customerproduct.impl;
 
 import com.luizalabs.customer.domain.entity.CustomerProduct;
-import com.luizalabs.customer.domain.gateway.customerproduct.CreateCustomerProductGateway;
-import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
-import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductByIdGateway;
-import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.*;
 import com.luizalabs.customer.infraestructure.database.customerproduct.exception.CustomerProductAlreadyExistsException;
 import com.luizalabs.customer.infraestructure.database.customerproduct.exception.CustomerProductNotFoundException;
 import com.luizalabs.customer.infraestructure.database.customerproduct.repository.CustomerProductRepository;
@@ -19,7 +16,8 @@ public class CustomerProductDatabaseGatewayImpl implements
     GetCustomerProductByIdGateway,
     GetCustomerProductsByCustomerIdGateway,
     CreateCustomerProductGateway,
-    DeleteCustomerProductGateway {
+    DeleteCustomerProductByIdGateway,
+    DeleteAllCustomerProductsGateway {
   private CustomerProductRepository repository;
 
   public CustomerProductDatabaseGatewayImpl(CustomerProductRepository repository) {
@@ -67,7 +65,7 @@ public class CustomerProductDatabaseGatewayImpl implements
   }
 
   @Override
-  public void delete(UUID customerId, UUID productId) throws CustomerProductNotFoundException {
+  public void deleteOneById(UUID customerId, UUID productId) throws CustomerProductNotFoundException {
     CustomerProductTable customerProduct = this.repository.findOneByCustomerIdAndProductId(customerId, productId);
 
     if (customerProduct == null) {
@@ -75,5 +73,10 @@ public class CustomerProductDatabaseGatewayImpl implements
     }
 
     this.repository.delete(customerProduct);
+  }
+
+  @Override
+  public void deleteAll() {
+    this.repository.deleteAll();
   }
 }

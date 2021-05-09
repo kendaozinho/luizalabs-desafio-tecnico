@@ -6,10 +6,12 @@ import com.luizalabs.customer.infraestructure.database.customer.exception.Custom
 import com.luizalabs.customer.infraestructure.database.customer.exception.CustomerNotFoundException;
 import com.luizalabs.customer.infraestructure.database.customer.repository.CustomerRepository;
 import com.luizalabs.customer.infraestructure.database.customer.table.CustomerTable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,7 +22,8 @@ public class CustomerDatabaseGatewayImpl implements
     GetAllCustomersGateway,
     CreateCustomerGateway,
     UpdateCustomerGateway,
-    DeleteCustomerGateway {
+    DeleteCustomerByIdGateway,
+    DeleteAllCustomersGateway {
   private CustomerRepository repository;
 
   public CustomerDatabaseGatewayImpl(CustomerRepository repository) {
@@ -50,8 +53,11 @@ public class CustomerDatabaseGatewayImpl implements
   }
 
   @Override
-  public ArrayList<Customer> getAllByName(String name) throws CustomerNotFoundException {
-    ArrayList<CustomerTable> tableCustomers = this.repository.findAllByNameContainingIgnoreCase(name);
+  public ArrayList<Customer> getAllByName(String name, Integer pageNumber, Integer pageSize) throws CustomerNotFoundException {
+    Page<CustomerTable> tableCustomers =
+        this.repository.findAllByNameContainingIgnoreCase(
+            name, PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "name"))
+        );
 
     if (tableCustomers.isEmpty()) {
       throw new CustomerNotFoundException();
@@ -65,8 +71,10 @@ public class CustomerDatabaseGatewayImpl implements
   }
 
   @Override
-  public ArrayList<Customer> getAll() throws CustomerNotFoundException {
-    List<CustomerTable> tableCustomers = this.repository.findAll();
+  public ArrayList<Customer> getAll(Integer pageNumber, Integer pageSize) throws CustomerNotFoundException {
+    Page<CustomerTable> tableCustomers = this.repository.findAll(
+        PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "name"))
+    );
 
     if (tableCustomers.isEmpty()) {
       throw new CustomerNotFoundException();
@@ -115,7 +123,7 @@ public class CustomerDatabaseGatewayImpl implements
   }
 
   @Override
-  public void delete(UUID id) throws CustomerNotFoundException {
+  public void deleteOneById(UUID id) throws CustomerNotFoundException {
     CustomerTable customer = this.repository.findOneById(id);
 
     if (customer == null) {
@@ -123,5 +131,10 @@ public class CustomerDatabaseGatewayImpl implements
     }
 
     this.repository.delete(customer);
+  }
+
+  @Override
+  public void deleteAll() {
+    this.repository.deleteAll();
   }
 }

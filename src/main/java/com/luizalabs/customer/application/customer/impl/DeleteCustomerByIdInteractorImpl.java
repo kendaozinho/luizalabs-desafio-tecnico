@@ -1,8 +1,8 @@
 package com.luizalabs.customer.application.customer.impl;
 
 import com.luizalabs.customer.domain.exception.NotFoundException;
-import com.luizalabs.customer.domain.gateway.customer.DeleteCustomerGateway;
-import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductGateway;
+import com.luizalabs.customer.domain.gateway.customer.DeleteCustomerByIdGateway;
+import com.luizalabs.customer.domain.gateway.customerproduct.DeleteCustomerProductByIdGateway;
 import com.luizalabs.customer.domain.gateway.customerproduct.GetCustomerProductsByCustomerIdGateway;
 import com.luizalabs.customer.domain.interactor.customer.DeleteCustomerByIdInteractor;
 import org.springframework.stereotype.Service;
@@ -12,18 +12,18 @@ import java.util.UUID;
 
 @Service
 public class DeleteCustomerByIdInteractorImpl implements DeleteCustomerByIdInteractor {
-  DeleteCustomerGateway deleteCustomerGateway;
+  DeleteCustomerByIdGateway deleteCustomerByIdGateway;
   GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
-  DeleteCustomerProductGateway deleteCustomerProductGateway;
+  DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
 
   public DeleteCustomerByIdInteractorImpl(
-      DeleteCustomerGateway deleteCustomerGateway,
+      DeleteCustomerByIdGateway deleteCustomerByIdGateway,
       GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway,
-      DeleteCustomerProductGateway deleteCustomerProductGateway
+      DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway
   ) {
-    this.deleteCustomerGateway = deleteCustomerGateway;
+    this.deleteCustomerByIdGateway = deleteCustomerByIdGateway;
     this.getCustomerProductsByCustomerIdGateway = getCustomerProductsByCustomerIdGateway;
-    this.deleteCustomerProductGateway = deleteCustomerProductGateway;
+    this.deleteCustomerProductByIdGateway = deleteCustomerProductByIdGateway;
   }
 
   @Override
@@ -31,12 +31,12 @@ public class DeleteCustomerByIdInteractorImpl implements DeleteCustomerByIdInter
   public void execute(UUID id) {
     try {
       this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(id).forEach(
-          customerProduct -> this.deleteCustomerProductGateway.delete(customerProduct.getCustomerId(), customerProduct.getProductId())
+          customerProduct -> this.deleteCustomerProductByIdGateway.deleteOneById(customerProduct.getCustomerId(), customerProduct.getProductId())
       );
     } catch (NotFoundException exception) {
       // Ignore this exception
     }
 
-    this.deleteCustomerGateway.delete(id);
+    this.deleteCustomerByIdGateway.deleteOneById(id);
   }
 }
