@@ -50,6 +50,6 @@ public class ProductApiResponse {
   }
 
   public Product toEntity() {
-    return new Product(this.id, this.title, this.price, this.image);
+    return new Product(this.getId(), this.getTitle(), this.getPrice(), this.getImage());
   }
 }

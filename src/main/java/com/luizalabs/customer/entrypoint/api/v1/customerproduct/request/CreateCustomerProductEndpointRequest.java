@@ -25,6 +25,6 @@ public class CreateCustomerProductEndpointRequest {
   }
 
   public CustomerProduct toEntity() {
-    return new CustomerProduct(this.customerId, this.productId);
+    return new CustomerProduct(this.getCustomerId(), this.getProductId());
   }
 }

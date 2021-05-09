@@ -24,8 +24,8 @@ public class CreateCustomerEndpointRequest {
 
   public Customer toEntity() {
     Customer customer = new Customer();
-    customer.setName(this.name);
-    customer.setEmail(this.email);
+    customer.setName(this.getName());
+    customer.setEmail(this.getEmail());
     return customer;
   }
 }

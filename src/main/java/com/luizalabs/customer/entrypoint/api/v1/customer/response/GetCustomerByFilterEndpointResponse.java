@@ -6,38 +6,38 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class GetCustomerByFilterEndpointResponse {
-  private MetaResponse meta;
-  private ArrayList<CustomerResponse> customers;
+  private MetaEndpointResponse meta;
+  private ArrayList<CustomerEndpointResponse> customers;
 
   public GetCustomerByFilterEndpointResponse() {
   }
 
   public GetCustomerByFilterEndpointResponse(ArrayList<Customer> customers, Integer pageNumber, Integer pageSize) {
-    this.meta = new MetaResponse(pageNumber, pageSize);
+    this.meta = new MetaEndpointResponse(pageNumber, pageSize);
     this.customers = new ArrayList<>();
     customers.forEach(customer ->
         this.customers.add(
-            new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail())
+            new CustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail())
         )
     );
   }
 
-  public MetaResponse getMeta() {
+  public MetaEndpointResponse getMeta() {
     return this.meta;
   }
 
-  public ArrayList<CustomerResponse> getCustomers() {
+  public ArrayList<CustomerEndpointResponse> getCustomers() {
     return this.customers;
   }
 
-  public static class MetaResponse {
+  public static class MetaEndpointResponse {
     private Integer offset;
     private Integer limit;
 
-    public MetaResponse() {
+    public MetaEndpointResponse() {
     }
 
-    public MetaResponse(Integer offset, Integer limit) {
+    public MetaEndpointResponse(Integer offset, Integer limit) {
       this.offset = offset;
       this.limit = limit;
     }
@@ -51,15 +51,15 @@ public class GetCustomerByFilterEndpointResponse {
     }
   }
 
-  public static class CustomerResponse {
+  public static class CustomerEndpointResponse {
     private UUID id;
     private String name;
     private String email;
 
-    public CustomerResponse() {
+    public CustomerEndpointResponse() {
     }
 
-    public CustomerResponse(UUID id, String name, String email) {
+    public CustomerEndpointResponse(UUID id, String name, String email) {
       this.id = id;
       this.name = name;
       this.email = email;

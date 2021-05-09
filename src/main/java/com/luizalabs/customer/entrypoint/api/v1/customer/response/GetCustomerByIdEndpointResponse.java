@@ -10,7 +10,7 @@ public class GetCustomerByIdEndpointResponse {
   private UUID id;
   private String name;
   private String email;
-  private ArrayList<Product> products;
+  private ArrayList<ProductEndpointResponse> products;
 
   public GetCustomerByIdEndpointResponse() {
   }
@@ -23,7 +23,7 @@ public class GetCustomerByIdEndpointResponse {
     if (customer.getProducts() != null) {
       this.products = new ArrayList<>();
       customer.getProducts().forEach(customerProduct -> this.products.add(
-          new Product(
+          new ProductEndpointResponse(
               customerProduct.getId(),
               customerProduct.getTitle(),
               customerProduct.getPrice(),
@@ -45,20 +45,20 @@ public class GetCustomerByIdEndpointResponse {
     return this.email;
   }
 
-  public ArrayList<Product> getProducts() {
+  public ArrayList<ProductEndpointResponse> getProducts() {
     return this.products;
   }
 
-  public static class Product {
+  public static class ProductEndpointResponse {
     private UUID id;
     private String title;
     private BigDecimal price;
     private String image;
 
-    public Product() {
+    public ProductEndpointResponse() {
     }
 
-    public Product(UUID id, String title, BigDecimal price, String image) {
+    public ProductEndpointResponse(UUID id, String title, BigDecimal price, String image) {
       this.id = id;
       this.title = title;
       this.price = price;

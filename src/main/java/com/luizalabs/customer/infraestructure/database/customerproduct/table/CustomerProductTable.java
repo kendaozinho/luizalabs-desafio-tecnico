@@ -53,7 +53,7 @@ public class CustomerProductTable implements Serializable {
   }
 
   public CustomerProduct toEntity() {
-    return new CustomerProduct(this.customerId, this.productId);
+    return new CustomerProduct(this.getCustomerId(), this.getProductId());
   }
 
   public static class CustomerProductTableId implements Serializable {
@@ -81,12 +81,12 @@ public class CustomerProductTable implements Serializable {
       if (this == object) return true;
       if (object == null || getClass() != object.getClass()) return false;
       CustomerProductTable customer = (CustomerProductTable) object;
-      return (this.customerId.equals(customer.customerId) && this.productId.equals(customer.productId));
+      return (this.getCustomerId().equals(customer.getCustomerId()) && this.getProductId().equals(customer.getProductId()));
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(this.customerId, this.productId);
+      return Objects.hash(this.getCustomerId(), this.getProductId());
     }
   }
 }

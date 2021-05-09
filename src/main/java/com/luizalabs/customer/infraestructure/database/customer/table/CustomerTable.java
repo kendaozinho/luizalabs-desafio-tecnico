@@ -66,6 +66,6 @@ public class CustomerTable implements Serializable {
   }
 
   public Customer toEntity() {
-    return new Customer(this.id, this.name, this.email);
+    return new Customer(this.getId(), this.getName(), this.getEmail());
   }
 }

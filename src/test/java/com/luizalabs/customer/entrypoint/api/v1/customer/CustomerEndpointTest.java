@@ -179,7 +179,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
   @Test
   @Order(13)
-  public void deleteIsNoContent() throws Throwable {
+  public void deleteIsNoContentWithoutProducts() throws Throwable {
     Customer customer = this.getCustomerByEmailGateway.getOneByEmail("yuri@luizalabs.com");
 
     super.deleteIsNoContent(this.path + "/" + customer.getId());
@@ -419,5 +419,13 @@ public class CustomerEndpointTest extends BaseEndpointTest {
     Assertions.assertNotNull(response.getCustomers().get(0).getId());
     Assertions.assertEquals(response.getCustomers().get(0).getName(), "kendao");
     Assertions.assertEquals(response.getCustomers().get(0).getEmail(), "kendao@luizalabs.com");
+  }
+
+  @Test
+  @Order(24)
+  public void deleteIsNoContentWithProducts() throws Throwable {
+    Customer customer = this.getCustomerByEmailGateway.getOneByEmail("kendao@luizalabs.com");
+
+    super.deleteIsNoContent(this.path + "/" + customer.getId());
   }
 }
