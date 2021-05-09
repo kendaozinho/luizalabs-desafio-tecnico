@@ -12,9 +12,9 @@ import java.util.UUID;
 
 @Service
 public class DeleteCustomerByIdInteractorImpl implements DeleteCustomerByIdInteractor {
-  DeleteCustomerByIdGateway deleteCustomerByIdGateway;
-  GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
-  DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
+  private DeleteCustomerByIdGateway deleteCustomerByIdGateway;
+  private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
+  private DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
 
   public DeleteCustomerByIdInteractorImpl(
       DeleteCustomerByIdGateway deleteCustomerByIdGateway,
@@ -30,8 +30,8 @@ public class DeleteCustomerByIdInteractorImpl implements DeleteCustomerByIdInter
   @Transactional
   public void execute(UUID id) {
     try {
-      this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(id).forEach(
-          customerProduct -> this.deleteCustomerProductByIdGateway.deleteOneById(customerProduct.getCustomerId(), customerProduct.getProductId())
+      this.getCustomerProductsByCustomerIdGateway.getAllByCustomerId(id).forEach(customerProduct ->
+          this.deleteCustomerProductByIdGateway.deleteOneById(customerProduct.getCustomerId(), customerProduct.getProductId())
       );
     } catch (NotFoundException exception) {
       // Ignore this exception

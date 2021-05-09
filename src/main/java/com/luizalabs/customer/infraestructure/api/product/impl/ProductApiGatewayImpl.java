@@ -59,10 +59,14 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
 
       return product;
     } catch (HttpStatusCodeException e) {
-      this.logger.warn(
-          "[PRODUCT API] Unable to get product " + id + "\n" +
-              "STATUS: " + e.getStatusCode().value() + " & BODY: " + e.getResponseBodyAsString()
-      );
+      String errorMessage = "[PRODUCT API] Unable to get product " + id + "\n" +
+          "STATUS: " + e.getStatusCode().value() + " & BODY: " + e.getResponseBodyAsString();
+
+      if (e.getStatusCode().is5xxServerError()) {
+        this.logger.error(errorMessage);
+      } else {
+        this.logger.warn(errorMessage);
+      }
 
       if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
         throw new ProductNotFoundException(id);

@@ -4,8 +4,6 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:usr_customer}
     password: ${SPRING_DATASOURCE_PASSWORD:12345}
     driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
-    hikari:
-      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:10}
   jpa:
     show-sql: false
     hibernate:
@@ -29,7 +27,7 @@ spring:
         url: ${SPRING_APPLICATION_CLIENT_PRODUCT_URL:http://challenge-api.luizalabs.com/api/product}
         timeout: ${SPRING_APPLICATION_CLIENT_PRODUCT_TIMEOUT:5000}
     jwt:
-      secret-key: ${JWT_SECRET_KEY:11111111-2222-3333-4444-555555555555}
+      secret-key: ${SPRING_APPLICATION_JWT_SECRET_KEY:11111111-2222-3333-4444-555555555555}
 logging:
   level:
-    root: ${LOGGING_LEVEL:INFO}
+    root: ${LOGGING_LEVEL_ROOT:INFO}

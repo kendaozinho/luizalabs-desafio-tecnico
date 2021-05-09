@@ -41,13 +41,13 @@ public class ProductApiResponse {
     return this.image;
   }
 
-  public String getBrand() {
+  /* public String getBrand() {
     return this.brand;
   }
 
   public Integer getReviewScore() {
     return this.reviewScore;
-  }
+  } */
 
   public Product toEntity() {
     return new Product(this.getId(), this.getTitle(), this.getPrice(), this.getImage());

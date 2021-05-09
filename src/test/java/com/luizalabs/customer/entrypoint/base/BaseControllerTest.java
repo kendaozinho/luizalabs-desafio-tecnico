@@ -12,9 +12,11 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BaseControllerTest {
+  protected MockMvc mock;
+
   @LocalServerPort
   protected Integer port = 0;
-  protected MockMvc mock;
+
   @Autowired
   private WebApplicationContext context;
 
