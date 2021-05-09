@@ -216,9 +216,16 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
   @Test
   @Order(8)
   public void patchIsMethodNotAllowed() throws Throwable {
+    CustomerProduct customerProduct = new CustomerProduct();
+
+    customerProduct.setCustomerId(UUID.randomUUID());
+    customerProduct.setProductId(UUID.randomUUID());
+
     super.patchIsMethodNotAllowed(
-        this.path.replace("{customerId}", UUID.randomUUID().toString()).replace("{productId}", UUID.randomUUID().toString()),
-        new CustomerProduct(UUID.randomUUID(), UUID.randomUUID()),
+        this.path
+            .replace("{customerId}", customerProduct.getCustomerId().toString())
+            .replace("{productId}", customerProduct.getProductId().toString()),
+        customerProduct,
         "Request method 'PATCH' not supported"
     );
   }

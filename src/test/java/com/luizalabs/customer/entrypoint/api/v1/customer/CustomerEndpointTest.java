@@ -166,15 +166,19 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   @Test
   @Order(12)
   public void putIsConflict() throws Throwable {
-    Customer customer = this.createCustomerGateway.create(
-        new Customer(null, "Yuri Gottschalk de Azevedo", "yuri@luizalabs.com")
-    );
+    Customer newCustomer = new Customer();
+
+    newCustomer.setId(null);
+    newCustomer.setName("Yuri Gottschalk de Azevedo");
+    newCustomer.setEmail("yuri@luizalabs.com");
+
+    Customer createdCustomer = this.createCustomerGateway.create(newCustomer);
 
     UpdateCustomerEndpointRequest request = new UpdateCustomerEndpointRequest(
         "Yuri Gottschalk de Azevedo 2", "kendao@luizalabs.com"
     );
 
-    super.putIsConflict(this.path + "/" + customer.getId(), request, "Customer email already exists");
+    super.putIsConflict(this.path + "/" + createdCustomer.getId(), request, "Customer email already exists");
   }
 
   @Test

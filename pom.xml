@@ -10,11 +10,15 @@
     </parent>
     <groupId>com.luizalabs</groupId>
     <artifactId>customer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Customer API</name>
     <description>Desafio Técnico - Luizalabs</description>
     <properties>
         <java.version>11</java.version>
+        <swagger.version>3.0.0</swagger.version>
+        <jwt.version>0.11.2</jwt.version>
+        <javax-validation.version>2.0.1.Final</javax-validation.version>
+        <jacoco.version>0.8.6</jacoco.version>
     </properties>
     <dependencies>
         <!-- Starter / Web -->
@@ -79,25 +83,25 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <version>${swagger.version}</version>
         </dependency>
 
         <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.11.2</version>
+            <version>${jwt.version}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.11.2</version>
+            <version>${jwt.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>0.11.2</version>
+            <version>${jwt.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -109,7 +113,7 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <version>${javax-validation.version}</version>
         </dependency>
     </dependencies>
 
@@ -124,7 +128,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
+                <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>com/luizalabs/customer/StartApplication.**</exclude>
