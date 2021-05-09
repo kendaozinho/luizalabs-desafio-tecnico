@@ -1,6 +1,9 @@
 package com.luizalabs.customer.entrypoint.api.advice;
 
-import com.luizalabs.customer.domain.exception.*;
+import com.luizalabs.customer.domain.exception.BadGatewayException;
+import com.luizalabs.customer.domain.exception.ConflictException;
+import com.luizalabs.customer.domain.exception.InternalServerErrorException;
+import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.exception.dto.BaseResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
