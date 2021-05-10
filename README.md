@@ -8,40 +8,46 @@
 
 ## Instalação
 
-Antes da inicialização do projeto é necessário a instalação de suas dependências.
+Antes da inicialização do projeto, é necessário instalar alguns serviços:
 
-De dependências externas, a aplicação utiliza dois bancos de dados diferentes:
+* __Redis__ - Realizar o cache dos produtos;
+* __PostgreSQL__ - Armazenar os dados dos clientes e a relação deles com os produtos;
 
-* Redis - Realizar o cache dos produtos);
-* PostgreSQL - Armazenar os dados dos clientes e a relação deles com os produtos);
-
-É aconselhável a utilização do Docker para baixar estas dependências na máquina local.
-
-Isto pode ser feito através do comando:
+Para isto, é aconselhável a utilização do `Docker` para baixá-las:
 
 ```sh
 docker-compose up -d
 ```
 
-Com isso, os bancos de dados serão criados na máquina local e serão populados pelo Flyway após a primeira execução do projeto.
+Desta forma, os bancos serão criados e populados pelo `Flyway` logo após a primeira execução do projeto.
 
-Com o Java 11 instalado, basta executar o comando abaixo para baixar as dependências do projeto e rodar os testes da aplicação:
+Com o Java 11 instalado, basta executar o comando abaixo para baixar as dependências e compilar projeto:
 
 ```sh
-./mvnw clean install
+./mvnw clean install -DskipTests
 ```
 
 ## Inicialização
 
-Para inicializar a API basta executar o comando abaixo:
+Para inicializar a API basta executar o seguinte comando:
 
 ```sh
 ./mvnw spring-boot:run
 ```
 
+## Testes
+
+A aplicação possui o plugin `Jacoco`, que é responsável por verificar a cobertura de testes da aplicação:
+
+```sh
+./mvnw clean test verify
+```
+
+O resultado pode ser encontrado dentro do arquivo `/target/jacoco/index.html`.
+
 ## Documentação
 
-A API possui dois endpoints:
+Esta API possui dois endpoints:
 
 * __/v1/customers__ - Obter, cadastrar, atualizar e remover clientes;
 * __/v1/customers/products__ - Obter, cadastrar e remover os produtos favoritos de um cliente;
@@ -75,15 +81,6 @@ Esta é a lista das variáveis de ambiente utilizas pela aplicação, basta alte
 | SPRING_APPLICATION_CLIENT_PRODUCT_TIMEOUT | Timeout da API de produtos | `Integer` | `5000` |
 | SPRING_APPLICATION_JWT_SECRET_KEY | Token de autenticação | `UUID` | `11111111-2222-3333-4444-555555555555` |
 | LOGGING_LEVEL_ROOT | Nível de log da aplicação | `enum` | `INFO` |
-
-## Estrutura do projeto
-
-Esta API foi desenvolvida usando como base o Clean Architecture, separando as responsabilidades em camadas:
-
-* Domínio - Camada principal, onde possui as entidades e as interfaces do que deve ser implementado;
-* Aplicação - Camada que possui as regras internas do projeto. As classes dessa camada implementam os Interactors e recebem gateways/interactors como parâmetros;
-* Infraestrutura - Camada onde se encontra os serviços externos que implementam os gateways (APIs externas, bancos de dados etc).
-* Entrypoint - Camada onde é feita a inicialização do projeto (por APIs, workers, cron jobs etc), fazendo a comunicação com os Interactors;
 
 ## Sobre
 

@@ -1,0 +1,32 @@
+version: 2.0
+
+jobs:
+  test:
+    docker:
+      - image: circleci/openjdk:11
+      - image: circleci/postgres:latest
+        environment:
+          - POSTGRES_DB=customer
+          - POSTGRES_USER=usr_customer
+          - POSTGRES_PASSWORD=12345
+      - image: circleci/redis:latest
+    steps:
+      - checkout
+      - run: ./mvnw test
+
+  build:
+    docker:
+      - image: circleci/openjdk:11
+    steps:
+      - checkout
+      - run: ./mvnw package -Dmaven.test.skip=true
+
+workflows:
+  version: 2
+
+  build-and-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
