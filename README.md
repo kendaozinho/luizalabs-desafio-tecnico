@@ -57,7 +57,7 @@ As rotas fazem a autenticação via JWT com base na chave cadastrada na variáve
 No ambiente de desenvolvimento, o Swagger exibe uma chave de autenticação válida em sua URL:
 
 ```sh
-http://localhost:8080/swagger-ui/
+http://localhost:8080/swagger-ui/ ou https://luizalabs-customer-api.herokuapp.com/swagger-ui/
 ```
 
 ## Variáveis de ambiente
@@ -72,7 +72,8 @@ Esta é a lista das variáveis de ambiente utilizas pela aplicação, basta alte
 | SPRING_DATASOURCE_USERNAME | Usuário do banco de dados | `String` | `usr_customer` |
 | SPRING_DATASOURCE_PASSWORD | Senha do banco de dados | `String` | `12345` |
 | SPRING_DATASOURCE_DRIVER_CLASS_NAME | Nome do driver de conexão com o banco de dados | `String` | `org.postgresql.Driver` |
-| SPRING_FLYWAY_ENABLED | Habilitar o flyway | `Boolean` | `true` |
+| SPRING_FLYWAY_ENABLED | Habilitar o Flyway | `Boolean` | `true` |
+| SPRING_REDIS_ENABLED | Habilitar o Redis | `Boolean` | `true` |
 | SPRING_REDIS_HOST | Endereço de conexão com o Redis | `String` | `localhost` |
 | SPRING_REDIS_PORT | Porta de conexão com o Redis | `Integer` | `6379` |
 | SPRING_REDIS_PRODUCT_TIMEOUT | Tempo que o produto vai ficar em cache (em milissegundos) | `Integer` | `1800000` |

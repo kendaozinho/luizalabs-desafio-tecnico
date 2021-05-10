@@ -309,6 +309,9 @@ public class CustomerEndpointTest extends BaseEndpointTest {
         5
     );
 
+    // Validate instances
+    Assertions.assertNotEquals(product, new ProductApiResponse());
+
     // Validate getters
     Assertions.assertEquals(product.getBrand(), "Samsung");
     Assertions.assertEquals(product.getReviewScore(), 5);

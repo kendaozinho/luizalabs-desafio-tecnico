@@ -27,6 +27,8 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
   private RedisTemplate<String, String> redisTemplate;
   private ObjectMapper mapper;
 
+  @Value("${spring.redis.enabled}")
+  private Boolean redisEnabled;
   @Value("${spring.redis.product.timeout}")
   private Integer redisProductTimeout;
 
@@ -41,7 +43,7 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
     try {
       String redisKey = "product-" + id;
 
-      if (this.redisTemplate.hasKey(redisKey)) {
+      if (this.redisEnabled && this.redisTemplate.hasKey(redisKey)) {
         Product product = this.mapper.readValue(this.redisTemplate.opsForValue().get(redisKey), Product.class);
         this.logger.info("[PRODUCT REDIS] Product " + id + " was obtained with success!");
         return product;
@@ -53,9 +55,11 @@ public class ProductApiGatewayImpl implements GetProductByIdGateway {
 
       Product product = response.getBody().toEntity();
 
-      this.redisTemplate.opsForValue().set(
-          redisKey, this.mapper.writeValueAsString(product), Duration.ofMillis(this.redisProductTimeout)
-      );
+      if (this.redisEnabled) {
+        this.redisTemplate.opsForValue().set(
+            redisKey, this.mapper.writeValueAsString(product), Duration.ofMillis(this.redisProductTimeout)
+        );
+      }
 
       return product;
     } catch (HttpStatusCodeException e) {
