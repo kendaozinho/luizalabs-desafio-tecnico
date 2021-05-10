@@ -19,7 +19,7 @@ Antes de inicializar o projeto, são necessários os seguintes recursos:
 * __Redis__ (opcional) - Banco de dados utilizado para cachear os produtos;
 * __PostgreSQL__ - Banco de dados utilizado para armazenar as informações dos clientes e a relação que eles possuem com os produtos;
 
-Caso não exista estes recursos, eles podem ser adquiridos e instalados na máquina local através do `Docker`:
+Caso estes recursos não existam, eles podem ser adquiridos e instalados na máquina local através do `Docker`:
 
 ```sh
 docker-compose up -d
@@ -61,25 +61,26 @@ Esta API possui os seguintes endpoints:
 
 * __/v1/customers__ - Obter, cadastrar, atualizar e remover clientes;
 * __/v1/customers/products__ - Obter, cadastrar e remover os produtos favoritos de um cliente;
-* __/actuator/health__ - Analisar o status da aplicação (gerado automaticamento pelo `Actuator`);
+* __/actuator/health__ - Analisar o status da aplicação (gerado automaticamente pelo `Actuator`);
 
 As rotas realizam a autenticação via `JWT` com base na chave informada na variável de ambiente.
 
-O `Swagger` é responsável por gerar uma documentação da API de maneira automática:
+O `Swagger` é uma ferramenta responsável por gerar documentações de APIs de maneira automática:
 
 * http://localhost:8080/swagger-ui/
 * https://luizalabs-customer-api.herokuapp.com/swagger-ui/
 
-Estas URLs disponibilizam um token de autenticação válido (apenas no ambiente de desenvolvimento).
+No ambiente de desenvolvimento, o `Swagger` disponibiliza um token de autenticação válido aos consumidores.
 
 ## Variáveis de ambiente
 
-Esta é a lista das variáveis de ambiente utilizas pela aplicação, basta alterar os valores conforme a necessidade.
+Esta é a lista das variáveis de ambiente utilizadas pela aplicação, basta alterar os valores conforme a necessidade.
 
 | Nome | Descrição | Tipo | Valor Padrão |
 |------|:---------:|:----:|-------------:|
 | SPRING_DATASOURCE_HOST | Endereço de conexão com o banco de dados | `String` | `localhost` |
 | SPRING_DATASOURCE_PORT | Porta de conexão com o banco de dados | `Integer` | `5432` |
+| SPRING_DATASOURCE_NAME | Nome do banco de dados | `String` | `postgresql` |
 | SPRING_DATASOURCE_DATABASE | Nome do banco de dados | `String` | `customer` |
 | SPRING_DATASOURCE_USERNAME | Usuário do banco de dados | `String` | `usr_customer` |
 | SPRING_DATASOURCE_PASSWORD | Senha do banco de dados | `String` | `12345` |
