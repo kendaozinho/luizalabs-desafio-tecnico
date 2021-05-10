@@ -1,6 +1,23 @@
 <h1 align="center">Desafio Técnico - Luizalabs</h1>
 <p align="center">API de gerenciamento dos produtos favoritos de um cliente.</p>
 
+<div align="center">
+<table>
+<tr>
+<td>
+
+[![Build Status](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico.svg?style=svg)](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico/?branch=master)
+
+</td>
+<td>
+
+[![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
+
+</td>
+</tr>
+</table>
+</div>
+
 ## Pré-requisitos
 
 * Java 11
@@ -8,10 +25,10 @@
 
 ## Instalação
 
-Antes da inicialização do projeto, é necessário instalar alguns serviços:
+Antes da inicialização do projeto, é necessário instalar algumas dependências externas:
 
-* __Redis__ - Realizar o cache dos produtos;
-* __PostgreSQL__ - Armazenar os dados dos clientes e a relação deles com os produtos;
+* __Redis__ - Banco de dados utilizado para cachear os produtos;
+* __PostgreSQL__ - Banco de dados utilizado para armazenar os dados dos clientes e a relação deles com os produtos;
 
 Para isto, é aconselhável a utilização do `Docker` para baixá-las:
 
@@ -21,7 +38,7 @@ docker-compose up -d
 
 Desta forma, os bancos serão criados e populados pelo `Flyway` logo após a primeira execução do projeto.
 
-Com o Java 11 instalado, basta executar o comando abaixo para baixar as dependências e compilar projeto:
+Com o Java 11 instalado, basta executar o comando abaixo para baixar as dependências internas e compilar projeto:
 
 ```sh
 ./mvnw clean install -DskipTests
@@ -35,7 +52,7 @@ Para inicializar a API basta executar o seguinte comando:
 ./mvnw spring-boot:run
 ```
 
-## Testes [![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
+## Testes
 
 Os testes foram implementados de forma a validar os fluxos como um todo.
 
