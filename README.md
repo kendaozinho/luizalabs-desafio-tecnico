@@ -82,7 +82,7 @@ Esta é a lista das variáveis de ambiente utilizadas pela aplicação, basta al
 |------|:---------:|:----:|-------------:|
 | SPRING_DATASOURCE_HOST | Endereço de conexão com o banco de dados | `String` | `localhost` |
 | SPRING_DATASOURCE_PORT | Porta de conexão com o banco de dados | `Integer` | `5432` |
-| SPRING_DATASOURCE_NAME | Nome do banco de dados | `String` | `postgresql` |
+| SPRING_DATASOURCE_TYPE | Tipo do banco de dados | `String` | `postgresql` |
 | SPRING_DATASOURCE_DATABASE | Nome do banco de dados | `String` | `customer` |
 | SPRING_DATASOURCE_USERNAME | Usuário do banco de dados | `String` | `usr_customer` |
 | SPRING_DATASOURCE_PASSWORD | Senha do banco de dados | `String` | `12345` |
