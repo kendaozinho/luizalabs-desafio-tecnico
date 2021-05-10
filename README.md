@@ -35,7 +35,7 @@ Para inicializar a API basta executar o seguinte comando:
 ./mvnw spring-boot:run
 ```
 
-## Testes
+## Testes [![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
 
 Os testes foram implementados de forma a validar os fluxos como um todo.
 
