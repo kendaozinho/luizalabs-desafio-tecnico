@@ -12,9 +12,9 @@ jobs:
       - image: circleci/redis:latest
     steps:
       - checkout
-      - run: ./mvnw test
+      - run: ./mvnw test coveralls:report
       - store_artifacts:
-          path:  target
+          path: target
 
   build:
     docker:

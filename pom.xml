@@ -19,6 +19,8 @@
         <jwt.version>0.11.2</jwt.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
         <jacoco.version>0.8.6</jacoco.version>
+        <coveralls.version>4.3.0</coveralls.version>
+        <javax-xml.version>2.3.1</javax-xml.version>
     </properties>
     <dependencies>
         <!-- Starter / Web -->
@@ -124,7 +126,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- jacoco -->
+            <!-- Jacoco -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -177,6 +179,26 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- Coveralls -->
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>${coveralls.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>${javax-xml.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
+                    <jacocoReports>
+                        <jacocoReport>target/jacoco/jacoco.xml</jacocoReport>
+                    </jacocoReports>
+                </configuration>
             </plugin>
         </plugins>
     </build>
