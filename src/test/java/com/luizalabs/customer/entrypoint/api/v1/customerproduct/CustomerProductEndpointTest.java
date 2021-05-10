@@ -199,7 +199,7 @@ public class CustomerProductEndpointTest extends BaseEndpointTest {
                 "Notebook",
                 new BigDecimal("2550.50"),
                 "http://www.images.com.br/" + request.getProductId() + ".jpg",
-                "Samsung",
+                "Positivo",
                 null
             ),
             HttpStatus.OK

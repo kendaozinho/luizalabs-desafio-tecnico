@@ -300,20 +300,23 @@ public class CustomerEndpointTest extends BaseEndpointTest {
 
     UUID productId = UUID.randomUUID();
 
+    ProductApiResponse product = new ProductApiResponse(
+        productId,
+        "Samsung Galaxy S20",
+        new BigDecimal("3100.00"),
+        "http://www.images.com.br/" + productId + ".jpg",
+        "Samsung",
+        5
+    );
+
+    // Validate getters
+    Assertions.assertEquals(product.getBrand(), "Samsung");
+    Assertions.assertEquals(product.getReviewScore(), 5);
+
     RestTemplate restTemplate = this.restTemplateBuilder.build();
 
     Mockito.doReturn(
-        new ResponseEntity<>(
-            new ProductApiResponse(
-                productId,
-                "Samsung Galaxy S20",
-                new BigDecimal("3100.00"),
-                "http://www.images.com.br/" + productId + ".jpg",
-                "Samsung",
-                null
-            ),
-            HttpStatus.OK
-        )
+        new ResponseEntity<>(product, HttpStatus.OK)
     ).when(restTemplate).getForEntity("/" + productId + "/", ProductApiResponse.class);
 
     this.createCustomerProductGateway.create(new CustomerProduct(customer.getId(), productId));
