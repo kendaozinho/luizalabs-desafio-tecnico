@@ -48,6 +48,7 @@ public class GetCustomerByIdInteractorImpl implements GetCustomerByIdInteractor 
       }
 
       customer.setProducts(new ArrayList<>());
+
       customerProducts.forEach(customerProduct -> {
         try {
           customer.getProducts().add(

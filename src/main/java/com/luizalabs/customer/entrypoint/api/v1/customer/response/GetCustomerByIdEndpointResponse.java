@@ -5,6 +5,7 @@ import com.luizalabs.customer.domain.entity.Customer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class GetCustomerByIdEndpointResponse {
   private UUID id;
@@ -21,15 +22,14 @@ public class GetCustomerByIdEndpointResponse {
     this.email = customer.getEmail();
 
     if (customer.getProducts() != null) {
-      this.products = new ArrayList<>();
-      customer.getProducts().forEach(customerProduct -> this.products.add(
+      this.products = customer.getProducts().stream().map(customerProduct ->
           new ProductEndpointResponse(
               customerProduct.getId(),
               customerProduct.getTitle(),
               customerProduct.getPrice(),
               customerProduct.getImage()
           )
-      ));
+      ).collect(Collectors.toCollection(ArrayList::new));
     }
   }
 

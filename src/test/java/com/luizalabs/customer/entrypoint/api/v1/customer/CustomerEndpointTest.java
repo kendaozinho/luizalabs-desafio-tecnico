@@ -70,25 +70,25 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   @Test
   @Order(3)
   public void getAllIsNotFound() throws Throwable {
-    super.getIsNotFound(this.path, "Customer list is empty");
+    super.getIsNotFound(this.path, "Customer(s) not found");
   }
 
   @Test
   @Order(4)
   public void getAllByIdIsNotFound() throws Throwable {
-    super.getIsNotFound(this.path + "?id=" + UUID.randomUUID(), "Customer list is empty");
+    super.getIsNotFound(this.path + "?id=" + UUID.randomUUID(), "Customer(s) not found");
   }
 
   @Test
   @Order(5)
   public void getAllByEmailIsNotFound() throws Throwable {
-    super.getIsNotFound(this.path + "?email=abc@luizalabs.com", "Customer list is empty");
+    super.getIsNotFound(this.path + "?email=abc@luizalabs.com", "Customer(s) not found");
   }
 
   @Test
   @Order(6)
   public void getAllByNameIsNotFound() throws Throwable {
-    super.getIsNotFound(this.path + "?name=abc", "Customer list is empty");
+    super.getIsNotFound(this.path + "?name=abc", "Customer(s) not found");
   }
 
   @Test
@@ -375,7 +375,7 @@ public class CustomerEndpointTest extends BaseEndpointTest {
   @Test
   @Order(21)
   public void getAllIsNotFoundPageable() throws Throwable {
-    super.getIsNotFound(this.path + "?offset=2&limit=1", "Customer list is empty");
+    super.getIsNotFound(this.path + "?offset=2&limit=1", "Customer(s) not found");
   }
 
   @Test

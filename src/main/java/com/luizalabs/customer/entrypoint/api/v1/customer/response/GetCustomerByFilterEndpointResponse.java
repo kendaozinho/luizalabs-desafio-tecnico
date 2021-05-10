@@ -4,6 +4,7 @@ import com.luizalabs.customer.domain.entity.Customer;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class GetCustomerByFilterEndpointResponse {
   private MetaEndpointResponse meta;
@@ -14,12 +15,9 @@ public class GetCustomerByFilterEndpointResponse {
 
   public GetCustomerByFilterEndpointResponse(ArrayList<Customer> customers, Integer pageNumber, Integer pageSize) {
     this.meta = new MetaEndpointResponse(pageNumber, pageSize);
-    this.customers = new ArrayList<>();
-    customers.forEach(customer ->
-        this.customers.add(
-            new CustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail())
-        )
-    );
+    this.customers = customers.stream().map(customer ->
+        new CustomerEndpointResponse(customer.getId(), customer.getName(), customer.getEmail())
+    ).collect(Collectors.toCollection(ArrayList::new));
   }
 
   public MetaEndpointResponse getMeta() {

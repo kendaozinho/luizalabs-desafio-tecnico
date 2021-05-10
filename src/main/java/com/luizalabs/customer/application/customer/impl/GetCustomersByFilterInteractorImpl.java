@@ -1,8 +1,6 @@
 package com.luizalabs.customer.application.customer.impl;
 
-import com.luizalabs.customer.application.customer.exception.CustomerListIsEmptyException;
 import com.luizalabs.customer.domain.entity.Customer;
-import com.luizalabs.customer.domain.exception.NotFoundException;
 import com.luizalabs.customer.domain.gateway.customer.GetAllCustomersGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByEmailGateway;
 import com.luizalabs.customer.domain.gateway.customer.GetCustomerByIdGateway;
@@ -11,6 +9,7 @@ import com.luizalabs.customer.domain.interactor.customer.GetCustomersByFilterInt
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -33,28 +32,19 @@ public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterI
   }
 
   @Override
-  public ArrayList<Customer> execute(UUID id, String name, String email, Integer pageNumber, Integer pageSize)
-      throws CustomerListIsEmptyException {
-    ArrayList<Customer> customers = new ArrayList<>();
-
-    try {
-      if (id != null) {
-        customers.add(this.getCustomerByIdGateway.getOneById(id));
-      } else if (email != null) {
-        customers.add(this.getCustomerByEmailGateway.getOneByEmail(email));
-      } else if (name != null) {
-        customers.addAll(this.getCustomersByNameGateway.getAllByName(name, pageNumber, pageSize));
-      } else {
-        customers.addAll(this.getAllCustomersGateway.getAll(pageNumber, pageSize));
-      }
-    } catch (NotFoundException exception) {
-      // Ignore this exception
+  public ArrayList<Customer> execute(UUID id, String name, String email, Integer pageNumber, Integer pageSize) {
+    if (id != null) {
+      return new ArrayList<>(
+          Collections.singletonList(this.getCustomerByIdGateway.getOneById(id))
+      );
+    } else if (email != null) {
+      return new ArrayList<>(
+          Collections.singletonList(this.getCustomerByEmailGateway.getOneByEmail(email))
+      );
+    } else if (name != null) {
+      return this.getCustomersByNameGateway.getAllByName(name, pageNumber, pageSize);
+    } else {
+      return this.getAllCustomersGateway.getAll(pageNumber, pageSize);
     }
-
-    if (customers.isEmpty()) {
-      throw new CustomerListIsEmptyException();
-    }
-
-    return customers;
   }
 }

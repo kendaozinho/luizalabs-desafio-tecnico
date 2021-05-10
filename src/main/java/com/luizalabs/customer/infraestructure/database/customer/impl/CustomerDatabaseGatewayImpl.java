@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerDatabaseGatewayImpl implements
@@ -54,52 +55,42 @@ public class CustomerDatabaseGatewayImpl implements
 
   @Override
   public ArrayList<Customer> getAllByName(String name, Integer pageNumber, Integer pageSize) throws CustomerNotFoundException {
-    Page<CustomerTable> tableCustomers =
+    Page<CustomerTable> customers =
         this.repository.findAllByNameContainingIgnoreCase(
             name, PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "name"))
         );
 
-    if (tableCustomers.isEmpty()) {
+    if (customers.isEmpty()) {
       throw new CustomerNotFoundException();
     }
 
-    ArrayList<Customer> customers = new ArrayList<>();
-
-    tableCustomers.forEach(tableCustomer -> customers.add(tableCustomer.toEntity()));
-
-    return customers;
+    return customers.stream().map(CustomerTable::toEntity).collect(Collectors.toCollection(ArrayList::new));
   }
 
   @Override
   public ArrayList<Customer> getAll(Integer pageNumber, Integer pageSize) throws CustomerNotFoundException {
-    Page<CustomerTable> tableCustomers = this.repository.findAll(
+    Page<CustomerTable> customers = this.repository.findAll(
         PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "name"))
     );
 
-    if (tableCustomers.isEmpty()) {
+    if (customers.isEmpty()) {
       throw new CustomerNotFoundException();
     }
 
-    ArrayList<Customer> customers = new ArrayList<>();
-
-    tableCustomers.forEach(tableCustomer -> customers.add(tableCustomer.toEntity()));
-
-    return customers;
+    return customers.stream().map(CustomerTable::toEntity).collect(Collectors.toCollection(ArrayList::new));
   }
 
   @Override
   public Customer create(Customer request) throws CustomerEmailAlreadyExistsException {
-    CustomerTable existingCustomer = this.repository.findOneByEmail(request.getEmail());
+    CustomerTable customer = this.repository.findOneByEmail(request.getEmail());
 
-    if (existingCustomer != null) {
+    if (customer != null) {
       throw new CustomerEmailAlreadyExistsException();
     }
 
-    CustomerTable newCustomer = this.repository.saveAndFlush(
+    return this.repository.saveAndFlush(
         new CustomerTable(request.getName(), request.getEmail())
-    );
-
-    return newCustomer.toEntity();
+    ).toEntity();
   }
 
   @Override

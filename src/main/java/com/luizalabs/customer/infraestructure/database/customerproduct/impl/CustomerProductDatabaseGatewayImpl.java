@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerProductDatabaseGatewayImpl implements
@@ -37,17 +38,13 @@ public class CustomerProductDatabaseGatewayImpl implements
 
   @Override
   public ArrayList<CustomerProduct> getAllByCustomerId(UUID customerId) throws CustomerProductNotFoundException {
-    ArrayList<CustomerProductTable> customerProductsOfTable = this.repository.findAllByCustomerId(customerId);
+    ArrayList<CustomerProductTable> customerProducts = this.repository.findAllByCustomerId(customerId);
 
-    if (customerProductsOfTable.isEmpty()) {
+    if (customerProducts.isEmpty()) {
       throw new CustomerProductNotFoundException();
     }
 
-    ArrayList<CustomerProduct> customerProducts = new ArrayList<>();
-
-    customerProductsOfTable.forEach(tableCustomer -> customerProducts.add(tableCustomer.toEntity()));
-
-    return customerProducts;
+    return customerProducts.stream().map(CustomerProductTable::toEntity).collect(Collectors.toCollection(ArrayList::new));
   }
 
   @Override
