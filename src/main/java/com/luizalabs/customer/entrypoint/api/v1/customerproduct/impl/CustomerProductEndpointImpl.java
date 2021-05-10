@@ -60,6 +60,7 @@ public class CustomerProductEndpointImpl {
   @ApiResponses(
       value = {
           @ApiResponse(code = 201, message = "Created"),
+          @ApiResponse(code = 400, message = "Invalid Request Body"),
           @ApiResponse(code = 401, message = "Unauthorized"),
           @ApiResponse(code = 404, message = "Customer not found | Product not found"),
           @ApiResponse(code = 409, message = "Customer Product already exists"),

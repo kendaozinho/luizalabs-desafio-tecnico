@@ -48,6 +48,7 @@ public class CustomerEndpointImpl {
   @ApiResponses(
       value = {
           @ApiResponse(code = 200, message = "OK"),
+          @ApiResponse(code = 400, message = "Invalid id | Invalid offset | Invalid limit"),
           @ApiResponse(code = 401, message = "Unauthorized"),
           @ApiResponse(code = 404, message = "Customer(s) not found"),
           @ApiResponse(code = 500, message = "Internal Server Error")
@@ -94,6 +95,7 @@ public class CustomerEndpointImpl {
   @ApiResponses(
       value = {
           @ApiResponse(code = 201, message = "Created"),
+          @ApiResponse(code = 400, message = "Invalid Request Body"),
           @ApiResponse(code = 401, message = "Unauthorized"),
           @ApiResponse(code = 409, message = "Email already exists"),
           @ApiResponse(code = 500, message = "Internal Server Error")
@@ -110,7 +112,7 @@ public class CustomerEndpointImpl {
   @ApiResponses(
       value = {
           @ApiResponse(code = 200, message = "OK"),
-          @ApiResponse(code = 400, message = "Invalid id"),
+          @ApiResponse(code = 400, message = "Invalid id | Invalid Request Body"),
           @ApiResponse(code = 401, message = "Unauthorized"),
           @ApiResponse(code = 404, message = "Customer not found"),
           @ApiResponse(code = 409, message = "Email already exists"),
