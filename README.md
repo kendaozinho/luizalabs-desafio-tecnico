@@ -25,7 +25,7 @@ Caso estes recursos não existam, eles podem ser adquiridos e instalados na máq
 docker-compose up -d
 ```
 
-Os bancos de dados estarão vazios e só serão populados pelo `Flyway` após a primeira execução do projeto.
+Os bancos de dados serão criados, porém, eles só serão populados pelo `Flyway` após a primeira execução.
 
 Por fim, com o `Java 11` instalado, basta baixar as dependências do projeto e realizar a compilação:
 
@@ -51,7 +51,7 @@ Para rodar os testes basta executar o seguinte comando:
 ./mvnw test
 ```
 
-O resultado da cobertura dos testes fica [neste arquivo](./target/jacoco/index.html) (gerado através do plugin `Jacoco`).
+O resultado da cobertura dos testes se encontra [neste arquivo](./target/jacoco/index.html) (gerado através do plugin `Jacoco`).
 
 Este projeto possui CI/CD integrados com o `CircleCI/Coveralls` e o `Heroku`.
 
@@ -61,7 +61,7 @@ Esta API possui os seguintes endpoints:
 
 * __/v1/customers__ - Obter, cadastrar, atualizar e remover clientes;
 * __/v1/customers/products__ - Obter, cadastrar e remover os produtos favoritos de um cliente;
-* __/actuator/health__ - Analisar o status da aplicação (gerado automaticamente pelo `Actuator`);
+* __/actuator/health__ - Obter o status da aplicação (gerado automaticamente pelo `Actuator`);
 
 As rotas realizam a autenticação via `JWT` com base na chave informada na variável de ambiente.
 
@@ -104,4 +104,4 @@ Este projeto foi estruturado com base nos princípios da Clean Architecture.
 
 ## Autor
 
-Aplicação desenvolvida por Kenneth Gottschalk de Azevedo.
+Aplicação desenvolvida por Kenneth Gottschalk de Azevedo. :nerd_face:
