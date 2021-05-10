@@ -72,6 +72,8 @@ O `Swagger` é uma ferramenta responsável por gerar documentações de APIs de 
 
 No ambiente de desenvolvimento, o `Swagger` disponibiliza um token de autenticação válido aos consumidores.
 
+[![Swagger Status](https://validator.swagger.io/validator?url=https://luizalabs-customer-api.herokuapp.com/v2/api-docs)](https://luizalabs-customer-api.herokuapp.com/swagger-ui/)
+
 ## Variáveis de ambiente
 
 Esta é a lista das variáveis de ambiente utilizadas pela aplicação, basta alterar os valores conforme a necessidade.
