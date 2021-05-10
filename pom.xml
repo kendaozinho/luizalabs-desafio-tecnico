@@ -12,7 +12,7 @@
     <artifactId>customer</artifactId>
     <version>1.0.0</version>
     <name>Customer API</name>
-    <description>Desafio Técnico - Luizalabs</description>
+    <description>API to manage a customer's favorite products.</description>
     <properties>
         <java.version>11</java.version>
         <swagger.version>3.0.0</swagger.version>

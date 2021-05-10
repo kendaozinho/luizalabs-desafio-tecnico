@@ -66,7 +66,8 @@ public class SwaggerConfiguration {
     return new ApiInfoBuilder()
         .title("Customer API")
         .description(
-            this.env.equals(Environment.DEVELOPMENT) ? JwtUtil.getEncodedJwt(this.jwtSecretKey.toString()) : ""
+          "API to manage a customer's favorite products." +
+            (this.env.equals(Environment.DEVELOPMENT) ? ("\n" + JwtUtil.getEncodedJwt(this.jwtSecretKey.toString())) : "")
         )
         .version(ApplicationUtil.getVersion())
         .build();
