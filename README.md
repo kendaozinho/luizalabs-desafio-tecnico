@@ -2,20 +2,9 @@
 <p align="center">API de gerenciamento dos produtos favoritos de um cliente.</p>
 
 <div align="center">
-<table>
-<tr style="border: none">
-<td style="border: none">
 
-[![Build Status](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico.svg?style=svg)](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico/?branch=master)
+[![Build Status](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico.svg?style=svg)](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico/?branch=master) [![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master&service=github)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
 
-</td>
-<td style="border: none">
-
-[![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master&service=github)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
-
-</td>
-</tr>
-</table>
 </div>
 
 ## Pré-requisitos
@@ -28,7 +17,7 @@
 Antes de inicializar o projeto, são necessários os seguintes recursos:
 
 * __Redis__ (opcional) - Banco de dados utilizado para cachear os produtos;
-* __PostgreSQL__ - Banco de dados utilizado para armazenar os dados dos clientes e a relação que eles possuem com os produtos;
+* __PostgreSQL__ - Banco de dados utilizado para armazenar as informações dos clientes e a relação que eles possuem com os produtos;
 
 Caso não exista estes recursos, eles podem ser adquiridos e instalados na máquina local através do `Docker`:
 
@@ -36,9 +25,9 @@ Caso não exista estes recursos, eles podem ser adquiridos e instalados na máqu
 docker-compose up -d
 ```
 
-Os bancos de dados estarão vazios e serão populados pelo `Flyway` logo após a primeira execução do projeto.
+Os bancos de dados estarão vazios e só serão populados pelo `Flyway` após a primeira execução do projeto.
 
-Por fim, com o `Java 11` instalado, basta executar o comando abaixo para baixar as dependências e compilar projeto:
+Por fim, com o `Java 11` instalado, basta baixar as dependências do projeto e realizar a compilação:
 
 ```sh
 ./mvnw clean install -DskipTests
@@ -46,7 +35,7 @@ Por fim, com o `Java 11` instalado, basta executar o comando abaixo para baixar 
 
 ## Inicialização
 
-Para inicializar a API basta executar o seguinte comando:
+Para inicializar a API é só executar o seguinte comando:
 
 ```sh
 ./mvnw spring-boot:run
@@ -54,7 +43,7 @@ Para inicializar a API basta executar o seguinte comando:
 
 ## Testes
 
-Os testes foram implementados de forma a validar os fluxos como um todo.
+Os testes foram implementados de forma à validar os fluxos como um todo.
 
 Para rodar os testes basta executar o seguinte comando:
 
@@ -62,13 +51,13 @@ Para rodar os testes basta executar o seguinte comando:
 ./mvnw test
 ```
 
-O resultado da cobertura dos testes fica [neste arquivo](/target/jacoco/index.html) (gerado através do plugin `Jacoco`).
+O resultado da cobertura dos testes fica [neste arquivo](./target/jacoco/index.html) (gerado através do plugin `Jacoco`).
 
-Este projeto possui CI/CD integrados com o `CircleCI` e o `Heroku`.
+Este projeto possui CI/CD integrados com o `CircleCI/Coveralls` e o `Heroku`.
 
 ## Documentação
 
-Esta API possui dois endpoints:
+Esta API possui os seguintes endpoints:
 
 * __/v1/customers__ - Obter, cadastrar, atualizar e remover clientes;
 * __/v1/customers/products__ - Obter, cadastrar e remover os produtos favoritos de um cliente;
@@ -76,16 +65,16 @@ Esta API possui dois endpoints:
 
 As rotas realizam a autenticação via `JWT` com base na chave informada na variável de ambiente.
 
-O `Swagger` é responsável por gerar uma documentação da API automaticamente:
+O `Swagger` é responsável por gerar uma documentação da API de maneira automática:
 
 * http://localhost:8080/swagger-ui/
 * https://luizalabs-customer-api.herokuapp.com/swagger-ui/
 
-Ele também disponibiliza um token de autenticação válido (apenas em ambiente de desenvolvimento).
+Estas URLs disponibilizam um token de autenticação válido (apenas no ambiente de desenvolvimento).
 
 ## Variáveis de ambiente
 
-Esta é a lista das variáveis de ambiente utilizas pela aplicação, altere os valores conforme a necessidade.
+Esta é a lista das variáveis de ambiente utilizas pela aplicação, basta alterar os valores conforme a necessidade.
 
 | Nome | Descrição | Tipo | Valor Padrão |
 |------|:---------:|:----:|-------------:|
