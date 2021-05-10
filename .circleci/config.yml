@@ -13,6 +13,8 @@ jobs:
     steps:
       - checkout
       - run: ./mvnw test
+      - store_artifacts:
+          path:  target
 
   build:
     docker:

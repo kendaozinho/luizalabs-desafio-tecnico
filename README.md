@@ -37,13 +37,17 @@ Para inicializar a API basta executar o seguinte comando:
 
 ## Testes
 
+Os testes foram implementados de forma a validar os fluxos como um todo.
+
 A aplicação possui o plugin `Jacoco`, que é responsável por verificar a cobertura de testes da aplicação:
 
 ```sh
-./mvnw clean test verify
+./mvnw clean test
 ```
 
 O resultado pode ser encontrado dentro do arquivo `/target/jacoco/index.html`.
+
+Este projeto possui CI/CD integrados com o `CircleCI` e o `Heroku`.
 
 ## Documentação
 
@@ -52,7 +56,9 @@ Esta API possui dois endpoints:
 * __/v1/customers__ - Obter, cadastrar, atualizar e remover clientes;
 * __/v1/customers/products__ - Obter, cadastrar e remover os produtos favoritos de um cliente;
 
-As rotas fazem a autenticação via JWT com base na chave cadastrada na variável de ambiente.
+Por possuir o `Actuator`, o projeto também possui a rota `/actuator/health` como Health Check.
+
+As rotas fazem a autenticação via JWT com base na chave informada na variável de ambiente.
 
 No ambiente de desenvolvimento, o Swagger exibe uma chave de autenticação válida em sua URL:
 
@@ -84,5 +90,9 @@ Esta é a lista das variáveis de ambiente utilizas pela aplicação, basta alte
 | LOGGING_LEVEL_ROOT | Nível de log da aplicação | `enum` | `INFO` |
 
 ## Sobre
+
+Este projeto foi estruturado com base nos princípios da Clean Architecture.
+
+## Autor
 
 Aplicação desenvolvida por Kenneth Gottschalk de Azevedo.
