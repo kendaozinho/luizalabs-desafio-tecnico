@@ -53,7 +53,7 @@ Para rodar os testes basta executar o seguinte comando:
 
 O resultado da cobertura dos testes se encontra [neste arquivo](./target/jacoco/index.html) (gerado através do plugin `Jacoco`).
 
-Este projeto possui CI/CD integrados com o `CircleCI/Coveralls` e o `Heroku`.
+Este projeto possui o CI integrado com o `CircleCI/Coveralls`.
 
 ## Documentação
 
@@ -73,6 +73,12 @@ O `Swagger` é uma ferramenta responsável por gerar documentações de APIs de 
 No ambiente de desenvolvimento, o `Swagger` disponibiliza um token de autenticação válido aos consumidores.
 
 [![Swagger Status](https://validator.swagger.io/validator?url=https://luizalabs-customer-api.herokuapp.com/v2/api-docs)](https://luizalabs-customer-api.herokuapp.com/swagger-ui/)
+
+## Publicação
+
+Para realizar o deploy da aplicação, é necessário publicar o arquivo `target/*.jar` no servidor de hospedagem.
+
+Este projeto possui o CD integrado com o `Heroku`.
 
 ## Variáveis de ambiente
 
