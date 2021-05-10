@@ -3,15 +3,15 @@
 
 <div align="center">
 <table>
-<tr>
-<td>
+<tr style="border: none">
+<td style="border: none">
 
 [![Build Status](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico.svg?style=svg)](https://circleci.com/gh/kendaozinho/luizalabs-desafio-tecnico/?branch=master)
 
 </td>
-<td>
+<td style="border: none">
 
-[![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/kendaozinho/luizalabs-desafio-tecnico/badge.svg?branch=master&service=github)](https://coveralls.io/github/kendaozinho/luizalabs-desafio-tecnico?branch=master)
 
 </td>
 </tr>
@@ -25,20 +25,20 @@
 
 ## Instalação
 
-Antes da inicialização do projeto, é necessário instalar algumas dependências externas:
+Antes de inicializar o projeto, são necessários os seguintes recursos:
 
-* __Redis__ - Banco de dados utilizado para cachear os produtos;
-* __PostgreSQL__ - Banco de dados utilizado para armazenar os dados dos clientes e a relação deles com os produtos;
+* __Redis__ (opcional) - Banco de dados utilizado para cachear os produtos;
+* __PostgreSQL__ - Banco de dados utilizado para armazenar os dados dos clientes e a relação que eles possuem com os produtos;
 
-Para isto, é aconselhável a utilização do `Docker` para baixá-las:
+Caso não exista estes recursos, eles podem ser adquiridos e instalados na máquina local através do `Docker`:
 
 ```sh
 docker-compose up -d
 ```
 
-Desta forma, os bancos serão criados e populados pelo `Flyway` logo após a primeira execução do projeto.
+Os bancos de dados estarão vazios e serão populados pelo `Flyway` logo após a primeira execução do projeto.
 
-Com o Java 11 instalado, basta executar o comando abaixo para baixar as dependências internas e compilar projeto:
+Por fim, com o `Java 11` instalado, basta executar o comando abaixo para baixar as dependências e compilar projeto:
 
 ```sh
 ./mvnw clean install -DskipTests
@@ -56,13 +56,13 @@ Para inicializar a API basta executar o seguinte comando:
 
 Os testes foram implementados de forma a validar os fluxos como um todo.
 
-A aplicação possui o plugin `Jacoco`, que é responsável por verificar a cobertura de testes da aplicação:
+Para rodar os testes basta executar o seguinte comando:
 
 ```sh
-./mvnw clean test
+./mvnw test
 ```
 
-O resultado pode ser encontrado dentro do arquivo `/target/jacoco/index.html`.
+O resultado da cobertura dos testes fica [neste arquivo](/target/jacoco/index.html) (gerado através do plugin `Jacoco`).
 
 Este projeto possui CI/CD integrados com o `CircleCI` e o `Heroku`.
 
@@ -72,20 +72,20 @@ Esta API possui dois endpoints:
 
 * __/v1/customers__ - Obter, cadastrar, atualizar e remover clientes;
 * __/v1/customers/products__ - Obter, cadastrar e remover os produtos favoritos de um cliente;
+* __/actuator/health__ - Analisar o status da aplicação (gerado automaticamento pelo `Actuator`);
 
-Por possuir o `Actuator`, o projeto também possui a rota `/actuator/health` como Health Check.
+As rotas realizam a autenticação via `JWT` com base na chave informada na variável de ambiente.
 
-As rotas fazem a autenticação via JWT com base na chave informada na variável de ambiente.
+O `Swagger` é responsável por gerar uma documentação da API automaticamente:
 
-No ambiente de desenvolvimento, o Swagger exibe uma chave de autenticação válida em sua URL:
+* http://localhost:8080/swagger-ui/
+* https://luizalabs-customer-api.herokuapp.com/swagger-ui/
 
-```sh
-http://localhost:8080/swagger-ui/ ou https://luizalabs-customer-api.herokuapp.com/swagger-ui/
-```
+Ele também disponibiliza um token de autenticação válido (apenas em ambiente de desenvolvimento).
 
 ## Variáveis de ambiente
 
-Esta é a lista das variáveis de ambiente utilizas pela aplicação, basta alterar os valores conforme a necessidade.
+Esta é a lista das variáveis de ambiente utilizas pela aplicação, altere os valores conforme a necessidade.
 
 | Nome | Descrição | Tipo | Valor Padrão |
 |------|:---------:|:----:|-------------:|

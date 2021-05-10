@@ -1,4 +1,4 @@
-package com.luizalabs.customer.entrypoint.web.swagger;
+package com.luizalabs.customer.entrypoint.api.actuator;
 
 import com.luizalabs.customer.entrypoint.base.BaseControllerTest;
 import org.junit.jupiter.api.Assertions;
@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-public class SwaggerControllerTest extends BaseControllerTest {
+public class ActuatorEndpointTest extends BaseControllerTest {
   @Test
-  public void redirectWithSuccess() {
+  public void healthCheck() {
     RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + super.port + "/swagger", String.class);
+    ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + super.port + "/actuator/health", String.class);
     Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     Assertions.assertNotNull(response.getBody());
-    Assertions.assertTrue(response.getBody().contains("Swagger UI"));
+    Assertions.assertEquals(response.getBody(), "{\"status\":\"UP\"}");
   }
 }
