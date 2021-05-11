@@ -22,11 +22,11 @@ import java.util.UUID;
 @RequestMapping("/v1/customers")
 @Api(tags = {"Customer Endpoint"}, description = "/v1/customers")
 public class CustomerEndpointImpl {
-  private GetCustomerByIdInteractor getCustomerByIdInteractor;
-  private GetCustomersByFilterInteractor getCustomersByFilterInteractor;
-  private CreateCustomerInteractor createCustomerInteractor;
-  private UpdateCustomerInteractor updateCustomerInteractor;
-  private DeleteCustomerByIdInteractor deleteCustomerByIdInteractor;
+  private final GetCustomerByIdInteractor getCustomerByIdInteractor;
+  private final GetCustomersByFilterInteractor getCustomersByFilterInteractor;
+  private final CreateCustomerInteractor createCustomerInteractor;
+  private final UpdateCustomerInteractor updateCustomerInteractor;
+  private final DeleteCustomerByIdInteractor deleteCustomerByIdInteractor;
 
   public CustomerEndpointImpl(
       GetCustomerByIdInteractor getCustomerByIdInteractor,

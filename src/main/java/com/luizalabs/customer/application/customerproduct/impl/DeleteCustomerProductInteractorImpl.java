@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Service
 public class DeleteCustomerProductInteractorImpl implements DeleteCustomerProductInteractor {
-  private DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
+  private final DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
 
   public DeleteCustomerProductInteractorImpl(DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway) {
     this.deleteCustomerProductByIdGateway = deleteCustomerProductByIdGateway;

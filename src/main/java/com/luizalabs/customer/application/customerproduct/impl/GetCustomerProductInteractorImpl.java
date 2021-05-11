@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Service
 public class GetCustomerProductInteractorImpl implements GetCustomerProductInteractor {
-  private GetCustomerProductByIdGateway getCustomerProductByIdGateway;
+  private final GetCustomerProductByIdGateway getCustomerProductByIdGateway;
 
   public GetCustomerProductInteractorImpl(GetCustomerProductByIdGateway getCustomerProductByIdGateway) {
     this.getCustomerProductByIdGateway = getCustomerProductByIdGateway;

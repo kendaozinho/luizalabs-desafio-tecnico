@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Service
 public class UpdateCustomerInteractorImpl implements UpdateCustomerInteractor {
-  private UpdateCustomerGateway updateCustomerGateway;
+  private final UpdateCustomerGateway updateCustomerGateway;
 
   public UpdateCustomerInteractorImpl(
       UpdateCustomerGateway updateCustomerGateway

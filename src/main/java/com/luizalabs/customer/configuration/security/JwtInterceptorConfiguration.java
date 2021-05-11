@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 public class JwtInterceptorConfiguration extends OncePerRequestFilter {
-  private String jwtSecretKey;
+  private final String jwtSecretKey;
 
   public JwtInterceptorConfiguration(String jwtSecretKey) {
     this.jwtSecretKey = jwtSecretKey;

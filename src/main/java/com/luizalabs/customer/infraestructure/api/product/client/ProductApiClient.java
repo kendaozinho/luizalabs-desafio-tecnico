@@ -9,17 +9,18 @@ import java.time.Duration;
 
 @Component
 public class ProductApiClient {
-  @Value("${spring.application.client.product.url}")
-  private String baseUrl;
-  @Value("${spring.application.client.product.timeout}")
-  private Integer timeout;
-
-  private RestTemplateBuilder restTemplateBuilder;
+  private final RestTemplateBuilder restTemplateBuilder;
+  private final String baseUrl;
+  private final Integer timeout;
 
   public ProductApiClient(
-      RestTemplateBuilder restTemplateBuilder
+      RestTemplateBuilder restTemplateBuilder,
+      @Value("${spring.application.client.product.url}") String baseUrl,
+      @Value("${spring.application.client.product.timeout}") Integer timeout
   ) {
     this.restTemplateBuilder = restTemplateBuilder;
+    this.baseUrl = baseUrl;
+    this.timeout = timeout;
   }
 
   public RestTemplate getRestTemplate() {

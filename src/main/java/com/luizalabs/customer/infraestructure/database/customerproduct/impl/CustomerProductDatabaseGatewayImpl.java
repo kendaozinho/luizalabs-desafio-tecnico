@@ -19,7 +19,7 @@ public class CustomerProductDatabaseGatewayImpl implements
     CreateCustomerProductGateway,
     DeleteCustomerProductByIdGateway,
     DeleteAllCustomerProductsGateway {
-  private CustomerProductRepository repository;
+  private final CustomerProductRepository repository;
 
   public CustomerProductDatabaseGatewayImpl(CustomerProductRepository repository) {
     this.repository = repository;

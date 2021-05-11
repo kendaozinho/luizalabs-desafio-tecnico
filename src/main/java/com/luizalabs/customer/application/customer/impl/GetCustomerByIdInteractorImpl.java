@@ -16,10 +16,10 @@ import java.util.UUID;
 
 @Service
 public class GetCustomerByIdInteractorImpl implements GetCustomerByIdInteractor {
-  private GetCustomerByIdGateway getCustomerByIdGateway;
-  private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
-  private GetProductByIdGateway getProductByIdGateway;
-  private DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
+  private final GetCustomerByIdGateway getCustomerByIdGateway;
+  private final GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
+  private final GetProductByIdGateway getProductByIdGateway;
+  private final DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
 
   public GetCustomerByIdInteractorImpl(
       GetCustomerByIdGateway getCustomerByIdGateway,

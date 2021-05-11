@@ -22,20 +22,27 @@ import java.util.UUID;
 
 @Service
 public class ProductApiGatewayImpl implements GetProductByIdGateway {
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
-  private ProductApiClient client;
-  private RedisTemplate<String, String> redisTemplate;
-  private ObjectMapper mapper;
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  @Value("${spring.redis.enabled}")
-  private Boolean redisEnabled;
-  @Value("${spring.redis.product.timeout}")
-  private Integer redisProductTimeout;
+  private final ProductApiClient client;
+  private final RedisTemplate<String, String> redisTemplate;
+  private final ObjectMapper mapper;
 
-  public ProductApiGatewayImpl(ProductApiClient client, RedisTemplate<String, String> redisTemplate, ObjectMapper mapper) {
+  private final Boolean redisEnabled;
+  private final Integer redisProductTimeout;
+
+  public ProductApiGatewayImpl(
+      ProductApiClient client,
+      RedisTemplate<String, String> redisTemplate,
+      ObjectMapper mapper,
+      @Value("${spring.redis.enabled}") Boolean redisEnabled,
+      @Value("${spring.redis.product.timeout}") Integer redisProductTimeout
+  ) {
     this.client = client;
     this.redisTemplate = redisTemplate;
     this.mapper = mapper;
+    this.redisEnabled = redisEnabled;
+    this.redisProductTimeout = redisProductTimeout;
   }
 
   @Override

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreateCustomerInteractorImpl implements CreateCustomerInteractor {
-  private CreateCustomerGateway createCustomerGateway;
+  private final CreateCustomerGateway createCustomerGateway;
 
   public CreateCustomerInteractorImpl(CreateCustomerGateway createCustomerGateway) {
     this.createCustomerGateway = createCustomerGateway;

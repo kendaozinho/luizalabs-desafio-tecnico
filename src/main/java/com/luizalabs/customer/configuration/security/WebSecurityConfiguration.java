@@ -2,7 +2,6 @@ package com.luizalabs.customer.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luizalabs.customer.domain.exception.dto.BaseResponseError;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -19,11 +18,16 @@ import java.util.UUID;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-  @Value("${spring.application.jwt.secret-key}")
-  private UUID jwtSecretKey;
+  private final UUID jwtSecretKey;
+  private final ObjectMapper mapper;
 
-  @Autowired
-  private ObjectMapper mapper;
+  public WebSecurityConfiguration(
+      @Value("${spring.application.jwt.secret-key}") UUID jwtSecretKey,
+      ObjectMapper mapper
+  ) {
+    this.jwtSecretKey = jwtSecretKey;
+    this.mapper = mapper;
+  }
 
   @Override
   public void configure(HttpSecurity http) throws Exception {

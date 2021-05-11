@@ -20,9 +20,9 @@ import java.util.UUID;
 @RequestMapping("/v1/customers")
 @Api(tags = {"Customer Product Endpoint"}, description = "/v1/customers/products")
 public class CustomerProductEndpointImpl {
-  private GetCustomerProductInteractor getCustomerProductInteractor;
-  private CreateCustomerProductInteractor createCustomerProductInteractor;
-  private DeleteCustomerProductInteractor deleteCustomerProductInteractor;
+  private final GetCustomerProductInteractor getCustomerProductInteractor;
+  private final CreateCustomerProductInteractor createCustomerProductInteractor;
+  private final DeleteCustomerProductInteractor deleteCustomerProductInteractor;
 
   public CustomerProductEndpointImpl(
       GetCustomerProductInteractor getCustomerProductInteractor,

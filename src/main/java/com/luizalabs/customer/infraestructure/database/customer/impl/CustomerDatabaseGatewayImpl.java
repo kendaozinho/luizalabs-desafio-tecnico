@@ -25,7 +25,7 @@ public class CustomerDatabaseGatewayImpl implements
     UpdateCustomerGateway,
     DeleteCustomerByIdGateway,
     DeleteAllCustomersGateway {
-  private CustomerRepository repository;
+  private final CustomerRepository repository;
 
   public CustomerDatabaseGatewayImpl(CustomerRepository repository) {
     this.repository = repository;

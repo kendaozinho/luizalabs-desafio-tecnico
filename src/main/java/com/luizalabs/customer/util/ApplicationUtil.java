@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ApplicationUtil {
-  private static Logger logger = LoggerFactory.getLogger(ApplicationUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(ApplicationUtil.class);
 
   private ApplicationUtil() {
   }

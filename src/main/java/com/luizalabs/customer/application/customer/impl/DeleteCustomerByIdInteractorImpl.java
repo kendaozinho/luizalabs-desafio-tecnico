@@ -12,9 +12,9 @@ import java.util.UUID;
 
 @Service
 public class DeleteCustomerByIdInteractorImpl implements DeleteCustomerByIdInteractor {
-  private DeleteCustomerByIdGateway deleteCustomerByIdGateway;
-  private GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
-  private DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
+  private final DeleteCustomerByIdGateway deleteCustomerByIdGateway;
+  private final GetCustomerProductsByCustomerIdGateway getCustomerProductsByCustomerIdGateway;
+  private final DeleteCustomerProductByIdGateway deleteCustomerProductByIdGateway;
 
   public DeleteCustomerByIdInteractorImpl(
       DeleteCustomerByIdGateway deleteCustomerByIdGateway,

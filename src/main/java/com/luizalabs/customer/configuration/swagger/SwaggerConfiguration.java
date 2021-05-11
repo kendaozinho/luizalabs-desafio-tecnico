@@ -27,10 +27,16 @@ import java.util.UUID;
 
 @Configuration
 public class SwaggerConfiguration {
-  @Value("${spring.application.jwt.secret-key}")
-  private UUID jwtSecretKey;
-  @Value("${spring.application.env}")
-  private Environment env;
+  private final UUID jwtSecretKey;
+  private final Environment env;
+
+  public SwaggerConfiguration(
+      @Value("${spring.application.jwt.secret-key}") UUID jwtSecretKey,
+      @Value("${spring.application.env}") Environment env
+  ) {
+    this.jwtSecretKey = jwtSecretKey;
+    this.env = env;
+  }
 
   @Bean
   public UiConfiguration uiConfiguration() {

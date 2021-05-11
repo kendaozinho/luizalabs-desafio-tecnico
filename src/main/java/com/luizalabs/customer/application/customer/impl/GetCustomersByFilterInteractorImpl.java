@@ -14,10 +14,10 @@ import java.util.UUID;
 
 @Service
 public class GetCustomersByFilterInteractorImpl implements GetCustomersByFilterInteractor {
-  private GetCustomerByIdGateway getCustomerByIdGateway;
-  private GetCustomerByEmailGateway getCustomerByEmailGateway;
-  private GetCustomersByNameGateway getCustomersByNameGateway;
-  private GetAllCustomersGateway getAllCustomersGateway;
+  private final GetCustomerByIdGateway getCustomerByIdGateway;
+  private final GetCustomerByEmailGateway getCustomerByEmailGateway;
+  private final GetCustomersByNameGateway getCustomersByNameGateway;
+  private final GetAllCustomersGateway getAllCustomersGateway;
 
   public GetCustomersByFilterInteractorImpl(
       GetCustomerByIdGateway getCustomerByIdGateway,

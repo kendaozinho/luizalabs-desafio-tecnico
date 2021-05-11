@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreateCustomerProductInteractorImpl implements CreateCustomerProductInteractor {
-  private GetCustomerByIdGateway getCustomerByIdGateway;
-  private GetProductByIdGateway getProductByIdGateway;
-  private CreateCustomerProductGateway createCustomerProductGateway;
+  private final GetCustomerByIdGateway getCustomerByIdGateway;
+  private final GetProductByIdGateway getProductByIdGateway;
+  private final CreateCustomerProductGateway createCustomerProductGateway;
 
   public CreateCustomerProductInteractorImpl(
       GetCustomerByIdGateway getCustomerByIdGateway,
