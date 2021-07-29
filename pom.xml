@@ -14,8 +14,8 @@
     <name>Customer API</name>
     <description>API to manage a customer's favorite products.</description>
     <properties>
-        <java.version>11</java.version>
-        <swagger.version>3.0.0</swagger.version>
+        <java.version>8</java.version>
+        <springdoc-openapi.version>1.5.10</springdoc-openapi.version>
         <jwt.version>0.11.2</jwt.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
         <jacoco.version>0.8.6</jacoco.version>
@@ -81,11 +81,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Swagger -->
+        <!-- springdoc-openapi -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${swagger.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-openapi.version}</version>
         </dependency>
 
         <!-- JWT -->

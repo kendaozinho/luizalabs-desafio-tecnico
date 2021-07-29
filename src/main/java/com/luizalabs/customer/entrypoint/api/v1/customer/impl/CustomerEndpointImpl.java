@@ -8,7 +8,11 @@ import com.luizalabs.customer.entrypoint.api.v1.customer.response.CreateCustomer
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByFilterEndpointResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.GetCustomerByIdEndpointResponse;
 import com.luizalabs.customer.entrypoint.api.v1.customer.response.UpdateCustomerEndpointResponse;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +24,7 @@ import java.util.UUID;
 @Validated
 @RestController
 @RequestMapping("/v1/customers")
-@Api(tags = {"Customer Endpoint"}, description = "/v1/customers")
+@Tag(name = "Customer Endpoint", description = "/v1/customers")
 public class CustomerEndpointImpl {
   private final GetCustomerByIdInteractor getCustomerByIdInteractor;
   private final GetCustomersByFilterInteractor getCustomersByFilterInteractor;
@@ -44,22 +48,22 @@ public class CustomerEndpointImpl {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get Customer(s)")
+  @Operation(summary = "Get Customer(s)")
   @ApiResponses(
       value = {
-          @ApiResponse(code = 200, message = "OK"),
-          @ApiResponse(code = 400, message = "Invalid id | Invalid offset | Invalid limit"),
-          @ApiResponse(code = 401, message = "Unauthorized"),
-          @ApiResponse(code = 404, message = "Customer(s) not found"),
-          @ApiResponse(code = 500, message = "Internal Server Error")
+          @ApiResponse(responseCode = "200", description = "OK"),
+          @ApiResponse(responseCode = "400", description = "Invalid id | Invalid offset | Invalid limit"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized"),
+          @ApiResponse(responseCode = "404", description = "Customer(s) not found"),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error")
       }
   )
   public GetCustomerByFilterEndpointResponse getByFilter(
-      @RequestParam(required = false) @ApiParam(name = "id", value = "id") UUID id,
-      @RequestParam(required = false) @ApiParam(name = "name", value = "name") String name,
-      @RequestParam(required = false) @ApiParam(name = "email", value = "email") String email,
-      @RequestParam(required = false, defaultValue = "1") @ApiParam(name = "offset", value = "page number") @Min(1) Integer offset,
-      @RequestParam(required = false, defaultValue = "10") @ApiParam(name = "limit", value = "page size") @Min(1) Integer limit
+      @RequestParam(required = false) @Parameter(name = "id", description = "id") UUID id,
+      @RequestParam(required = false) @Parameter(name = "name", description = "name") String name,
+      @RequestParam(required = false) @Parameter(name = "email", description = "email") String email,
+      @RequestParam(required = false, defaultValue = "1") @Parameter(name = "offset", description = "page number") @Min(1) Integer offset,
+      @RequestParam(required = false, defaultValue = "10") @Parameter(name = "limit", description = "page size") @Min(1) Integer limit
   ) {
     return new GetCustomerByFilterEndpointResponse(
         this.getCustomersByFilterInteractor.execute(id, name, email, offset, limit),
@@ -69,20 +73,20 @@ public class CustomerEndpointImpl {
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Get Customer")
+  @Operation(summary = "Get Customer")
   @ApiResponses(
       value = {
-          @ApiResponse(code = 200, message = "OK"),
-          @ApiResponse(code = 400, message = "Invalid id"),
-          @ApiResponse(code = 401, message = "Unauthorized"),
-          @ApiResponse(code = 404, message = "Customer not found"),
-          @ApiResponse(code = 500, message = "Internal Server Error"),
-          @ApiResponse(code = 502, message = "Bad Gateway")
+          @ApiResponse(responseCode = "200", description = "OK"),
+          @ApiResponse(responseCode = "400", description = "Invalid id"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized"),
+          @ApiResponse(responseCode = "404", description = "Customer not found"),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+          @ApiResponse(responseCode = "502", description = "Bad Gateway")
       }
   )
   public GetCustomerByIdEndpointResponse getById(
-      @PathVariable @ApiParam(name = "id", value = "id") UUID id,
-      @RequestParam(required = false, defaultValue = "true") @ApiParam(name = "expand", value = "show products") Boolean expand
+      @PathVariable @Parameter(name = "id", description = "id") UUID id,
+      @RequestParam(required = false, defaultValue = "true") @Parameter(name = "expand", description = "show products") Boolean expand
   ) {
     return new GetCustomerByIdEndpointResponse(
         this.getCustomerByIdInteractor.execute(id, expand)
@@ -91,14 +95,14 @@ public class CustomerEndpointImpl {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  @ApiOperation(value = "Create Customer")
+  @Operation(summary = "Create Customer")
   @ApiResponses(
       value = {
-          @ApiResponse(code = 201, message = "Created"),
-          @ApiResponse(code = 400, message = "Invalid Request Body"),
-          @ApiResponse(code = 401, message = "Unauthorized"),
-          @ApiResponse(code = 409, message = "Email already exists"),
-          @ApiResponse(code = 500, message = "Internal Server Error")
+          @ApiResponse(responseCode = "201", description = "Created"),
+          @ApiResponse(responseCode = "400", description = "Invalid Request Body"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized"),
+          @ApiResponse(responseCode = "409", description = "Email already exists"),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error")
       }
   )
   public CreateCustomerEndpointResponse post(@RequestBody @Valid CreateCustomerEndpointRequest request) {
@@ -108,19 +112,19 @@ public class CustomerEndpointImpl {
 
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Update Customer")
+  @Operation(summary = "Update Customer")
   @ApiResponses(
       value = {
-          @ApiResponse(code = 200, message = "OK"),
-          @ApiResponse(code = 400, message = "Invalid id | Invalid Request Body"),
-          @ApiResponse(code = 401, message = "Unauthorized"),
-          @ApiResponse(code = 404, message = "Customer not found"),
-          @ApiResponse(code = 409, message = "Email already exists"),
-          @ApiResponse(code = 500, message = "Internal Server Error")
+          @ApiResponse(responseCode = "200", description = "OK"),
+          @ApiResponse(responseCode = "400", description = "Invalid id | Invalid Request Body"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized"),
+          @ApiResponse(responseCode = "404", description = "Customer not found"),
+          @ApiResponse(responseCode = "409", description = "Email already exists"),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error")
       }
   )
   public UpdateCustomerEndpointResponse put(
-      @PathVariable @ApiParam(name = "id", value = "id") UUID id,
+      @PathVariable @Parameter(name = "id", description = "id") UUID id,
       @RequestBody @Valid UpdateCustomerEndpointRequest request
   ) {
     Customer customer = this.updateCustomerInteractor.execute(id, request.toEntity());
@@ -129,17 +133,17 @@ public class CustomerEndpointImpl {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @ApiOperation(value = "Delete Customer")
+  @Operation(summary = "Delete Customer")
   @ApiResponses(
       value = {
-          @ApiResponse(code = 204, message = "No Content"),
-          @ApiResponse(code = 400, message = "Invalid id"),
-          @ApiResponse(code = 401, message = "Unauthorized"),
-          @ApiResponse(code = 404, message = "Customer not found"),
-          @ApiResponse(code = 500, message = "Internal Server Error")
+          @ApiResponse(responseCode = "204", description = "No Content"),
+          @ApiResponse(responseCode = "400", description = "Invalid id"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized"),
+          @ApiResponse(responseCode = "404", description = "Customer not found"),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error")
       }
   )
-  public void delete(@PathVariable @ApiParam(name = "id", value = "id") UUID id) {
+  public void delete(@PathVariable @Parameter(name = "id", description = "id") UUID id) {
     this.deleteCustomerByIdInteractor.execute(id);
   }
 }

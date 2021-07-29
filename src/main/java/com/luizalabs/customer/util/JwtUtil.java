@@ -13,7 +13,7 @@ public final class JwtUtil {
     return "Bearer " +
         Jwts.builder()
             .setHeaderParam("typ", "JWT")
-            .addClaims(new HashMap<>() {
+            .addClaims(new HashMap<String, Object>() {
               private static final long serialVersionUID = 1L;
 
               {

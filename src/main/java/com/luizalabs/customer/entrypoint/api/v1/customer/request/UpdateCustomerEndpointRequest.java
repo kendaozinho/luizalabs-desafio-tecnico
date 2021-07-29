@@ -1,22 +1,21 @@
 package com.luizalabs.customer.entrypoint.api.v1.customer.request;
 
 import com.luizalabs.customer.domain.entity.Customer;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@ApiModel
+@Schema
 public class UpdateCustomerEndpointRequest {
   @NotNull
   @NotBlank
-  @ApiModelProperty(required = true, value = "Name", example = "Kenneth Gottschalk de Azevedo")
+  @Schema(required = true, name = "Name", example = "Kenneth Gottschalk de Azevedo")
   private String name;
 
   @NotNull
   @NotBlank
-  @ApiModelProperty(required = true, value = "Email", example = "kendao@luizalabs.com")
+  @Schema(required = true, name = "Email", example = "kendao@luizalabs.com")
   private String email;
 
   public UpdateCustomerEndpointRequest() {

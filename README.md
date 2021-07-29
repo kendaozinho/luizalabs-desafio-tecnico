@@ -9,7 +9,7 @@
 
 ## Pré-requisitos
 
-* Java 11
+* Java 8
 * Docker
 
 ## Instalação
@@ -27,7 +27,7 @@ docker-compose up -d
 
 Os bancos de dados serão criados, porém, eles só serão populados pelo `Flyway` após a primeira execução.
 
-Por fim, com o `Java 11` instalado, basta baixar as dependências do projeto e realizar a compilação:
+Por fim, com o `Java 8` instalado, basta baixar as dependências do projeto e realizar a compilação:
 
 ```sh
 ./mvnw clean install -DskipTests

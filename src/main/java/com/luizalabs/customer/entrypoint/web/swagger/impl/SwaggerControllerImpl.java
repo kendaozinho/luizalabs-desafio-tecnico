@@ -8,8 +8,8 @@ public class SwaggerControllerImpl {
   public SwaggerControllerImpl() {
   }
 
-  @RequestMapping({"/", "/docs", "/swagger", "/swagger-ui.html"})
+  @RequestMapping({"/", "/docs", "/swagger", "/swagger-ui"})
   public String redirect() {
-    return "redirect:/swagger-ui/";
+    return "redirect:/swagger-ui.html";
   }
 }

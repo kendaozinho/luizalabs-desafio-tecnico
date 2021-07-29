@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   test:
     docker:
-      - image: circleci/openjdk:11
+      - image: circleci/openjdk:8
       - image: circleci/postgres:latest
         environment:
           - POSTGRES_DB=customer
@@ -18,7 +18,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/openjdk:11
+      - image: circleci/openjdk:8
     steps:
       - checkout
       - run: ./mvnw package -Dmaven.test.skip=true
