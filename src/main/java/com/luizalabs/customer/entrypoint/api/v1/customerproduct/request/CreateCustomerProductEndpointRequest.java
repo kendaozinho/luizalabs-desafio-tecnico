@@ -9,11 +9,11 @@ import java.util.UUID;
 @Schema
 public class CreateCustomerProductEndpointRequest {
   @NotNull
-  @Schema(required = true, name = "Customer ID", example = "1eca2963-7ec4-4808-a850-3cc0fdbcf927")
+  @Schema(required = true, description = "Customer ID", example = "1eca2963-7ec4-4808-a850-3cc0fdbcf927")
   private UUID customerId;
 
   @NotNull
-  @Schema(required = true, name = "Product ID", example = "3e7284e5-ee71-4746-851c-6729fb9d1de6")
+  @Schema(required = true, description = "Product ID", example = "3e7284e5-ee71-4746-851c-6729fb9d1de6")
   private UUID productId;
 
   public CreateCustomerProductEndpointRequest() {

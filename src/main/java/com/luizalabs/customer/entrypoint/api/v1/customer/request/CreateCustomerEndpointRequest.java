@@ -10,12 +10,12 @@ import javax.validation.constraints.NotNull;
 public class CreateCustomerEndpointRequest {
   @NotNull
   @NotBlank
-  @Schema(required = true, name = "Name", example = "Kenneth Gottschalk de Azevedo")
+  @Schema(required = true, description = "Name", example = "Kenneth Gottschalk de Azevedo")
   private String name;
 
   @NotNull
   @NotBlank
-  @Schema(required = true, name = "Email", example = "kendao@luizalabs.com")
+  @Schema(required = true, description = "Email", example = "kendao@luizalabs.com")
   private String email;
 
   public CreateCustomerEndpointRequest() {

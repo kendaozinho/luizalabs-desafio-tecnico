@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.luizalabs</groupId>
     <artifactId>customer</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>Customer API</name>
     <description>API to manage a customer's favorite products.</description>
     <properties>
